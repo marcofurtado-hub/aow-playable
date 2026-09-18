@@ -1,0 +1,1 @@
+# Ashes of War · Metagame Playable\n\nInteractive UX wireframe prototype (mobile-first). Open the site, pick your user, play through the flows in **Test** mode or rearrange everything in **Edit** mode. Every change auto-saves on your device; the published base proposal stays intact.\n\nBuilt with Claude Code.\n
