@@ -243,6 +243,10 @@
     font-family:var(--body);font-size:13px;padding:8px 10px;border-radius:6px;outline:none;}
   .lgNew input:focus{border-color:var(--sel);}
   .lgHint{font-size:11px;color:var(--faint);line-height:1.5;margin:12px 0 0;}
+  .lgLink{display:block;margin-top:14px;text-align:center;font-family:var(--mono);font-size:10.5px;
+    color:#4aa3d8;text-decoration:none;letter-spacing:.06em;border:1px solid var(--line2);
+    border-radius:8px;padding:9px;}
+  .lgLink:active,.lgLink:hover{border-color:var(--sel);color:var(--sel);}
 </style>
 
 <div id="app">
@@ -290,6 +294,7 @@
     <div id="lgList"></div>
     <div class="lgNew"><input id="lgName" type="text" placeholder="new user…" maxlength="14" autocomplete="off"><button class="btn primary" id="lgGo">Enter</button></div>
     <p class="lgHint">Each user gets their own copy of the UX proposal. Every change is auto-saved on this device.</p>
+    <a class="lgLink" href="proposal.html">📐 Pillars &amp; UX Proposal — the presentation</a>
   </div>
 </div>
 <div id="toast"></div>

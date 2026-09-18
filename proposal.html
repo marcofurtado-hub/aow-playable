@@ -1,0 +1,302 @@
+<!doctype html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>UX Proposal · Ashes of War</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  :root{
+    --ground:#0c181b; --panel:#122227; --panel-2:#182d33; --line:#22393f;
+    --ink:#e9f0ec; --muted:#93aaa7; --faint:#5f7876;
+    --battle:#f7c844; --gain:#46c46a; --gold:#e5b23c;
+    --prem:#9b5cf6; --alert:#e03e36; --info:#4aa3d8; --accent:#e88a2d;
+    --display:"Barlow Condensed","Arial Narrow",sans-serif;
+    --body:"Barlow",-apple-system,"Helvetica Neue",sans-serif;
+    --mono:"IBM Plex Mono",ui-monospace,monospace;
+  }
+  body{background:var(--ground);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.55;margin:0;padding-block:0 64px;padding-inline:20px;}
+  .wrap{max-width:900px;margin:0 auto;}
+  header.hero{padding:52px 0 6px;}
+  .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--battle);margin:0 0 10px;}
+  h1{font-family:var(--display);font-weight:700;text-transform:uppercase;font-size:clamp(40px,7.5vw,64px);line-height:.95;margin:0;text-wrap:balance;}
+  .lede{color:var(--muted);max-width:64ch;font-size:16.5px;margin:16px 0 0;}
+  .lede b{color:var(--ink);font-weight:600;}
+  .rule{height:3px;background:linear-gradient(90deg,var(--battle),var(--accent) 40%,transparent 85%);margin-top:26px;border-radius:2px;}
+
+  .part{margin-top:64px;}
+  .part-tag{font-family:var(--mono);font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--faint);}
+  .part h2.part-title{font-family:var(--display);font-weight:700;text-transform:uppercase;font-size:clamp(30px,5.5vw,44px);margin:4px 0 8px;line-height:1;}
+  .part .part-sub{color:var(--muted);max-width:64ch;margin:0 0 26px;}
+  .part .part-sub b{color:var(--ink);font-weight:600;}
+
+  /* ---- compact pillars ---- */
+  .pillars{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  @media (max-width:680px){.pillars{grid-template-columns:1fr;}}
+  .pil{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:16px 18px;}
+  .pil .pcode{font-family:var(--mono);font-size:12px;color:var(--ground);background:var(--battle);padding:2px 7px;border-radius:3px;font-weight:500;}
+  .pil h3{font-family:var(--display);text-transform:uppercase;font-size:21px;margin:10px 0 6px;font-weight:700;letter-spacing:.02em;line-height:1.05;}
+  .pil p{margin:0;color:var(--muted);font-size:14px;line-height:1.5;}
+  .pil p b{color:var(--ink);font-weight:600;}
+  .pil .bmk{margin-top:10px;font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--info);line-height:1.5;}
+
+  /* ---- moves ---- */
+  section.mov{margin-top:56px;}
+  .mov-head{display:flex;align-items:baseline;gap:13px;border-bottom:1px solid var(--line);padding-bottom:10px;margin-bottom:14px;}
+  .mov-num{font-family:var(--mono);font-size:13px;color:var(--ground);background:var(--battle);padding:3px 8px;border-radius:3px;font-weight:500;flex:none;transform:translateY(-2px);}
+  h2.mov-title{font-family:var(--display);font-weight:700;text-transform:uppercase;font-size:clamp(24px,4.2vw,32px);letter-spacing:.02em;margin:0;line-height:1.05;text-wrap:balance;}
+  .mov .lead{color:var(--muted);margin:0 0 18px;max-width:66ch;font-size:15.5px;}
+  .mov .lead b{color:var(--ink);font-weight:600;}
+  .why{margin-top:14px;font-size:13.5px;color:var(--faint);line-height:1.55;padding-left:14px;border-left:2px solid var(--line);}
+  .why b{color:var(--muted);font-weight:600;}
+
+  .ba{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  @media (max-width:680px){.ba{grid-template-columns:1fr;}}
+  .ba-col h4{margin:0 0 10px;font-family:var(--mono);font-size:11px;letter-spacing:.15em;text-transform:uppercase;font-weight:500;}
+  .ba-col.before h4{color:var(--faint);}
+  .ba-col.after h4{color:var(--battle);}
+
+  /* tab bars */
+  .tabbar{display:flex;gap:4px;background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:6px;}
+  .tabbar .t{flex:1;text-align:center;font-family:var(--display);text-transform:uppercase;font-size:13px;letter-spacing:.04em;color:var(--muted);padding:10px 2px;border-radius:5px;line-height:1.1;}
+  .tabbar .t.hot{background:var(--panel-2);color:var(--ink);border:1px solid var(--line);}
+  .tabbar .t small{display:block;font-family:var(--mono);font-size:8.5px;letter-spacing:.05em;color:var(--faint);text-transform:none;margin-top:3px;}
+  .orbit{margin-top:10px;font-size:12.5px;color:var(--faint);line-height:1.6;}
+  .orbit b{color:var(--muted);font-weight:600;}
+
+  .map{margin-top:16px;border:1px solid var(--line);border-radius:6px;overflow:hidden;}
+  .map .row{display:grid;grid-template-columns:150px 1fr;border-top:1px solid var(--line);font-size:13.5px;}
+  .map .row:first-child{border-top:none;}
+  .map .row .dest{background:var(--panel-2);padding:10px 14px;font-family:var(--display);text-transform:uppercase;font-size:16px;letter-spacing:.03em;font-weight:700;}
+  .map .row .from{padding:10px 14px;color:var(--muted);background:var(--panel);}
+  @media (max-width:560px){.map .row{grid-template-columns:110px 1fr;}}
+
+  /* phone mockups */
+  .phone{background:#0a1417;border:1.5px solid var(--line);border-radius:22px;padding:12px 10px;max-width:232px;margin:0 auto;
+         aspect-ratio:393/852;display:flex;flex-direction:column;} /* iPhone 16 · 19.5:9 */
+  .ph{border-radius:4px;margin-bottom:6px;display:flex;align-items:center;justify-content:center;text-align:center;
+      font-family:var(--mono);font-size:9px;letter-spacing:.06em;color:var(--muted);text-transform:uppercase;line-height:1.3;padding:0 6px;}
+  .ph.bar{height:22px;background:var(--panel-2);}
+  .ph.hero{flex:1;min-height:56px;background:linear-gradient(160deg,#1d3a42,#122227);color:var(--faint);}
+  .ph.card{height:34px;background:var(--panel-2);border:1px solid var(--line);}
+  .ph-row{display:flex;gap:6px;margin-bottom:6px;}
+  .ph-row .ph{margin-bottom:0;flex:1;}
+  .ph.cta-r{height:44px;background:#7e2a26;color:#f2c9c6;font-weight:500;}
+  .ph.cta-y{height:48px;background:var(--battle);color:#3a2c05;font-weight:500;font-size:10px;}
+  .ph.chests{height:26px;background:var(--panel);border:1px dashed var(--line);}
+  .ph.chests.ready{border-color:var(--gain);color:var(--gain);}
+  .ph.promo-p{height:30px;background:rgba(155,92,246,.16);border:1px solid rgba(155,92,246,.4);color:#c9aef7;}
+  .ph.promo-e{height:30px;background:rgba(74,163,216,.13);border:1px solid rgba(74,163,216,.4);color:#a8d2ec;}
+  .ph.loadout{height:34px;background:var(--panel-2);border:1px solid rgba(247,200,68,.35);color:var(--muted);}
+  .ph.tabs{height:26px;background:var(--panel-2);margin-bottom:0;}
+  .cap{font-size:12.5px;color:var(--faint);text-align:center;margin-top:10px;line-height:1.5;max-width:250px;margin-inline:auto;}
+  .cap b{color:var(--muted);font-weight:600;}
+
+  /* recap flow */
+  .steps{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px;}
+  .steps .s{flex:1;min-width:130px;background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:12px;font-size:12.5px;color:var(--muted);line-height:1.45;}
+  .steps .s b{display:block;font-family:var(--display);text-transform:uppercase;font-size:15px;color:var(--ink);letter-spacing:.03em;margin-bottom:4px;font-weight:700;}
+  .steps .s.act{border-color:rgba(247,200,68,.4);background:linear-gradient(180deg,rgba(247,200,68,.07),transparent);}
+  .steps .s .k{font-family:var(--mono);font-size:9.5px;color:var(--faint);letter-spacing:.08em;display:block;margin-top:6px;}
+
+  footer.next{margin-top:64px;border-top:1px solid var(--line);padding-top:22px;color:var(--muted);font-size:14.5px;}
+  footer.next h2{font-family:var(--display);text-transform:uppercase;color:var(--ink);font-size:22px;margin:0 0 10px;}
+  footer.next ol{margin:0;padding-left:20px;}
+  footer.next li{margin:5px 0;}
+  .note{color:var(--faint);font-size:12.5px;margin-top:20px;font-family:var(--mono);}
+</style>
+
+<div class="wrap">
+
+<header class="hero">
+  <p class="eyebrow">Ashes of War · Metagame · Art Direction</p>
+  <h1>Metagame UX<br>Pillars &amp; Proposal</h1>
+  <p class="lede"><b>The pillars</b>: shared code the market already taught our players. <b>The proposal</b>: six concrete moves on our real screens, each with a before/after and its benchmark.</p>
+  <p class="lede" style="font-size:14px;margin-top:10px"><b style="color:#46c46a">✓W</b> = independently confirmed by Watabe's hands-on <a href="https://docs.google.com/document/d/19_VQTApzG40gCWVWse2wBj16uzT4j9LOB4LmwpPMwKk/edit" style="color:#4aa3d8">UX Assessment</a> (Aug 2026).</p>
+  <div class="rule"></div>
+</header>
+
+<!-- ============ PART 1 ============ -->
+<div class="part">
+  <span class="part-tag">Part 1</span>
+  <h2 class="part-title">The Pillars</h2>
+  <p class="part-sub">Six codes to quote in review: <b>convention where the player operates, AoW signature where the player feels.</b></p>
+
+  <div class="pillars">
+    <div class="pil"><span class="pcode">P1</span>
+      <h3>Battle is the center of gravity</h3>
+      <p>One play button per surface; every screen returns to combat in ≤2 taps. Every element gets a <b>priority level</b>: 1st = the screen's goal, 2nd = relevant, 3rd = hidden behind a tap.</p>
+      <div class="bmk">↳ Clash Royale · Brawl Stars: giant play button, under the thumb · <b style="color:#46c46a">✓W</b> levels of priority per screen</div>
+    </div>
+    <div class="pil"><span class="pcode">P2</span>
+      <h3>Direction carries meaning</h3>
+      <p><b>Up = progress</b> (Trophy Road, leaderboard, positive deltas) · <b>right = time</b> (pass, daily, event) · <b>down = loss/exit</b>.</p>
+      <div class="bmk">↳ Trophy Road climbs in CR/BS · rank 1 on top · sheets slide from bottom (iOS/Android) · <b style="color:#46c46a">✓W</b> today TR and BP scroll in opposite directions</div>
+    </div>
+    <div class="pil"><span class="pcode">P3</span>
+      <h3>Every color has one owner</h3>
+      <p><b style="color:var(--battle)">Yellow</b> play · <b style="color:var(--gain)">green</b> gain/claim · <b style="color:var(--gold)">gold</b> value (never a button) · <b style="color:var(--prem)">purple</b> premium · <b style="color:var(--alert)">red</b> alert · <b style="color:var(--info)">blue</b> info. Rarity gray→blue→purple→gold. <b>Value palette</b>: luminance by role, so hierarchy survives in grayscale.</p>
+      <div class="bmk">↳ Supercell's color map · mid-core rarity standard · <b style="color:#46c46a">✓W</b> red=destructive, green=positive, value palette</div>
+    </div>
+    <div class="pil"><span class="pcode">P4</span>
+      <h3>Short paths, clean home</h3>
+      <p>Fewer taps through <b>contextual shortcuts</b> — never through more fixed buttons. Play in 1 tap, collect in 1, upgrade in 2. And a <b>reach map</b>: a button's importance is inversely proportional to its distance from the thumb — primary actions dock to the bottom, rare/dangerous ones live deliberately far, at the top.</p>
+      <div class="bmk">↳ the genre ceiling: Clash Royale · thumb-zone ergonomics (one-handed play)</div>
+    </div>
+    <div class="pil"><span class="pcode">P5</span>
+      <h3>A badge is a promise</h3>
+      <p>A red dot only when there is a real, executable gain waiting right now. Urgency lives in the countdown, not in the badge.</p>
+      <div class="bmk">↳ Supercell discipline — not the 4X noise (a different session format from ours)</div>
+    </div>
+    <div class="pil"><span class="pcode">P6</span>
+      <h3>One grammar, many systems</h3>
+      <p>Track, card and claim are single components reused by pass, event, daily, Trophy Road and campaign — each dressed as an operation. Same for <b>UI responses</b>: one popup standard, one close pattern (today: 3), one toggle behavior.</p>
+      <div class="bmk">↳ Supercell's silent economy for years · <b style="color:#46c46a">✓W</b> standardize responses & close patterns</div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ PART 2 ============ -->
+<div class="part">
+  <span class="part-tag">Part 2</span>
+  <h2 class="part-title">The Proposal</h2>
+  <p class="part-sub">Six moves on what already exists (home v13 · build v0.12 · wireframe board), in attack order. <b>Bets to discuss.</b></p>
+</div>
+
+<!-- M1 -->
+<section class="mov">
+  <div class="mov-head"><span class="mov-num">01</span><h2 class="mov-title">From 16 loose destinations to 5 territories</h2></div>
+  <p class="lead">The home radiates into <b>16+ destinations</b>, and 2 of the 5 tabs do the same mental task ("prepare my army") while events, Trophy Road, rank and campaign hang off scattered icons. Highest-leverage move.</p>
+  <div class="ba">
+    <div class="ba-col before"><h4>Today</h4>
+      <div class="tabbar">
+        <div class="t">Shop</div><div class="t">Season</div><div class="t hot">Battle</div><div class="t">Factions</div><div class="t">Abilities</div>
+      </div>
+      <p class="orbit"><b>Loose orbit:</b> event (home card) · Trophy Road (icon) · leaderboard (icon) · PvE campaign (inside Factions) · achievements, profile, news, custom battle (scattered)</p>
+    </div>
+    <div class="ba-col after"><h4>Proposal</h4>
+      <div class="tabbar">
+        <div class="t">Shop<small>offers · crates</small></div>
+        <div class="t">Army<small>factions · units · abilities · campaign</small></div>
+        <div class="t hot">Battle<small>war room</small></div>
+        <div class="t">Front<small>pass · trophy road · ranks</small></div>
+        <div class="t">Events<small>siege · tournaments</small></div>
+      </div>
+      <p class="orbit"><b>Home corners (low frequency):</b> profile + customization · mail · news · settings</p>
+    </div>
+  </div>
+  <div class="map">
+    <div class="row"><div class="dest">Army</div><div class="from">Factions + Abilities (one choice depends on the other) + the faction's PvE campaign</div></div>
+    <div class="row"><div class="dest">Front</div><div class="from">Pass + Trophy Road + leaderboards + achievements — all long-term progression, climbing upward (P2)</div></div>
+    <div class="row"><div class="dest">Events</div><div class="from">Siege + tournaments + custom battle; no live event → next one with countdown</div></div>
+  </div>
+  <p class="why"><b>Reference:</b> CR and Brawl Stars both paid for this remodel post-launch; we ship consolidated. <b style="color:#46c46a">✓W</b> proposes the same swap: leaderboard out, Events in.</p>
+</section>
+
+<!-- M2 -->
+<section class="mov">
+  <div class="mov-head"><span class="mov-num">02</span><h2 class="mov-title">Home = War Room: loadout fused to the button</h2></div>
+  <p class="lead">On v13, Active Faction and Abilities compete with START BATTLE at equal weight. Fuse them into one <b>loadout strip</b> docked to the button — "what am I fighting with" in the same glance that fires the fight.</p>
+  <div class="ba">
+    <div class="ba-col before"><h4>Today (v13)</h4>
+      <div class="phone">
+        <div class="ph bar">avatar · trophies · 3 currencies</div>
+        <div class="ph hero">faction hero art</div>
+        <div class="ph-row"><div class="ph card">active faction<br>rank + lvl</div><div class="ph card">abilities<br>2 slots</div></div>
+        <div class="ph cta-r">start battle (red)</div>
+        <div class="ph-row"><div class="ph promo-e">event</div><div class="ph promo-p">battle pass</div></div>
+        <div class="ph chests">daily win rewards · 5 crates</div>
+        <div class="ph tabs">5 tabs</div>
+      </div>
+      <p class="cap">4 blocks compete with the play button.</p>
+    </div>
+    <div class="ba-col after"><h4>Proposal</h4>
+      <div class="phone">
+        <div class="ph bar">avatar · trophies · 3 currencies — ZONE C: read, rarely tap</div>
+        <div class="ph hero">living faction hero art<br>(war room · idle animation)</div>
+        <div class="ph-row"><div class="ph promo-e">event</div><div class="ph promo-p">pass</div></div>
+        <div class="ph chests ready">daily rewards · ready crate = green — ZONE B</div>
+        <div class="ph loadout">⬡ faction · [ability][ability] · swap</div>
+        <div class="ph cta-y">START BATTLE — ZONE A: docked to the thumb</div>
+        <div class="ph tabs">5 tabs</div>
+      </div>
+      <p class="cap"><b>Loadout + button = one block in the thumb zone</b> (P4). Max 2 promos; the ready crate is the only green.</p>
+    </div>
+  </div>
+  <p class="why"><b>Reference:</b> CR keeps the deck off the home. The strip gives us that <b>without hiding faction identity</b> (hero art swaps with it — our signature).</p>
+</section>
+
+<!-- M3 -->
+<section class="mov">
+  <div class="mov-head"><span class="mov-num">03</span><h2 class="mov-title">One ladder per surface</h2></div>
+  <p class="lead"><b>Five progression numbers</b> today — trophies, faction rank, faction level, season XP, stars — with trophies repeated 3× on the main menu <b style="color:#46c46a">✓W</b>. Proposal: <b>one ladder per surface.</b></p>
+  <div class="map">
+    <div class="row"><div class="dest">Home</div><div class="from"><b>Account trophies</b> — the war ladder (Trophy Road/frontline), the one number every match moves.</div></div>
+    <div class="row"><div class="dest">Army</div><div class="from"><b>Faction mastery</b> — rank + level live in the faction card, never on the home.</div></div>
+    <div class="row"><div class="dest">Front</div><div class="from"><b>Season XP</b> — only on the pass bar. <b>Stars</b> get a sink or leave the top bar.</div></div>
+  </div>
+  <p class="why"><b>Reference:</b> CR's trophies + Path of Legends confusion is the cautionary tale; Brawl Stars' trophies vs. mastery split is the solution we copy.</p>
+</section>
+
+<!-- M4 -->
+<section class="mov">
+  <div class="mov-head"><span class="mov-num">04</span><h2 class="mov-title">A post-match that acts, not just informs</h2></div>
+  <p class="lead">With ~4-minute matches, post-match is <b>the most-seen screen in the metagame</b>. Design it as a 4-beat ritual, crossable in seconds, last beat actionable.</p>
+  <div class="steps">
+    <div class="s"><b>1 · Result</b>Trophy delta animating up (win) or down (loss) — P2, literally.<span class="k">DEFEAT: SHORT PATH, NO UPSELL</span></div>
+    <div class="s"><b>2 · Tracks advance</b>Daily moves + pass bar fills in front of the player — both on the single track grammar (P6).</div>
+    <div class="s"><b>3 · Loot</b>Blueprints and gold. Here enters the <b>hidden-rarity drop</b> — an armored supply crate cracked open tap by tap.</div>
+    <div class="s act"><b>4 · Next order</b>"Assault reached 8/8" → the upgrade button <b>right there</b>, 1 tap, no trip to the collection. Then back to the War Room.<span class="k">← THE INNOVATION: THE BENCHMARK ONLY INFORMS</span></div>
+  </div>
+  <p class="why"><b>Reference:</b> beats = CR/BS; the hidden-rarity drop = Starr Drop (2023), already copied by CR. Beat 4 is where we pass the benchmark.</p>
+</section>
+
+<!-- M5 -->
+<section class="mov">
+  <div class="mov-head"><span class="mov-num">05</span><h2 class="mov-title">A collection that points to the next step</h2></div>
+  <p class="lead">The build's unit modal (‹ › arrows) is a catalog to leaf through. The player wants one answer: <b>"what can I improve right now?"</b></p>
+  <div class="ba">
+    <div class="ba-col before"><h4>Today (build v0.12)</h4>
+      <p class="orbit" style="margin-top:0">Arrow through units one by one; the payable state looks like everything else.</p>
+    </div>
+    <div class="ba-col after"><h4>Proposal</h4>
+      <p class="orbit" style="margin-top:0"><b>Sort by "actionable first":</b> payable upgrades on top in green (P3), then "almost there", then the rest. Army badge only when something is payable (P5).</p>
+    </div>
+  </div>
+  <p class="why"><b>Reference:</b> CR's "upgrade available" filter + BS's pending-progress spotlight — the pattern that turns a collection into a <b>queue of decisions</b>.</p>
+</section>
+
+<!-- M6 -->
+<section class="mov">
+  <div class="mov-head"><span class="mov-num">06</span><h2 class="mov-title">Events and campaign as operations</h2></div>
+  <p class="lead">Siege and the PvE campaign are each being born with their own layout. Run both (plus pass and daily) on <b>one track component</b>, dressed as a military operation.</p>
+  <div class="map">
+    <div class="row"><div class="dest">Event</div><div class="from">Horizontal track (P2) + own leaderboard; teaser countdown between events.</div></div>
+    <div class="row"><div class="dest">Campaign</div><div class="from">Lives on the faction card, pays that faction's blueprints — <b>PvE purpose</b> for no-PvP days.</div></div>
+    <div class="row"><div class="dest">Cost</div><div class="from">Built once → every new event is <b>content + skin</b>, not a new system.</div></div>
+  </div>
+  <p class="why"><b>Reference:</b> Supercell's one-anatomy passes/events. The operation skin is AoW signature at zero usability cost.</p>
+</section>
+
+<section class="mov">
+  <div class="mov-head"><span class="mov-num" style="background:#46c46a">✓W</span><h2 class="mov-title">Quick wins from the UX assessment</h2></div>
+  <p class="lead">Small fixes that don't wait for the big moves:</p>
+  <div class="map">
+    <div class="row"><div class="dest">Close</div><div class="from">One close pattern per surface (today: 3) — ❌ popups, ↩ fullscreen.</div></div>
+    <div class="row"><div class="dest">Task Log</div><div class="from">BP task-log doesn't look tappable — missions hidden. Real button affordance.</div></div>
+    <div class="row"><div class="dest">Settings</div><div class="from">Same-looking buttons behave differently. One look per behavior.</div></div>
+    <div class="row"><div class="dest">Store</div><div class="from">Offer timer sits in its own corner — one timer position store-wide.</div></div>
+  </div>
+</section>
+
+<footer class="next">
+  <h2>If this resonates</h2>
+  <ol>
+    <li>Align on moves 01 (navigation) and 03 (ladders) — the decisions that unlock everything else.</li>
+    <li>Prototype the most visible one: the War Room home with the fused loadout + yellow battle button (02).</li>
+    <li>Take the P1–P6 lens to the FigJam board and annotate screen by screen.</li>
+  </ol>
+  <p class="note">ASHES OF WAR · METAGAME UX · PILLARS &amp; PROPOSAL · v3 · MARCO FURTADO</p>
+</footer>
+
+</div>
+
+<a href="index.html" style="position:fixed;right:14px;bottom:14px;z-index:900;background:#e88a2d;color:#241503;font-family:'Barlow Condensed',sans-serif;font-weight:700;text-transform:uppercase;letter-spacing:.05em;font-size:14px;padding:10px 16px;border-radius:22px;text-decoration:none;box-shadow:0 8px 24px rgba(0,0,0,.5);">🎮 Playable</a>
