@@ -2073,6 +2073,7 @@ try{ new ResizeObserver(refit).observe($("#stageWrap")); }catch(e){}
 </script>
 
 <script type="text/html" id="src-pil">
+<meta charset="utf-8">
 <style>
   :host{
     --ground:#0c181b; --panel:#122227; --panel-2:#182d33; --line:#22393f;
@@ -2157,6 +2158,10 @@ try{ new ResizeObserver(refit).observe($("#stageWrap")); }catch(e){}
   .ph.promo-e{height:30px;background:rgba(74,163,216,.13);border:1px solid rgba(74,163,216,.4);color:#a8d2ec;}
   .ph.loadout{height:34px;background:var(--panel-2);border:1px solid rgba(247,200,68,.35);color:var(--muted);}
   .ph.tabs{height:26px;background:var(--panel-2);margin-bottom:0;}
+  .ph.hero{flex-direction:column;gap:5px;}
+  .ph .over{display:block;font-size:8px;line-height:1.4;color:var(--faint);border:1px dashed var(--line);
+            border-radius:3px;padding:3px 5px;background:rgba(10,20,23,.75);}
+  .ph.sq{flex:0 0 34px !important;height:48px;background:var(--panel-2);border:1px solid var(--line);}
   .cap{font-size:12.5px;color:var(--faint);text-align:center;margin-top:10px;line-height:1.5;max-width:250px;margin-inline:auto;}
   .cap b{color:var(--muted);font-weight:600;}
 
@@ -2228,7 +2233,7 @@ try{ new ResizeObserver(refit).observe($("#stageWrap")); }catch(e){}
 <div class="part">
   <span class="part-tag">Part 2</span>
   <h2 class="part-title">The Proposal</h2>
-  <p class="part-sub">Six moves on what already exists (home v13 · build v0.12 · wireframe board), in attack order. <b>Bets to discuss.</b></p>
+  <p class="part-sub">Six moves on what already exists (build v0.12 · wireframe board), in attack order. <b>Bets to discuss.</b></p>
 </div>
 
 <!-- M1 -->
@@ -2240,14 +2245,14 @@ try{ new ResizeObserver(refit).observe($("#stageWrap")); }catch(e){}
       <div class="tabbar">
         <div class="t">Shop</div><div class="t">Season</div><div class="t hot">Battle</div><div class="t">Factions</div><div class="t">Abilities</div>
       </div>
-      <p class="orbit"><b>Loose orbit:</b> event (home card) · Trophy Road (icon) · leaderboard (icon) · PvE campaign (inside Factions) · achievements, profile, news, custom battle (scattered)</p>
+      <p class="orbit"><b>Loose orbit:</b> event (home card) · Trophy Road (🏆 button, right of START BATTLE) · custom battle (radar button, left of it) · PvE campaign (inside Factions) · profile, achievements, leaderboard, news, settings (scattered — some with no captured entry)</p>
     </div>
     <div class="ba-col after"><h4>Proposal</h4>
       <div class="tabbar">
         <div class="t">Shop<small>offers · crates</small></div>
         <div class="t">Army<small>factions · units · abilities · campaign</small></div>
         <div class="t hot">Battle<small>war room</small></div>
-        <div class="t">Progresso<small>pass · trophy road · ranks</small></div>
+        <div class="t">Progress<small>pass · trophy road · ranks</small></div>
         <div class="t">Events<small>siege · tournaments</small></div>
       </div>
       <p class="orbit"><b>Home corners (low frequency):</b> profile + customization · mail · news · settings</p>
@@ -2255,7 +2260,7 @@ try{ new ResizeObserver(refit).observe($("#stageWrap")); }catch(e){}
   </div>
   <div class="map">
     <div class="row"><div class="dest">Army</div><div class="from">Factions + Abilities (one choice depends on the other) + the faction's PvE campaign</div></div>
-    <div class="row"><div class="dest">Progresso</div><div class="from">Pass + Trophy Road + leaderboards + achievements — all long-term progression, climbing upward (P2)</div></div>
+    <div class="row"><div class="dest">Progress</div><div class="from">Pass + Trophy Road + leaderboards + achievements — all long-term progression, climbing upward (P2)</div></div>
     <div class="row"><div class="dest">Events</div><div class="from">Siege + tournaments + custom battle; no live event → next one with countdown</div></div>
   </div>
   <p class="why"><b>Reference:</b> CR and Brawl Stars both paid for this remodel post-launch; we ship consolidated. <b style="color:#46c46a">✓W</b> proposes the same swap: leaderboard out, Events in.</p>
@@ -2264,19 +2269,21 @@ try{ new ResizeObserver(refit).observe($("#stageWrap")); }catch(e){}
 <!-- M2 -->
 <section class="mov">
   <div class="mov-head"><span class="mov-num">02</span><h2 class="mov-title">Home = War Room: loadout fused to the button</h2></div>
-  <p class="lead">On v13, Active Faction and Abilities compete with START BATTLE at equal weight. Fuse them into one <b>loadout strip</b> docked to the button — "what am I fighting with" in the same glance that fires the fight.</p>
+  <p class="lead">On today's home the faction and the abilities are two chips floating over the hero art, and START BATTLE shares its row with two side buttons. Fuse the two chips into one <b>loadout strip</b> docked to a full-width button — "what am I fighting with" in the same glance that fires the fight.</p>
   <div class="ba">
-    <div class="ba-col before"><h4>Today (v13)</h4>
+    <div class="ba-col before"><h4>Today · build v0.12</h4>
       <div class="phone">
-        <div class="ph bar">avatar · trophies · 3 currencies</div>
-        <div class="ph hero">faction hero art</div>
-        <div class="ph-row"><div class="ph card">active faction<br>rank + lvl</div><div class="ph card">abilities<br>2 slots</div></div>
-        <div class="ph cta-r">start battle (red)</div>
-        <div class="ph-row"><div class="ph promo-e">event</div><div class="ph promo-p">battle pass</div></div>
-        <div class="ph chests">daily win rewards · 5 crates</div>
-        <div class="ph tabs">5 tabs</div>
+        <div class="ph bar">★ 30 · ⬤ 977 · ◆ 76</div>
+        <div class="ph bar" style="height:18px;font-size:8px">✉ mail · ⚙ settings</div>
+        <div class="ph-row"><div class="ph card">surtado<br>🏆 5,310</div><div class="ph card">premium pass<br>tier 20 · 130/180 xp</div></div>
+        <div class="ph promo-e">☣ outbreak · event over! · 🎟 4</div>
+        <div class="ph hero">faction hero art
+          <span class="over">abilities [A][B] &nbsp;·&nbsp; justice division 🏆 1,598 · rank 2<br>two chips floating on top</span></div>
+        <div class="ph chests">daily win rewards · 6 crates ✓ · refreshes in 5h 56m</div>
+        <div class="ph-row"><div class="ph sq">((•))</div><div class="ph cta-y" style="height:48px">start battle</div><div class="ph sq">🏆</div></div>
+        <div class="ph tabs">shop ① · season · battle · factions · abilities</div>
       </div>
-      <p class="cap">4 blocks compete with the play button.</p>
+      <p class="cap">The loadout is split into two chips over the hero, and the play button shares its row with 2 others — 4 things fighting for the same glance.</p>
     </div>
     <div class="ba-col after"><h4>Proposal</h4>
       <div class="phone">
@@ -2301,7 +2308,7 @@ try{ new ResizeObserver(refit).observe($("#stageWrap")); }catch(e){}
   <div class="map">
     <div class="row"><div class="dest">Home</div><div class="from"><b>Account trophies</b> — the war ladder (Trophy Road/frontline), the one number every match moves.</div></div>
     <div class="row"><div class="dest">Army</div><div class="from"><b>Faction mastery</b> — rank + level live in the faction card, never on the home.</div></div>
-    <div class="row"><div class="dest">Progresso</div><div class="from"><b>Season XP</b> — only on the pass bar. <b>Stars</b> get a sink or leave the top bar.</div></div>
+    <div class="row"><div class="dest">Progress</div><div class="from"><b>Season XP</b> — only on the pass bar. <b>Stars</b> get a sink or leave the top bar.</div></div>
   </div>
   <p class="why"><b>Reference:</b> CR's trophies + Path of Legends confusion is the cautionary tale; Brawl Stars' trophies vs. mastery split is the solution we copy.</p>
 </section>
@@ -2370,6 +2377,7 @@ try{ new ResizeObserver(refit).observe($("#stageWrap")); }catch(e){}
 </div>
 </script>
 <script type="text/html" id="src-cmp">
+<meta charset="utf-8">
 <style>
   :host{
     --ground:#0c181b; --panel:#122227; --panel-2:#182d33; --line:#2a424a; --line-soft:#1d3238;
