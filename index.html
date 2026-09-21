@@ -34,10 +34,12 @@
   <div class="brand">AoW UX Studio<small>ASHES OF WAR</small></div>
   <button class="tab on" data-t="play">🎛️ Playable</button>
   <button class="tab" data-t="prop">📐 Pillars &amp; Proposal</button>
+  <button class="tab" data-t="lab">🧪 Lab v27</button>
 </header>
 <main>
   <iframe id="f-play" src="play.html" title="Playable"></iframe>
   <iframe id="f-prop" src="proposal.html" title="Pillars & Proposal" hidden></iframe>
+  <iframe id="f-lab" src="lab.html" title="Metagame Lab" hidden></iframe>
 </main>
 <script>
 const tabs=document.querySelectorAll(".tab");
@@ -45,17 +47,19 @@ function sel(t,save){
   tabs.forEach(x=>x.classList.toggle("on",x.dataset.t===t));
   document.getElementById("f-play").hidden=t!=="play";
   document.getElementById("f-prop").hidden=t!=="prop";
+  document.getElementById("f-lab").hidden=t!=="lab";
   if(save!==false)try{localStorage.setItem("studio-tab",t);}catch(e){}
 }
 tabs.forEach(b=>b.onclick=()=>sel(b.dataset.t));
 function fromHash(){
   if(/#(proposal|prop|pillars)/.test(location.hash))return "prop";
   if(location.hash==="#play")return "play";
+  if(location.hash==="#lab")return "lab";
   return null;
 }
 let t0=fromHash();
 if(!t0){try{t0=localStorage.getItem("studio-tab");}catch(e){}}
-sel(t0==="prop"?"prop":"play",false);
+sel(t0==="prop"||t0==="lab"?t0:"play",false);
 window.addEventListener("hashchange",()=>{const t=fromHash();if(t)sel(t);});
 </script>
 </body>
