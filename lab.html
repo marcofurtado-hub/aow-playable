@@ -63,7 +63,8 @@
        border:1.5px solid;overflow:hidden;cursor:grab;user-select:none;-webkit-user-select:none;will-change:transform;}
   .blk .lbl{font-family:var(--display);text-transform:uppercase;font-weight:700;letter-spacing:.03em;text-align:center;
             line-height:1;padding:2px 4px;pointer-events:none;}
-  .blk .lnk{position:absolute;bottom:2px;right:4px;font-family:var(--mono);font-size:7.5px;opacity:.85;pointer-events:none;}
+  .blk .lnk{position:absolute;bottom:2px;right:4px;left:4px;text-align:right;font-family:var(--mono);font-size:7.5px;
+            opacity:.85;pointer-events:none;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
   /* ---- conteúdo interno esquemático ---- */
   .blk.hasInner .lbl,.float.hasInner .lbl{position:absolute;top:3px;left:7px;font-size:8px !important;opacity:.6;padding:0;}
   .float{border-radius:7px;}
@@ -162,6 +163,7 @@
   #zoneA{top:65%;height:35%;background:rgba(70,196,106,.10);color:#8fd9a5;}
 
   body.play .blk, body.play .float{cursor:default;}
+  body.play .lnk{display:none;}   /* no modo teste o destino não precisa aparecer escrito */
   body.play .blk[data-link], body.play .float[data-link]{cursor:pointer;}
   body.play .blk[data-link]:hover, body.play .float[data-link]:hover{filter:brightness(1.25);}
   #backChip{position:absolute;top:26px;left:8px;z-index:80;display:none;background:rgba(0,0,0,.65);border:1px solid var(--line2);
@@ -631,7 +633,7 @@ function migrate(st){
    Redesenhado 1:1 a partir das telas reais do board (nodes 1898-820 home, 2201-1248 facções,
    2201-1404 shop, 2201-910 trophy road, siege, unit detail). Nada aqui é suposição. */
 const REF={
-WAR:{cap:"home real do build v0.12 — cada bloco redesenhado a partir da captura (IMG_9587 · node 1898-820)",html:`
+WAR:{cap:"home real do build v0.12 — cada bloco redesenhado a partir da captura do board",html:`
   <div class="rb" style="flex:0 0 calc(34px*var(--s,1) - 6px);background:transparent;border:none;padding:0">
     <div class="rrow" style="justify-content:center;gap:calc(8px*var(--s,1))">
       <span class="rpill">30 ★</span><span class="rpill">977 ⬤</span><span class="rpill">76 ◆</span>
@@ -767,6 +769,7 @@ let scale=1, saveTimer=null, undoStack=[];
 const stage=$("#stage"), rowsEl=$("#rows"), side=$("#side");
 const hud=$("#hud"), dropCue=$("#dropCue"), guidesEl=$("#guides");
 
+function screenName(id){const x=state.screens.find(s=>s.id===id);return x?x.name:id;}
 function curScreen(){return state.screens.find(s=>s.id===state.current)||state.screens[0];}
 function findBlock(code){
   for(const s of state.screens){
@@ -874,11 +877,11 @@ function renderTabs(){
   state.screens.forEach(s=>{
     const t=document.createElement("button");
     t.className="stab"+(s.id===state.current?" on":"");
-    t.innerHTML=`${esc(s.name)}<span class="sc">${s.id}</span>`;
+    t.textContent=s.name;
     t.onclick=()=>{if(s.id!==state.current)navHist.push(state.current);state.current=s.id;sel=null;navStack=[];render();scheduleSave();};
     scr.appendChild(t);
   });
-  const add=document.createElement("button");add.className="stab add";add.textContent="+ screen";
+  const add=document.createElement("button");add.className="stab add";add.textContent="+ tela";
   add.onclick=addScreen; scr.appendChild(add);
 }
 function renderChrome(){
@@ -914,7 +917,8 @@ function renderStage(animate){
       if(hasInner)be.classList.add(kind==="tabicon"?"innerTab":"hasInner");
       be.innerHTML=(hasInner?innerMarkup(kind):"")
         +`<span class="lbl" style="font-size:${fs}px">${esc(b.label)}</span>`
-        +(b.link?`<span class="lnk">→${b.link}</span>`:"");
+        +(b.link&&screenName(b.link).toLowerCase()!==(b.label||"").toLowerCase()
+            ?`<span class="lnk">→ ${esc(screenName(b.link))}</span>`:"");
       if(sel===b.id&&mode==="edit"&&!dragging){
         /* caixa completa em TODO bloco — E/W sem vizinho vira margem lateral */
         ["n","s","e","w","ne","nw","se","sw"].forEach(d=>{
@@ -1048,7 +1052,7 @@ function renderSide(){
   const isRow=hit.kind==="row";
   const b=isRow?hit.b:hit.f;
   const shapes=isRow?SHAPES_ROW:SHAPES_FLOAT;
-  let html=`<h3>Bloco <span class="codeTag">${b.id}</span></h3>
+  let html=`<h3>Bloco</h3>
   <div class="field"><label>Label (on block)</label><input type="text" id="fLbl" value="${esc(b.label)}"></div>
   <div class="field"><label>Color · role</label><div class="swatches">${
     Object.entries(ROLES).map(([k,v])=>`<div class="sw${b.role===k?" on":""}" data-role="${k}" title="${v.name}" style="background:${v.c}"></div>`).join("")
@@ -1056,7 +1060,7 @@ function renderSide(){
   <div class="field"><label>Shape</label><select id="fShape">${shapes.map(([v,n])=>`<option value="${v}"${b.shape===v?" selected":""}>${n}</option>`).join("")}</select></div>
   <div class="field"><label>Inner content</label><select id="fInner">${INNERS.map(([v,n])=>`<option value="${v}"${(b.inner||"auto")===v?" selected":""}>${n}</option>`).join("")}</select></div>
   <div class="field"><label>Links to (screen)</label><select id="fLink"><option value="">— none —</option>${
-    state.screens.map(x=>`<option value="${x.id}"${b.link===x.id?" selected":""}>${esc(x.name)} (${x.id})</option>`).join("")
+    state.screens.map(x=>`<option value="${x.id}"${b.link===x.id?" selected":""}>${esc(x.name)}</option>`).join("")
   }</select></div>`;
   if(isRow){
     const r=hit.r;
@@ -1768,12 +1772,12 @@ function openCtx(x,y){
   const hit=sel?findBlock(sel):null; if(!hit)return;
   const b=hit.kind==="row"?hit.b:hit.f;
   const m=document.createElement("div"); m.id="ctx";
-  m.innerHTML=`<div class="cTitle">${b.id} · ${esc(b.label)}</div>
+  m.innerHTML=`<div class="cTitle">${esc(b.label)}</div>
     <div class="cRow">${Object.entries(ROLES).map(([k,v])=>
       `<div class="sw${b.role===k?" on":""}" data-role="${k}" title="${v.name}" style="background:${v.c}"></div>`).join("")}</div>
     <div class="cRow">${alignBtnsHTML(hit.kind==="row")}</div>
     <select id="ctxLink"><option value="">— links to… —</option>${
-      state.screens.map(s=>`<option value="${s.id}"${b.link===s.id?" selected":""}>${esc(s.name)} (${s.id})</option>`).join("")}</select>
+      state.screens.map(s=>`<option value="${s.id}"${b.link===s.id?" selected":""}>${esc(s.name)}</option>`).join("")}</select>
     <button class="btn mini" data-a="ren">✏️ Rename</button>
     <button class="btn mini" data-a="dup">⧉ Duplicar</button>
     <button class="btn mini" data-a="side">+ beside</button>
@@ -1871,18 +1875,17 @@ $("#addBtn").onclick=()=>{
       }
       sel=code;
     });
-    toast(sel+" created");
+    toast("bloco criado");
   });
 };
 function addScreen(){
   dlgShow(`<h3 style="margin-top:0;font-family:var(--display);text-transform:uppercase">New screen</h3>
-  <div class="field"><label>Nome</label><input type="text" id="nsName" value="New Screen"></div>
-  <div class="field"><label>Code (2 letters)</label><input type="text" id="nsCode" maxlength="2"></div>
+  <div class="field"><label>Nome da tela</label><input type="text" id="nsName" value="Nova tela"></div>
   <div class="rowBtns"><button class="btn primary" data-k="ok">Create</button></div>`,()=>{
     const name=$("#nsName").value.trim()||"Tela";
-    let code=($("#nsCode").value.trim()||name.slice(0,2)).toUpperCase().replace(/[^A-Z]/g,"")||"XX";
-    while(state.screens.some(s=>s.id===code))
-      code=code[0]+String.fromCharCode(65+Math.floor(Math.random()*26));
+    /* o código é interno (prefixo dos ids) — nunca aparece na interface */
+    let code=name.toUpperCase().replace(/[^A-Z0-9]/g,"").slice(0,6)||"TELA";
+    while(state.screens.some(s=>s.id===code))code+=String.fromCharCode(65+Math.floor(Math.random()*26));
     commit(()=>{
       state.screens.push({id:code,name,floats:[],rows:[
         {h:44,blocks:[{id:code+"-01",label:"Header",role:"neutral",shape:"strip",flex:1,link:null}]},
