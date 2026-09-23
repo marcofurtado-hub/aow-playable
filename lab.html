@@ -129,6 +129,8 @@
   .hd[data-h="nw"]{top:-6px;left:-6px;cursor:nwse-resize;}
   .hd[data-h="se"]{bottom:-6px;right:-6px;cursor:nwse-resize;}
   .hd[data-h="sw"]{bottom:-6px;left:-6px;cursor:nesw-resize;}
+  .blk.edgeB .hd[data-h="s"],.blk.edgeB .hd[data-h="se"],.blk.edgeB .hd[data-h="sw"]{bottom:2px;}
+  .blk.edgeB .hd.gapH{bottom:2px;}
   .hd.gapH{bottom:-8px;left:auto;right:16%;width:24px;height:9px;border-radius:5px;cursor:row-resize;
     background:var(--sel);display:flex;align-items:center;justify-content:center;}
   .hd.gapH::before{content:"⇕";font-size:8px;color:#241503;line-height:1;}
@@ -472,7 +474,12 @@ const INNER={
   list:{n:"List",h:`<div class="inn"><div class="rows"><div><i class="circ" style="width:calc(9px*var(--s,1));height:calc(9px*var(--s,1))"></i><span class="ln" style="width:62%"></span></div><div><i class="circ" style="width:calc(9px*var(--s,1));height:calc(9px*var(--s,1))"></i><span class="ln" style="width:48%"></span></div><div><i class="circ" style="width:calc(9px*var(--s,1));height:calc(9px*var(--s,1))"></i><span class="ln" style="width:55%"></span></div></div></div>`},
   grid:{n:"Card grid",h:`<div class="inn" style="inset:18% 6% 10%"><div class="cards"><i></i><i></i><i></i><i></i><i></i><i></i></div></div>`},
   tabicon:{n:"Tab (icon)",h:`<div class="inn" style="inset:12% 22% 42%;justify-content:center"><i class="sq" style="width:calc(15px*var(--s,1));height:calc(15px*var(--s,1))"></i></div>`},
-  aowIdentity:{n:"AoW \u00b7 profile + currencies",h:`<div class="aw col" style="inset:12% 5%;gap:calc(4px*var(--s,1))"><div class="rowx" style="width:100%;align-items:center;gap:calc(5px*var(--s,1))"><i class="per"></i><span class="txt" style="opacity:1;flex:1">SURTADO</span><span class="pill2">\ud83c\udfc6 5.310</span></div><div class="rowx" style="width:100%;justify-content:flex-end;gap:calc(4px*var(--s,1))"><span class="pill2">\u2605 30</span><span class="pill2">\u2b24 977</span><span class="pill2">\u25c6 76</span></div></div>`},
+  aowAvatar:{n:"AoW \u00b7 avatar + name",h:`<div class="aw" style="inset:10% 8%;gap:calc(5px*var(--s,1))"><i class="per"></i><span class="txt" style="opacity:1">SURTADO</span></div>`},
+  aowTrophyPill:{n:"AoW \u00b7 trophies \ud83c\udfc6",h:`<div class="aw" style="justify-content:center"><span class="pill2">\ud83c\udfc6 5,310</span></div>`},
+  aowStar:{n:"AoW \u00b7 star \u2605",h:`<div class="aw" style="justify-content:center"><span class="pill2">\u2605 30</span></div>`},
+  aowGold:{n:"AoW \u00b7 gold \u2b24",h:`<div class="aw" style="justify-content:center"><span class="pill2">\u2b24 977</span></div>`},
+  aowGem:{n:"AoW \u00b7 gem \u25c6",h:`<div class="aw" style="justify-content:center"><span class="pill2">\u25c6 76</span></div>`},
+  aowIdentity:{n:"AoW \u00b7 profile + currencies (all in one)",h:`<div class="aw col" style="inset:12% 5%;gap:calc(4px*var(--s,1))"><div class="rowx" style="width:100%;align-items:center;gap:calc(5px*var(--s,1))"><i class="per"></i><span class="txt" style="opacity:1;flex:1">SURTADO</span><span class="pill2">\ud83c\udfc6 5.310</span></div><div class="rowx" style="width:100%;justify-content:flex-end;gap:calc(4px*var(--s,1))"><span class="pill2">\u2605 30</span><span class="pill2">\u2b24 977</span><span class="pill2">\u25c6 76</span></div></div>`},
   aowStatus:{n:"AoW · Surtado status",h:`<div class="aw"><i class="per"></i><span class="txt" style="opacity:1">Surtado · 🏆 5.310</span><span class="sp"></span><span class="pill2">★ 30</span><span class="pill2">⬤ 977</span><span class="pill2">◆ 76</span></div>`},
   aowOutbreak:{n:"AoW · Outbreak",h:`<div class="aw col" style="inset:24% 8% 12%"><span class="txt"><b>☣ Outbreak</b></span><span class="txt">event over · 🎟 4</span></div>`},
   aowPass:{n:"AoW · Premium Pass",h:`<div class="aw col" style="inset:20% 8% 12%"><span class="txt"><b>Premium Pass</b> · t20</span><span class="pips"><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i></i><i></i><i></i></span><span class="bar2" style="--f:72%"></span><span class="txt">tiers · 130 / 180 xp</span></div>`},
@@ -482,16 +489,16 @@ const INNER={
   aowProfile:{n:"AoW · profile card",h:`<div class="aw col" style="inset:10% 6% 8%;gap:calc(3px*var(--s,1))"><div class="artbox"></div><div class="rowx" style="width:100%;justify-content:space-between"><span class="txt" style="opacity:1">SURTADO</span><span class="txt">5310 🏆</span></div></div>`},
   aowPassCard:{n:"AoW · premium pass",h:`<div class="aw col" style="inset:12% 6% 10%;gap:calc(4px*var(--s,1))"><span class="txt" style="opacity:1"><b style="font-size:calc(9px*var(--s,1))">PREMIUM PASS</b></span><div class="rowx" style="width:100%;gap:calc(3px*var(--s,1))"><span class="hexb">20</span><span class="bar2" style="--f:72%;flex:1"><em>130 / 180</em></span><span class="pill2">XP</span></div></div>`},
   aowOutbreakBanner:{n:"AoW · Outbreak banner",h:`<div class="aw" style="inset:14% 5%;gap:calc(5px*var(--s,1))"><div class="artbox" style="flex:0 0 18%;align-self:stretch"></div><span class="txt" style="flex:1;opacity:1"><b style="font-size:calc(9px*var(--s,1))">☣ OUTBREAK</b><br><span style="opacity:.75">Event Over!</span></span><span class="pill2">4 🎟</span></div>`},
-  aowHeroFull:{n:"AoW · hero + loadout",h:`<div class="aw col" style="inset:6% 4% 5%;gap:calc(5px*var(--s,1))"><div class="rowx" style="flex:1;align-items:flex-end;justify-content:center;gap:calc(11px*var(--s,1))"><i class="per" style="height:54%"></i><i class="per" style="height:74%;width:calc(24px*var(--s,1))"></i><i class="per" style="height:54%"></i></div><div class="herobar"><span class="hbl">ABILITIES</span><span class="slot2">A</span><span class="slot2">B</span><span class="sp"></span><span class="txt" style="opacity:1;text-align:right">Justice Division<br>1598 🏆</span><span class="rankb">2</span></div></div>`},
+  aowHeroFull:{n:"AoW · hero + loadout",h:`<div class="aw col" style="inset:6% 4% 5%;gap:calc(5px*var(--s,1))"><div class="rowx" style="flex:1;align-items:center;justify-content:center;gap:calc(11px*var(--s,1))"><i class="per" style="height:54%"></i><i class="per" style="height:74%;width:calc(24px*var(--s,1))"></i><i class="per" style="height:54%"></i></div><div class="herobar"><span class="hbl">ABILITIES</span><span class="slot2">A</span><span class="slot2">B</span><span class="sp"></span><span class="txt" style="opacity:1;text-align:right">Justice Division<br>1598 🏆</span><span class="rankb">2</span></div></div>`},
   aowDailyFull:{n:"AoW · full daily",h:`<div class="aw col" style="inset:10% 5% 8%;gap:calc(4px*var(--s,1))"><div class="dayhead"><span>DAILY WIN REWARDS</span><span>Refreshes in: 5h 56min</span></div><div class="rowx" style="flex:1;gap:calc(3px*var(--s,1))"><span class="chk">✓</span><span class="chk">✓</span><span class="chk">✓</span><span class="chk">✓</span><span class="chk">✓</span><span class="chk">✓</span></div></div>`},
   aowRadar:{n:"AoW · radar button",h:`<div class="aw" style="justify-content:center"><b style="font-size:calc(11px*var(--s,1))">((•))</b></div>`},
   aowTrophyBtn:{n:"AoW · trophy button",h:`<div class="aw" style="justify-content:center"><b style="font-size:calc(11px*var(--s,1))">🏆</b></div>`},
-  aowHeroArt:{n:"AoW · hero (art only)",h:`<div class="aw" style="inset:8% 5%"><div class="rowx" style="flex:1;align-items:flex-end;justify-content:center;gap:calc(11px*var(--s,1))"><i class="per" style="height:56%"></i><i class="per" style="height:78%;width:calc(24px*var(--s,1))"></i><i class="per" style="height:56%"></i></div></div>`},
+  aowHeroArt:{n:"AoW · hero (art only)",h:`<div class="aw" style="inset:8% 5%"><div class="rowx" style="flex:1;align-items:center;justify-content:center;gap:calc(11px*var(--s,1))"><i class="per" style="height:56%"></i><i class="per" style="height:78%;width:calc(24px*var(--s,1))"></i><i class="per" style="height:56%"></i></div></div>`},
   aowAbil:{n:"AoW · abilities (float)",h:`<div class="aw" style="inset:10% 8%;gap:calc(4px*var(--s,1))"><span class="hbl">ABILITIES</span><span class="slot2">A</span><span class="slot2">B</span></div>`},
   aowFactionTag:{n:"AoW · faction+rank (float)",h:`<div class="aw" style="inset:10% 8%;justify-content:flex-end;gap:calc(5px*var(--s,1))"><span class="txt" style="opacity:1;text-align:right">Justice Division<br>1598 🏆</span><span class="rankb">2</span></div>`},
   aowMascot:{n:"AoW · mascot (float)",h:`<div class="aw" style="inset:6%"><i class="per" style="width:100%;height:100%"></i></div>`},
   aowDailyStep:{n:"AoW · daily advances",h:`<div class="aw" style="inset:24% 8%"><span class="crate2">✓</span><span class="crate2">✓</span><span class="crate2">✓</span><span class="crate2">✓</span><span class="crate2">✓</span><span class="crate2" style="border-width:2px">+1</span></div>`},
-  aowHero:{n:"AoW · hero JD",h:`<div class="aw col" style="inset:12% 8% 10%"><div class="rowx" style="flex:1;align-items:flex-end"><i class="per" style="height:58%"></i><i class="per" style="height:78%;width:calc(24px*var(--s,1))"></i><i class="per" style="height:58%"></i></div><span class="txt"><b>Justice Division</b></span><span class="txt" style="opacity:.6">idle animation · war room</span></div>`},
+  aowHero:{n:"AoW · hero JD",h:`<div class="aw col" style="inset:12% 8% 10%"><div class="rowx" style="flex:1;align-items:center"><i class="per" style="height:58%"></i><i class="per" style="height:78%;width:calc(24px*var(--s,1))"></i><i class="per" style="height:58%"></i></div><span class="txt"><b>Justice Division</b></span><span class="txt" style="opacity:.6">idle animation · war room</span></div>`},
   aowLoadout:{n:"AoW · loadout A/B",h:`<div class="aw"><i class="hexi"></i><span class="txt" style="opacity:1">JD · 🏆 1.598 · r2</span><span class="sp"></span><span class="slot2">A</span><span class="slot2">B</span><span class="txt">⇄</span></div>`},
   aowFaction:{n:"AoW · JD faction",h:`<div class="aw"><i class="per"></i><span class="txt" style="opacity:1"><b style="font-size:calc(9px*var(--s,1))">Justice Division</b><br>lvl 7 · 🏆 10.000</span><span class="sp"></span><span class="txt">⇄ swap</span></div>`},
   aowCampaign:{n:"AoW · campaign",h:`<div class="aw"><span class="txt"><b style="font-size:calc(9px*var(--s,1))">Campaign · lvl 1</b> · pays the faction blueprints</span><span class="sp"></span><span class="txt">▸</span></div>`},
@@ -540,7 +547,8 @@ function defaultState(){
     {id:"WAR",name:"War Room",floats:[
       {id:"WAR-13",label:"Mail \u00b7 Settings",role:"neutral",shape:"button",x:273,y:129,w:100,h:36,link:null,inner:"aowIcons"},
       {id:"WAR-14",label:"Mascot",role:"neutral",shape:"round",x:24,y:129,w:44,h:44,link:null,inner:"aowMascot"}],rows:[
-      {h:64,blocks:[B("WAR-01","Profile \u00b7 currencies","neutral","panel",null,"aowIdentity")]},
+      {h:36,blocks:[Object.assign(B("WAR-01","Profile","neutral","panel",null,"aowAvatar"),{flex:2}),B("WAR-15","Trophies","neutral","panel",null,"aowTrophyPill")]},
+      {h:26,padL:120,blocks:[B("WAR-16","Star","value","strip",null,"aowStar"),B("WAR-17","Gold","value","strip",null,"aowGold"),B("WAR-18","Gem","premium","strip",null,"aowGem")]},
       {grow:1,blocks:[B("WAR-02","Living War Room","neutral","panel","ARMY","aowHeroArt")]},
       {h:56,blocks:[B("WAR-03","Outbreak","info","strip","EVENT","aowOutbreak"),B("WAR-04","Premium Pass","premium","strip","PROG","aowPass")]},
       {h:62,blocks:[B("WAR-05","Daily Win Rewards","gain","panel",null,"aowDailyFull")]},
@@ -663,7 +671,7 @@ WAR:{cap:"the real home of build v0.12 — every block redrawn from the board ca
     <span class="rpill">4 🎟</span>
   </div>
   <div class="rb grow" style="padding:calc(5px*var(--s,1));gap:calc(5px*var(--s,1))">
-    <div class="rrow" style="flex:1;align-items:flex-end;justify-content:center;gap:calc(12px*var(--s,1));width:100%">
+    <div class="rrow" style="flex:1;align-items:center;justify-content:center;gap:calc(12px*var(--s,1));width:100%">
       <span class="rperson" style="height:52%"></span><span class="rperson big" style="height:72%"></span><span class="rperson" style="height:52%"></span>
     </div>
     <div class="rrow rovl" style="width:100%;border:1.5px solid currentColor;border-radius:3px;padding:calc(3px*var(--s,1))">
@@ -898,7 +906,8 @@ function renderStage(animate){
   if(animate){prev={};rowsEl.querySelectorAll(".blk").forEach(el=>{prev[el.dataset.code]=el.getBoundingClientRect();});}
   const s=curScreen(); rowsEl.innerHTML="";
   const dragging=drag&&drag.type==="move"?sel:null;
-  s.rows.forEach(r=>{
+  const lastRi=s.rows.length-1;
+  s.rows.forEach((r,ri)=>{
     const re=document.createElement("div");
     re.className="row"+(r.grow?" grow":"");
     if(!r.grow)re.style.height=((r.h||64)*scale)+"px";
@@ -909,7 +918,8 @@ function renderStage(animate){
       const be=document.createElement("div");
       be.className="blk shape-"+b.shape
         +(sel===b.id?" sel":"")
-        +(dragging===b.id?" placing":"");
+        +(dragging===b.id?" placing":"")
+        +(ri===lastRi?" edgeB":"");
       be.style.cssText=blockStyle(b); be.style.flex=b.flex||1;
       be.dataset.code=b.id;
       if(b.link)be.dataset.link=b.link;
