@@ -238,6 +238,20 @@
   .aw .ucard2{flex:1;border:1.5px solid currentColor;border-radius:4px;display:flex;flex-direction:column;align-items:stretch;
               justify-content:flex-end;gap:calc(2px*var(--s,1));padding:calc(3px*var(--s,1));overflow:hidden;min-width:0;}
   .aw .ucard2 .per{width:60%;flex:1;align-self:center;min-height:0;}
+  /* cartao de unidade: retrato em cima, nome, blueprints, estado — mesma anatomia do build */
+  .aw .ucard{flex:1;min-width:0;align-self:stretch;border:1.5px solid currentColor;border-radius:5px;display:flex;flex-direction:column;
+             gap:calc(2px*var(--s,1));padding:calc(4px*var(--s,1));overflow:hidden;}
+  .aw .ucard .top{display:flex;align-items:center;justify-content:space-between;gap:calc(3px*var(--s,1));}
+  .aw .ucard .lv{border:1.5px solid currentColor;border-radius:3px;padding:0 calc(3px*var(--s,1));
+                 font-size:calc(6.4px*var(--s,1));opacity:.9;}
+  .aw .ucard .nm{font-size:calc(6.6px*var(--s,1));letter-spacing:.04em;text-transform:uppercase;opacity:1;
+                 white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .aw .ucard .art{flex:1;min-height:calc(12px*var(--s,1));display:flex;align-items:center;justify-content:center;}
+  .aw .ucard .art .per{width:auto;height:100%;aspect-ratio:.72;flex:none;}
+  .aw .ucard .st{font-size:calc(6.2px*var(--s,1));letter-spacing:.04em;text-transform:uppercase;text-align:center;opacity:.85;}
+  .aw .ucard.dim{opacity:.45;}
+  .aw .grid2{display:flex;flex-wrap:wrap;gap:calc(6px*var(--s,1));align-content:stretch;width:100%;height:100%;}
+  .aw .grid2>.ucard{flex:0 0 calc(50% - 3px*var(--s,1));}
   .aw .ucard2 .txt{font-size:calc(6px*var(--s,1));}
   .aw .ucard2.dim{opacity:.45;}
 
@@ -502,6 +516,11 @@ const INNER={
   aowLoadout:{n:"AoW · loadout A/B",h:`<div class="aw"><i class="hexi"></i><span class="txt" style="opacity:1">JD · 🏆 1.598 · r2</span><span class="sp"></span><span class="slot2">A</span><span class="slot2">B</span><span class="txt">⇄</span></div>`},
   aowFaction:{n:"AoW · JD faction",h:`<div class="aw"><i class="per"></i><span class="txt" style="opacity:1"><b style="font-size:calc(9px*var(--s,1))">Justice Division</b><br>lvl 7 · 🏆 10.000</span><span class="sp"></span><span class="txt">⇄ swap</span></div>`},
   aowCampaign:{n:"AoW · campaign",h:`<div class="aw"><span class="txt"><b style="font-size:calc(9px*var(--s,1))">Campaign · lvl 1</b> · pays the faction blueprints</span><span class="sp"></span><span class="txt">▸</span></div>`},
+  aowFactionHead:{n:"AoW \u00b7 faction header",h:`<div class="aw" style="inset:10% 4%;gap:calc(6px*var(--s,1))"><i class="hexi"></i><div class="rowx" style="flex-direction:column;align-items:stretch;flex:1;gap:calc(3px*var(--s,1));min-width:0"><div class="rowx" style="justify-content:space-between"><span class="txt" style="opacity:1;text-align:left"><b>Justice Division</b></span><span class="pill2">lvl \u2466</span></div><span class="bar2" style="--f:62%"></span><span class="txt" style="text-align:left">\ud83c\udfc6 10.000 / 500 \u00b7 rank 2</span></div><span class="pill2">\u21c4</span></div>`},
+  aowAbilBar:{n:"AoW \u00b7 abilities equipped",h:`<div class="aw" style="inset:12% 4%;gap:calc(5px*var(--s,1))"><span class="txt" style="opacity:1">Abilities</span><span class="slot2">A</span><span class="slot2">B</span><span class="txt">\u21c4 swap</span><span class="sp"></span><span class="pill2">collection \u25b8</span></div>`},
+  aowCardsReady:{n:"AoW \u00b7 unit cards \u00b7 ready",h:`<div class="aw" style="inset:7% 3%;gap:calc(6px*var(--s,1))"><div class="ucard"><div class="top"><span class="nm">Assault</span><span class="lv">⑦</span></div><div class="art"><i class="per"></i></div><span class="pips"><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i></span><span class="st">8/8 · upgrade 500 ⬤</span></div><div class="ucard"><div class="top"><span class="nm">Barracks-Sniper</span><span class="lv">⑦</span></div><div class="art"><i class="per b"></i></div><span class="pips"><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i></span><span class="st">6/6 · upgrade</span></div></div>`},
+  aowCardsProg:{n:"AoW \u00b7 unit cards \u00b7 in progress",h:`<div class="aw" style="inset:6% 3%"><div class="grid2"><div class="ucard"><div class="top"><span class="nm">Barricade</span><span class="lv">⑦</span></div><div class="art"><i class="per b"></i></div><span class="pips"><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i></i></span><span class="st">5/6</span></div><div class="ucard"><div class="top"><span class="nm">troop</span><span class="lv">⑦</span></div><div class="art"><i class="per"></i></div><span class="pips"><i class="f"></i><i class="f"></i><i class="f"></i><i></i><i></i><i></i><i></i><i></i></span><span class="st">3/8</span></div><div class="ucard"><div class="top"><span class="nm">building</span><span class="lv">⑦</span></div><div class="art"><i class="per b"></i></div><span class="pips"><i class="f"></i><i class="f"></i><i></i><i></i><i></i><i></i></span><span class="st">2/6</span></div><div class="ucard"><div class="top"><span class="nm">building</span><span class="lv">⑦</span></div><div class="art"><i class="per b"></i></div><span class="pips"><i class="f"></i><i></i><i></i><i></i><i></i><i></i></span><span class="st">1/6</span></div></div></div>`},
+  aowCardsMax:{n:"AoW \u00b7 unit cards \u00b7 maxed",h:`<div class="aw" style="inset:7% 3%;gap:calc(6px*var(--s,1))"><div class="ucard dim"><div class="top"><span class="nm">troop</span><span class="lv">⑦</span></div><div class="art"><i class="per"></i></div><span class="pips"><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i></span><span class="st">max</span></div><div class="ucard dim"><div class="top"><span class="nm">building</span><span class="lv">⑦</span></div><div class="art"><i class="per b"></i></div><span class="pips"><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i></span><span class="st">max</span></div><div class="ucard dim"><div class="top"><span class="nm">building</span><span class="lv">⑦</span></div><div class="art"><i class="per b"></i></div><span class="pips"><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i></span><span class="st">max</span></div></div>`},
   aowUnitsReady:{n:"AoW · units ready",h:`<div class="aw" style="inset:20% 4% 8%"><div class="ucard2"><i class="per"></i><span class="pips"><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i></span><span class="txt">upgrade 8/8</span></div><div class="ucard2"><i class="per b"></i><span class="pips"><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i></span><span class="txt">upgrade 6/6</span></div><div class="ucard2" style="opacity:.75"><i class="per"></i><span class="pips"><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i></i></span><span class="txt">7/8 · almost</span></div></div>`},
   aowUnitsProg:{n:"AoW · units in progress",h:`<div class="aw" style="inset:20% 4% 8%"><div class="ucard2"><i class="per b"></i><span class="pips"><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i></i></span><span class="txt">5/6</span></div><div class="ucard2"><i class="per b"></i><span class="pips"><i class="f"></i><i class="f"></i><i class="f"></i><i></i><i></i><i></i><i></i><i></i></span><span class="txt">3/8</span></div><div class="ucard2 dim"><i class="per"></i><span class="txt">max</span></div></div>`},
   aowUnitsMax:{n:"AoW · units max",h:`<div class="aw" style="inset:20% 4% 8%"><div class="ucard2 dim"><i class="per b"></i><span class="txt">max</span></div><div class="ucard2 dim"><i class="per b"></i><span class="txt">max</span></div><div class="ucard2 dim"><i class="per b"></i><span class="txt">max</span></div><div class="ucard2 dim"><i class="per b"></i><span class="txt">max</span></div></div>`},
@@ -555,16 +574,20 @@ function defaultState(){
       {h:52,blocks:[B("WAR-06","Loadout \u00b7 faction + abilities","info","strip","ARMY","aowLoadout")]},
       {h:72,mb:8,blocks:[B("WAR-07","START BATTLE","battle","button","MATCH")]},
       tabsRow("WAR",8)]},
+    /* Army: a mesma coleção do build, reordenada por ação — pronto pra upgrade primeiro. */
     {id:"ARMY",name:"Army",floats:[],rows:[
-      {h:40,blocks:[B("ARMY-01","Army","neutral","strip",null,"aowArmyTop")]},
-      {h:38,blocks:[B("ARMY-02","Factions","neutral","strip"),B("ARMY-03","Units","info","strip"),B("ARMY-04","Abilities","neutral","strip")]},
-      {h:50,blocks:[B("ARMY-05","Active faction","info","strip",null,"aowFaction")]},
-      {h:46,blocks:[B("ARMY-06","Equipped abilities","info","strip",null,"aowLoadout")]},
-      {h:40,blocks:[B("ARMY-07","Campaign","info","strip",null,"aowCampaign")]},
-      {h:108,blocks:[B("ARMY-08","Upgrade ready","gain","panel","UNIT","aowUnitsReady")]},
-      {h:92,blocks:[B("ARMY-09","In progress","neutral","panel","UNIT","aowUnitsProg")]},
-      {grow:1,blocks:[B("ARMY-10","Maxed","neutral","panel","UNIT","aowUnitsMax")]},
-      tabsRow("ARMY",11)]},
+      {h:32,blocks:[B("ARMY-01","","neutral","strip",null,"aowArmyTop")]},
+      {h:56,blocks:[B("ARMY-02","","info","panel",null,"aowFactionHead")]},
+      {h:40,blocks:[B("ARMY-03","","info","strip",null,"aowAbilBar")]},
+      {h:34,blocks:[B("ARMY-04","Units","info","strip",null,"none"),B("ARMY-05","Abilities","neutral","strip",null,"none"),B("ARMY-06","Factions","neutral","strip",null,"none")]},
+      {h:26,blocks:[B("ARMY-07","Ready to upgrade \u00b7 2","gain","strip")]},
+      {h:104,blocks:[B("ARMY-08","","gain","panel","UNIT","aowCardsReady")]},
+      {h:26,blocks:[B("ARMY-09","In progress \u00b7 4","neutral","strip")]},
+      {grow:1,blocks:[B("ARMY-10","","neutral","panel","UNIT","aowCardsProg")]},
+      {h:26,blocks:[B("ARMY-11","Maxed \u00b7 3","neutral","strip")]},
+      {h:92,blocks:[B("ARMY-12","","neutral","panel","UNIT","aowCardsMax")]},
+      {h:38,blocks:[B("ARMY-13","","info","strip",null,"aowCampaign")]},
+      tabsRow("ARMY",14)]},
     {id:"UNIT",name:"Single detail",floats:[],rows:[
       {h:44,blocks:[B("UNIT-01","\u2190 Back","neutral","strip","ARMY"),B("UNIT-02","Assault \u00b7 lvl 7 \u00b7 common","neutral","strip")]},
       {grow:1,blocks:[B("UNIT-03","Portrait","neutral","panel",null,"aowPortrait")]},
