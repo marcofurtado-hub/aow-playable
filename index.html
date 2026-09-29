@@ -215,6 +215,47 @@ table { border-collapse: collapse; width: 100%; }
 .went td:first-child { color: var(--ink-2); width: 46%; }
 .went tr.bad td { color: var(--bad); }
 
+/* ---- endings: one screen drawn in every state (post-match) ---- */
+.new-chip { display: inline-block; margin-left: 6px; font: 700 9.5px/1 var(--f-mono); letter-spacing: .06em; padding: 2px 5px; border-radius: 4px; vertical-align: 1px;
+  color: var(--cool); background: color-mix(in srgb, var(--cool) 14%, transparent); border: 1px solid color-mix(in srgb, var(--cool) 45%, transparent); }
+.explain .new-chip { margin: 4px 0 0; }
+.endings { margin-top: 30px; padding-top: 6px; border-top: 1px dashed var(--line-2); }
+.endings h3 { font: 700 16px/1 var(--f-display); text-transform: uppercase; letter-spacing: .06em; margin: 28px 0 10px; }
+.endings-head h3 { margin-top: 22px; }
+.endings-head p { margin: 0 0 14px; max-width: 80ch; }
+.endings-strip { display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 16px 14px; }
+.ending { margin: 0; cursor: pointer; min-width: 0; display: flex; flex-direction: column; }
+.ending .phone { border-radius: 16px; transition: box-shadow .15s; }
+.ending:hover .phone { box-shadow: 0 0 0 2px var(--ink-2), var(--shadow); }
+.ending.main .phone { box-shadow: 0 0 0 2px var(--accent), var(--shadow); }
+.ending figcaption { margin-top: 8px; font-size: 12px; line-height: 1.35; color: var(--muted); display: flex; flex-direction: column; gap: 3px; flex: 1; }
+.ending figcaption b { font: 700 15px/1.05 var(--f-display); text-transform: uppercase; letter-spacing: .03em; color: var(--ink); }
+.ending .ending-edit { align-self: flex-start; margin: auto 0 0; }
+.pm-matrix { min-width: 1040px; }
+.pm-matrix th, .pm-matrix td { padding: 7px 8px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; font-size: 12.5px; line-height: 1.35; }
+.pm-matrix thead th { font: 600 10.5px/1.2 var(--f-mono); text-transform: uppercase; letter-spacing: .08em; color: var(--muted); }
+.pm-matrix tbody th { font-weight: 600; white-space: nowrap; color: var(--ink); position: sticky; left: 0; background: var(--ground); }
+.pm-matrix td { color: var(--ink-2); }
+.pm-matrix td.none { color: var(--muted); }
+.pm-matrix td.new { color: var(--cool); }
+.pm-bench { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+@media (max-width: 1300px) { .endings-strip { grid-template-columns: repeat(4, minmax(0, 1fr)); } .pm-bench { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 640px) { .pm-bench { grid-template-columns: minmax(0, 1fr); } }
+.pm-card { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px 12px; min-width: 0; }
+.pm-card h4 { font: 700 19px/1 var(--f-display); text-transform: uppercase; letter-spacing: .02em; margin: 0 0 10px; }
+.pm-card dl { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 6px 10px; margin: 0; }
+.pm-card dt { font: 600 10.5px/1.6 var(--f-mono); text-transform: uppercase; letter-spacing: .08em; color: var(--muted); }
+.pm-card dd { margin: 0; font-size: 13px; color: var(--ink-2); }
+.pm-card .take { font-size: 13px; margin: 12px 0 8px; padding-top: 10px; border-top: 1px solid var(--line); }
+.pm-card .take b { font: 600 11px/1 var(--f-mono); text-transform: uppercase; letter-spacing: .08em; color: var(--accent); }
+.pm-card .src { font-size: 11.5px; color: var(--muted); margin: 0; }
+.pm-card .src a { color: var(--cool); }
+.pm-cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 0 28px; }
+.pm-rules, .pm-decisions { margin: 0; padding-left: 20px; display: grid; gap: 7px; font-size: 13.5px; color: var(--ink-2); }
+.pm-tips th, .pm-tips td { padding: 6px 6px; border-bottom: 1px solid var(--line); font-size: 12.5px; text-align: left; vertical-align: top; }
+.pm-tips th { font: 600 10.5px/1.2 var(--f-mono); text-transform: uppercase; letter-spacing: .08em; color: var(--muted); }
+.pm-tips td:first-child { font-weight: 600; color: var(--ink); }
+
 /* flow */
 .seg-ctl { display: inline-flex; flex-wrap: wrap; gap: 2px; background: var(--panel-2); border: 1px solid var(--line); border-radius: 9px; padding: 3px; }
 .seg-ctl button { border: 0; background: none; padding: 6px 12px; border-radius: 6px; font-size: 13px; color: var(--muted); }
@@ -452,6 +493,7 @@ table { border-collapse: collapse; width: 100%; }
   .stage-wrap { padding: 12px 8px; }
   .pair-phones { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 10px; }
   .move { grid-template-columns: minmax(0, 1fr); }
+  .endings-strip { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .studio { grid-template-columns: minmax(0, 1fr); }
   .st-src { border-right: 0; border-bottom: 1px solid var(--line); }
   .st-main { padding: 16px; }
@@ -691,12 +733,18 @@ function coverage(today, prop) {
   const added = [...have.keys()].filter(f => !need.has(f));
   return { need, have, missing, added, total: need.size, kept: need.size - missing.length };
 }
+/* the endings of one screen read as one place: “Post-match (8 endings)” */
+function placeName(board, s) {
+  const root = s.stateOf ? screenById(board, s.stateOf) : s;
+  const n = root ? board.screens.filter(x => x.stateOf === root.id).length : 0;
+  return n ? root.name.split(" · ")[0] + " (" + (n + 1) + " endings)" : s.name;
+}
 /* for one Today screen: where did each of its features go in the proposal? */
 function whereDidItGo(todayScreen, prop) {
   const have = featureIndex(prop), rows = [], done = new Set();
   todayScreen.blocks.forEach(b => fidsOf(b).forEach(f => {
     if (done.has(f)) return; done.add(f);
-    const places = (have.get(f) || []).map(x => x.s.name);
+    const places = (have.get(f) || []).map(x => placeName(prop, x.s));
     rows.push({ fid: f, name: (FEATURES[f] || {}).name || f, places: [...new Set(places)] });
   }));
   return rows;
@@ -729,6 +777,8 @@ function laddersOnHome(board) {
    ===================================================================== */
 const BUILD_LABEL = "Current build";
 const BUILD_NOTE = "Screens verified on the Figma board (the Factions capture shows v0.17.0) and in the Home capture.";
+/* Bumped when the built-in boards gain screens, so saved copies pick the new ones up (see upgradeBuiltin) */
+const DATA_REV = 2;
 
 const FEATURES = {
   /* identity & currencies */
@@ -839,7 +889,7 @@ const MOVES = [
   { id: "M1", name: "From scattered destinations to 5 territories", pair: ["home", "home"], text: "Two of today's tabs do the same mental task (Factions and Abilities both prepare the army) while events, Trophy Road, ranks and campaign hang off scattered buttons. Regroup by intent: Shop · Army · Battle · Progress · Events." },
   { id: "M2", name: "Home: the loadout docks on the hero", pair: ["home", "home"], text: "Faction and abilities are two chips floating over the hero art, and Start Battle shares its row with two side buttons. One loadout strip and one play button: what you fight with, in the same glance that starts the fight." },
   { id: "M3", name: "One ladder per surface", pair: ["home", "army"], text: "Home shows five progression numbers at once. Keep account trophies on Home, faction rank and level in Army, season XP in Progress." },
-  { id: "M4", name: "A post-match that acts", pair: ["results", "results"], text: "With ~4-minute matches the result is the most-seen screen. Four beats — result, tracks advance, loot, next order — and the last beat upgrades in one tap." },
+  { id: "M4", name: "A post-match that acts, on every ending", pair: ["results", "results"], text: "With ~4-minute matches the result is the most-seen screen. One skeleton for all eight endings — result, progress, loot or why, one action — and Play again never moves. Victory amplifies, defeat explains before it sells, surrender stays honest." },
   { id: "M5", name: "A collection that points to the next step", pair: ["faction", "army"], text: "The unit popup is a catalogue to leaf through with ‹ ›. Sort by what can be done now: payable upgrades first, in green; a badge on Army only when something is payable." },
   { id: "M6", name: "Events and campaign as operations", pair: ["event", "events"], text: "Siege and campaign are each born with their own layout. Run pass, events, daily and Trophy Road on one track component, dressed as a military operation." },
 ];
@@ -856,6 +906,7 @@ const OPEN_DECISIONS = [
   "What happens to event tickets left when an event ends (Outbreak left 4).",
   "Names of the 6 unit cards we could not read on the board (we know Assault, Barracks-Sniper and Barricade).",
   "Tournaments (phase 02): the proposal reserves their place in Events.",
+  "Post-match rules — surrender cost, draws, disconnects, trophy protection and the rescue offer (Compare › Post-match).",
 ];
 
 const BENCHMARKS = [
@@ -864,7 +915,9 @@ const BENCHMARKS = [
   { name: "Warcraft Rumble", take: "An Army collection and a PvE campaign map as a place, not a popup." },
   { name: "Marvel Snap", take: "A collection that points at the next upgrade instead of a flat catalogue." },
 ];
-const TAGS = ["P1", "P2", "P3", "P4", "P5", "P6", "M1", "M2", "M3", "M4", "M5", "M6", "UX assessment", "Planned", "Illustrative"];
+const TAGS = ["P1", "P2", "P3", "P4", "P5", "P6", "M1", "M2", "M3", "M4", "M5", "M6", "UX assessment", "Planned", "Illustrative", "New"];
+/* NEW = not in the build: a mechanic the proposal adds (tag on the block, or a proposed feature) */
+const isNewBlock = b => (b.tags || []).includes("New") || fidsOf(b).some(f => (FEATURES[f] || CUSTOM_FEATURES[f] || {}).isNew);
 
 /* ---- 21-data-today.js ---- */
 /* =====================================================================
@@ -1203,13 +1256,14 @@ const TODAY = {
       b_("button", 60, 670, 273, 56, { text: "Match ends", role: "neutral", v: "soft", link: "results", does: "Shows the result screen." }),
     ] },
 
-  { id: "results", name: "Post-match", tag: "results", src: "Board capture",
-    purpose: "The most-seen metagame screen: it only informs, then sends you home.",
+  { id: "results", name: "Post-match", tag: "results", src: "Board capture", rev: 2,
+    purpose: "The most-seen metagame screen: it only informs, then sends you home. Only the Defeat state is on the board.",
     blocks: [
       b_("stamp", 76, 190, 241, 241, { text: "Defeat", role: "alert", fid: "result" }),
       b_("button", 96, 520, 201, 58, { text: "Continue", role: "battle", v: "solid", r: 6, fid: "result-continue", link: "home" }),
       b_("note", 40, 610, 313, 60, { text: "Board note: “This screen will have a results comparison screen. Your stats on left and opponent on right.”", fid: "result-compare" }),
       b_("note", 40, 680, 313, 40, { text: "Back home, nothing highlights what changed." }),
+      b_("note", 40, 730, 313, 40, { text: "Only Defeat was captured — victory, surrender and disconnect aren't on the board." }),
     ] },
   ],
 };
@@ -1219,6 +1273,7 @@ const TODAY = {
    22 · PROPOSAL — the same game, regrouped by player intent.
    Rule #1: every feature of Today keeps a place (see Coverage).
    Home starts from Marco's own layout (cloud v393) and rebalances it.
+   The match loop (every post-match ending) lives in 23-data-postmatch.js.
    ===================================================================== */
 function propTabs(active, badges = {}) {
   const T = [["shop", "Shop", "🛒", "shop"], ["army", "Army", "⛨", "army"], ["battle", "Battle", "⚔", "home"],
@@ -1597,74 +1652,444 @@ const PROPOSAL = {
 
   { id: "chest", name: "Chest opening", over: "home", pair: "chest",
     purpose: "The same reveal; the post-match loot beat reuses it.",
-    changes: [{ text: "Same reveal, reused by beat 3 of the post-match.", tags: ["P6", "M4"] }],
+    changes: [{ text: "Same reveal, reused by beat 3 (Loot) of the post-match.", tags: ["P6", "M4"] }],
     blocks: [
       b_("art", 46, 250, 301, 300, { icon: "🎁", role: "value", r: 16, fid: "chest-open", name: "Armoured crate" }),
       b_("text", 46, 566, 301, 26, { text: "Hidden rarity, revealed tap by tap", fs: 15, al: "c", name: "Reveal" }),
       b_("button", 96, 610, 201, 52, { text: "Collect", role: "gain", v: "solid", r: 10, link: "back", does: "Takes the rewards and closes." }),
     ] },
 
-  /* ---------------------------------------------------------- MATCH LOOP */
-  { id: "match", name: "Match", tag: "match", pair: "match",
-    purpose: "In-game. Out of scope for this metagame study.",
-    blocks: [
-      b_("panel", 12, 120, 369, 520, { text: "In-game match", sub: "~4-minute real-time 1v1 territory battle. Out of scope here.", al: "c", role: "neutral", v: "outline" }),
-      b_("button", 60, 670, 273, 56, { text: "Match ends", role: "neutral", v: "soft", link: "results", does: "Shows the result." }),
-    ] },
-
-  { id: "results", name: "Post-match · 4 beats", tag: "results", pair: "results",
-    purpose: "The most-seen screen stops informing and starts acting — every beat skippable.",
-    changes: [
-      { text: "Four beats, each skippable with one tap: result, tracks advance, loot, next order.", tags: ["M4"] },
-      { text: "Trophies animate up on a win, down on a loss.", tags: ["P2"] },
-      { text: "The planned results comparison becomes a sub-view of beat 1.", tags: ["Planned"] },
-      { text: "Beat 4 upgrades in one tap — the step the benchmarks don't take.", tags: ["M4", "M5"] },
-      { text: "Defeat: beats 1–2 and done, never an upsell.", tags: [] },
-    ],
-    blocks: [
-      b_("text", 16, 56, 361, 20, { text: "MATCH RESULT · ILLUSTRATIVE WIN", fs: 12, al: "c", dimText: true, name: "Header" }),
-      b_("panel", 12, 84, 369, 186, { text: "", role: "gain", v: "soft", r: 12, g: "beat1", name: "Beat 1 · Result" }),
-      b_("stamp", 22, 98, 152, 152, { text: "Victory", sub: "illustrative", role: "gain", fid: "result", g: "beat1" }),
-      b_("text", 186, 100, 186, 14, { text: "1 · RESULT", fs: 11, role: "gain", g: "beat1", name: "Beat label" }),
-      b_("text", 186, 118, 186, 36, { text: "▲ +28 🏆", fs: 30, role: "gain", g: "beat1", name: "Trophy delta" }),
-      b_("text", 186, 158, 186, 16, { text: "5,310 → 5,338 · animates up", fs: 11, dimText: true, b: false, g: "beat1", name: "Delta detail" }),
-      b_("panel", 186, 182, 186, 32, { text: "See comparison ▸", al: "c", role: "info", v: "soft", r: 8, link: "compare", fid: "result-compare", g: "beat1", does: "The planned results comparison, as a sub-view." }),
-      b_("text", 186, 222, 186, 38, { text: "Event matches show the new high score here.", fs: 10.5, dimText: true, b: false, fid: "event-highscore", g: "beat1" }),
-      b_("panel", 12, 278, 369, 98, { text: "", role: "neutral", v: "soft", r: 12, g: "beat2", name: "Beat 2 · Tracks advance" }),
-      b_("text", 22, 286, 220, 14, { text: "2 · TRACKS ADVANCE", fs: 11, role: "neutral", g: "beat2", name: "Beat label" }),
-      b_("track", 22, 304, 220, 34, { n: 6, done: 4, cur: 4, cell: "check", role: "gain", gap: 3, fid: "daily", g: "beat2", name: "Daily +1" }),
-      b_("text", 252, 310, 120, 20, { text: "Daily +1", fs: 13, role: "gain", g: "beat2", name: "Daily delta" }),
-      b_("bar", 22, 346, 220, 18, { value: 170, max: 180, text: "Pass +40 XP", role: "premium", fid: "pass", g: "beat2" }),
-      b_("text", 252, 344, 120, 20, { text: "Tier 20 · 170/180", fs: 11, role: "premium", g: "beat2", name: "Pass delta" }),
-      b_("panel", 12, 384, 369, 104, { text: "", role: "value", v: "soft", r: 12, g: "beat3", name: "Beat 3 · Loot" }),
-      b_("text", 22, 392, 200, 14, { text: "3 · LOOT", fs: 11, role: "value", g: "beat3", name: "Beat label" }),
-      b_("art", 22, 410, 70, 70, { icon: "🎁", role: "value", r: 10, fid: "chest-open", link: "chest", g: "beat3", does: "Armoured crate, opened tap by tap (hidden rarity)." }),
-      b_("text", 100, 414, 272, 20, { text: "Blueprints ×3 · 250 ⬤", fs: 16, g: "beat3", name: "Loot (illustrative)" }),
-      b_("text", 100, 438, 272, 40, { text: "Hidden rarity revealed tap by tap — the Starr Drop pattern.", fs: 11, b: false, dimText: true, g: "beat3", name: "Loot note" }),
-      b_("panel", 12, 496, 369, 132, { text: "", role: "gain", v: "outline", r: 12, glow: true, g: "beat4", name: "Beat 4 · Next order" }),
-      b_("text", 22, 504, 200, 14, { text: "4 · NEXT ORDER", fs: 11, role: "gain", g: "beat4", name: "Beat label" }),
-      b_("card", 22, 524, 86, 96, { text: "Assault", lvl: 7, kind: "troop", n: 8, filled: 8, ready: true, sub: "8/8", g: "beat4", name: "Unit ready" }),
-      b_("text", 116, 526, 256, 22, { text: "Assault reached 8/8", fs: 16, g: "beat4", name: "Order" }),
-      b_("button", 116, 556, 256, 58, { text: "Upgrade now", sub: "500 ⬤", role: "gain", v: "solid", r: 10, fid: "unit-upgrade", g: "beat4", does: "Upgrades right here — 1 tap, no trip to the collection." }),
-      b_("button", 12, 642, 369, 56, { text: "Continue", role: "info", v: "solid", r: 12, fid: "result-continue", link: "home", does: "Back to Home, with what changed highlighted." }),
-      b_("note", 12, 708, 369, 56, { text: "Each beat skips with one tap; a veteran crosses it in 3. On defeat: beats 1–2 only, never an upsell." }),
-    ] },
-
-  { id: "compare", name: "Results comparison", over: "results", pair: "results",
-    purpose: "Planned by the team (board note); here it becomes a sub-view of beat 1.",
-    changes: [{ text: "Your stats on the left, the opponent's on the right — as the board note plans.", tags: ["Planned"] }],
-    blocks: [
-      b_("panel", 12, 110, 369, 600, { text: "", role: "info", v: "dark", r: 16, name: "Sheet" }),
-      pClose(337, 122),
-      b_("text", 28, 124, 290, 26, { text: "YOU VS OPPONENT", fs: 21, fid: "result-compare" }),
-      b_("list", 24, 170, 168, 480, { rows: [["", "Stat", "—"], ["", "Stat", "—"], ["", "Stat", "—"], ["", "Stat", "—"], ["", "Stat", "—"]], role: "gain", name: "Your stats" }),
-      b_("list", 201, 170, 168, 480, { rows: [["", "Stat", "—"], ["", "Stat", "—"], ["", "Stat", "—"], ["", "Stat", "—"], ["", "Stat", "—"]], role: "alert", name: "Opponent stats" }),
-    ] },
+  /* match, post-match endings and the results comparison: 23-data-postmatch.js */
   ],
 };
 
 /* Compare order for the presentation (proposal screen ids) */
 const COMPARE_ORDER = ["home", "army", "unit", "pass", "trophyroad", "events", "shop", "results", "abilities", "factions", "ranks", "achievements", "profile"];
+
+/* ---- 23-data-postmatch.js ---- */
+/* =====================================================================
+   23 · POST-MATCH — every way a match can end, on one skeleton.
+   With ~4-minute matches the result is the most-seen metagame screen,
+   so the proposal draws each ending: victory, a win by surrender,
+   defeat, surrender, a losing streak, a lost connection, a draw and an
+   event run. Same beats everywhere — 1 result · 2 progress · 3 loot or
+   why · 4 one action — and Play again never moves.
+   Also here: what the benchmarks do after a match, the offer guardrails
+   and the tip rules. Compare (section “Post-match”) reads all of it.
+   ===================================================================== */
+
+/* Mechanics the proposal adds. They are not in the build, so they never
+   count toward coverage; the app marks them NEW wherever they appear. */
+const PROPOSED_FEATURES = {
+  "play-again":      { cat: "Battle", name: "Play again", does: "New: queues the next match of the same mode straight from the result — Brawl Stars' Play again." },
+  "win-streak":      { cat: "Battle", name: "Win streak bonus", does: "New: bonus trophies from the 2nd win in a row (Brawl Stars pays up to +5 a game; Hearthstone doubles stars from the 3rd win)." },
+  "loss-protection": { cat: "Battle", name: "Trophy protection", does: "New: softens a losing streak — a shield, a floor at Trophy Road tiers or Underdog. Which one is an open decision." },
+  "result-tip":      { cat: "Battle", name: "Post-match tip", does: "New: one tip per defeat — the biggest gap in the results comparison — with the fix right under it." },
+  "surrender":       { cat: "Battle", name: "Surrender ending", isNew: false, does: "How the result reads when someone gives up. Whether the build lets players surrender was not captured (in-game is out of scope)." },
+  "rescue-offer":    { cat: "Shop", name: "Offer after a losing streak", does: "New trigger for a real Shop offer: from the 3rd defeat in a row, today's blueprints for the unit behind the losses. Once a day." },
+  "gem-topup":       { cat: "Shop", name: "Top up with gems", does: "New: pay the gold an upgrade is missing in gems — Clash of Clans sells missing resources for gems." },
+  "report-problem":  { cat: "Utility", name: "Report a problem", does: "New: after a disconnect, sends the match log to support in one tap." },
+};
+Object.entries(PROPOSED_FEATURES).forEach(([k, v]) => { FEATURES[k] = Object.assign({ isNew: true }, v); });
+
+/* ---------- the skeleton (393 × 852, no tab bar) ----------
+   head 40 · beat 1 62–242 · beat 2 250–374 · beat 3 382–498 · beat 4 506–630
+   Play again 640–704 · Home 712–754 · design note 764 (hidden in Play) */
+const pmHead = text => b_("text", 16, 40, 361, 16, { text, fs: 10.5, al: "c", up: true, dimText: true, b: false, name: "Mode · duration" });
+function pmBeat(y, h, role, label, g, extra) {
+  return [
+    b_("panel", 12, y, 369, h, Object.assign({ text: "", role, v: "soft", r: 12, g, name: "Beat · " + label }, extra || {})),
+    b_("text", 22, y + 8, 300, 14, { text: label, fs: 11, role, up: true, g, name: "Beat label" }),
+  ];
+}
+/* Beat 1: stamp, trophy change, how it ended, the comparison */
+function pmResult(o) {
+  const g = "beat1", role = o.role;
+  const out = [
+    b_("panel", 12, 62, 369, 180, { text: "", role, v: "soft", r: 12, g, name: "Beat 1 · Result" }),
+    b_("stamp", 22, 76, 150, 150, { text: o.stamp, sub: o.sub || null, role, fid: "result", g }),
+    b_("text", 184, 74, 190, 14, { text: "1 · Result", fs: 11, role, up: true, g, name: "Beat label" }),
+    b_("text", 184, 92, 190, 38, { text: o.delta, fs: 30, role: o.deltaRole || role, g, name: "Trophy change",
+      does: o.deltaDoes || "The trophy change counts up on a win and down on a loss (up = progress)." }),
+    b_("text", 184, 132, 190, 16, { text: o.detail, fs: 11, dimText: true, b: false, g, name: "Change detail" }),
+  ];
+  if (o.chip) out.push(b_("pill", 184, 154, 190, 24, Object.assign({ text: o.chip, role: o.chipRole || "neutral", v: "soft", fs: 11, g, name: o.chipName || "How it ended" }, o.chipProps || {})));
+  if (o.link !== false) out.push(b_("panel", 184, 188, 190, 38, Object.assign({ text: "See comparison ▸", al: "c", role: "info", v: "soft", r: 8, link: "compare", fid: "result-compare", g,
+    does: "Opens the results comparison the team planned: your stats left, the opponent's right." }, o.linkProps || {})));
+  return out;
+}
+/* Beat 2 rows */
+const pmDaily = (done, cur, right, o = {}) => [
+  b_("text", 22, 276, 220, 12, { text: o.label || "Daily win rewards", fs: 9.5, role: "gain", up: true, g: "beat2", name: "Daily label" }),
+  b_("track", 22, 290, 226, 26, { n: 6, done, cur, cell: "check", role: "gain", gap: 3, fid: "daily", g: "beat2", name: "Daily win rewards", does: o.does || "Only wins fill the daily row; this match leaves it as it was." }),
+  b_("text", 256, 292, 118, 22, { text: right, fs: o.fs || 13, role: "gain", g: "beat2", name: "Daily status" }),
+];
+const pmMission = (label, o = {}) => [
+  b_("bar", 22, 322, 226, 22, Object.assign({ value: 2, max: 3, text: label, role: "premium", fid: "pass-missions", g: "beat2", name: "Pass mission", tags: ["New"],
+    does: "New: the match counts for pass missions whatever the result; the mission pays its XP when complete." }, o)),
+  b_("text", 256, 324, 118, 18, { text: "pays pass XP", fs: 11.5, role: "premium", b: false, g: "beat2", name: "Mission note" }),
+];
+/* Beat 3: a reward to open */
+const pmLoot = (title, note) => [
+  ...pmBeat(382, 116, "value", "3 · Loot", "beat3"),
+  b_("art", 22, 406, 80, 80, { icon: "🎁", role: "value", r: 10, g: "beat3", name: "Reward crate" }),
+  b_("text", 112, 408, 262, 22, { text: title, fs: 17, g: "beat3", name: "Loot" }),
+  b_("text", 112, 432, 262, 20, { text: note || "Opens tap by tap — rarity revealed at the end.", fs: 11, b: false, dimText: true, g: "beat3", name: "Loot note" }),
+  b_("button", 262, 454, 112, 34, { text: "Open", role: "gain", v: "solid", r: 8, fs: 15, link: "chest", fid: "chest-open", g: "beat3", does: "Opens the reward with the chest reveal (hidden rarity, the Starr Drop pattern)." }),
+];
+const pmTip = (text, o = {}) => b_("text", 22, 404, 352, 44, Object.assign({ text, fs: 16, fid: "result-tip", g: "beat3", name: "Tip",
+  does: "New: one tip per defeat, picked from the biggest gap in the results comparison (Chess.com explains every game; free players get one review a day)." }, o));
+const pmFullCompare = () => b_("text", 222, 460, 152, 22, { text: "Full comparison ▸", fs: 12.5, al: "r", role: "info", link: "compare", fid: "result-compare", g: "beat3",
+  does: "Opens the results comparison the team planned: your stats left, the opponent's right." });
+/* The two buttons every ending ends with */
+function pmButtons(play, home) {
+  return [
+    b_("button", 12, 640, 369, 64, Object.assign({ text: "Play again", role: "battle", v: "solid", r: 12, fs: 24, fid: "play-again", link: "match",
+      does: "New: queues the next match of the same mode. The primary button on every ending, always in this spot." }, play || {})),
+    b_("button", 12, 712, 369, 42, Object.assign({ text: "Home", role: "neutral", v: "soft", r: 10, fs: 15, fid: "result-continue", link: "home",
+      does: "Back to Home, with what changed highlighted (today's Continue)." }, home || {})),
+  ];
+}
+const pmNote = text => b_("note", 12, 764, 369, 66, { text, fs: 9.5 });
+
+/* Prototype control on the Match screen: pick how it ends */
+const PM_PICK = [["res-victory", "▲ Victory"], ["res-oppquit", "⚑ They surrender"], ["results", "▼ Defeat"], ["res-surrender", "⚑ I surrender"],
+  ["res-streak", "▼ 3rd defeat in a row"], ["res-dc", "📡 Connection lost"], ["res-draw", "= Draw"], ["res-event", "◈ Event match"]];
+/* Stats of the planned comparison (illustrative — the list is the team's call) */
+const PM_STATS = [["Territory held", "38%", "62%"], ["Units deployed", "41", "47"], ["Buildings built", "5", "7"],
+  ["Damage dealt", "3,140", "4,020"], ["Abilities cast", "1", "4"], ["Top building level", "7", "9", true]];
+
+const PM_SCREENS = [
+  /* ------------------------------------------------------------ MATCH */
+  { id: "match", name: "Match · pick an ending", tag: "match", pair: "match", rev: 2,
+    purpose: "In-game is out of scope. In Play mode, pick how the match ends to see each post-match.",
+    blocks: [
+      b_("panel", 12, 110, 369, 330, { text: "In-game match", sub: "~4-minute real-time 1v1 territory battle. Out of scope here.", al: "c", role: "neutral", v: "outline" }),
+      b_("text", 16, 462, 361, 16, { text: "Prototype · pick how it ends", fs: 11, al: "c", up: true, dimText: true, name: "Prototype label" }),
+      ...PM_PICK.map(([sid, txt], i) => b_("button", i % 2 ? 200 : 12, 488 + Math.floor(i / 2) * 58, 181, 50, {
+        text: txt, role: "neutral", v: "soft", r: 10, fs: 15, up: false, link: sid, does: "Prototype: shows the “" + txt.replace(/^\S+\s/, "") + "” ending." })),
+    ] },
+
+  /* ------------------------------------------------------------ VICTORY */
+  { id: "res-victory", name: "Post-match · Victory", stateOf: "results", ending: "Victory", since: 2,
+    purpose: "You win. Victory amplifies — streak, daily reward, tier-up — then one upgrade and Play again.",
+    spec: { result: "Victory · 3:48", trophies: "+28, incl. +5 streak (new)", daily: "+1 → 4 / 6", pass: "+50 XP → tier 21", loot: "Daily reward #4 · Open",
+      tip: "— (comparison one tap away)", next: "Upgrade Assault · 500 gold", offer: "Premium row, only on a tier-up", buttons: "Play again · Home" },
+    blocks: [
+      pmHead("Ranked match · 3:48 · numbers illustrative"),
+      ...pmResult({ role: "gain", stamp: "Victory", delta: "▲ +28 🏆", detail: "5,310 → 5,338 · counts up", chip: "🔥 Win streak 3 · +5 included", chipRole: "gain", chipName: "Win streak",
+        chipProps: { fid: "win-streak", does: "New: from the 2nd win in a row each win adds bonus trophies (Brawl Stars: up to +5; Hearthstone: double stars from the 3rd win)." } }),
+      ...pmBeat(250, 124, "neutral", "2 · Progress", "beat2"),
+      ...pmDaily(4, 3, "4 / 6 · +1", { fs: 14, does: "The win fills slot 4 of 6 — its reward is in beat 3." }),
+      b_("bar", 22, 322, 226, 22, { value: 180, max: 180, text: "Pass +50 XP · tier 21!", role: "premium", fid: "pass", g: "beat2", name: "Pass XP" }),
+      b_("pill", 256, 322, 118, 22, { text: "Premium 🔒 ▸", role: "premium", v: "soft", fs: 11, link: "pass", fid: "shop-pass", g: "beat2", name: "Premium reward (locked)",
+        does: "Tier 21's premium reward, shown locked beside the free one. Tap: Progress › Pass, where the pass is bought. The only premium moment — and only on a tier-up." }),
+      b_("text", 22, 350, 352, 16, { text: "Trophy Road · 12 🏆 to the next reward ▸", fs: 11.5, role: "info", link: "trophyroad", fid: "trophy-road", g: "beat2", name: "Trophy Road",
+        does: "Opens Trophy Road: the next reward is 12 trophies away." }),
+      ...pmLoot("Daily win reward #4"),
+      ...pmBeat(506, 124, "gain", "4 · Next order", "beat4", { v: "outline", glow: true }),
+      b_("card", 22, 530, 86, 92, { text: "Assault", lvl: 7, kind: "troop", n: 8, filled: 8, ready: true, sub: "8/8", g: "beat4", name: "Unit ready" }),
+      b_("text", 118, 530, 256, 22, { text: "Assault reached 8 / 8", fs: 16, g: "beat4", name: "Order" }),
+      b_("button", 118, 562, 256, 58, { text: "Upgrade now", sub: "500 ⬤", role: "gain", v: "solid", r: 10, fid: "unit-upgrade", g: "beat4", does: "Upgrades right here: 1 tap, no trip to Army." }),
+      ...pmButtons({ sub: "streak 3 🔥 — keep it going" }),
+      pmNote("Victory amplifies: streak, daily reward, tier-up. The premium row shows only on a tier-up, inline — never a popup."),
+    ] },
+
+  /* ------------------------------------------------------------ THEY SURRENDERED */
+  { id: "res-oppquit", name: "Post-match · They surrendered", stateOf: "results", ending: "They surrendered", since: 2,
+    purpose: "The opponent gives up or leaves. A full win — the player who stayed loses nothing.",
+    spec: { result: "Victory · they surrendered at 2:41", trophies: "+23 — a full win", daily: "+1 → 4 / 6", pass: "+40 XP", loot: "Daily reward #4 · Open",
+      tip: "—", next: "Nearest goal: 7 🏆 to Trophy Road", offer: "—", buttons: "Play again · Home" },
+    blocks: [
+      pmHead("Ranked match · 2:41 · numbers illustrative"),
+      ...pmResult({ role: "gain", stamp: "Victory", sub: "they surrendered", delta: "▲ +23 🏆", detail: "5,310 → 5,333 · a full win", chip: "⚑ Opponent surrendered at 2:41",
+        chipProps: { fid: "surrender", does: "Says how it ended. A win by surrender pays exactly like any other win." } }),
+      ...pmBeat(250, 124, "neutral", "2 · Progress", "beat2"),
+      ...pmDaily(4, 3, "4 / 6 · +1", { fs: 14, does: "The win fills slot 4 of 6 — its reward is in beat 3." }),
+      b_("bar", 22, 322, 226, 22, { value: 170, max: 180, text: "Pass +40 XP", role: "premium", fid: "pass", g: "beat2", name: "Pass XP" }),
+      b_("text", 256, 324, 118, 18, { text: "Tier 20 · 170 / 180", fs: 11, role: "premium", g: "beat2", name: "Pass status" }),
+      ...pmLoot("Daily win reward #4"),
+      ...pmBeat(506, 124, "info", "4 · Next order", "beat4", { v: "outline" }),
+      b_("hex", 22, 532, 60, 62, { text: "7", role: "value", g: "beat4", name: "Trophies to go" }),
+      b_("text", 18, 598, 68, 16, { text: "🏆 to go", fs: 10.5, al: "c", role: "value", g: "beat4", name: "Unit" }),
+      b_("text", 94, 528, 280, 40, { text: "One more win reaches the next Trophy Road reward.", fs: 15, g: "beat4", name: "Order" }),
+      b_("track", 94, 572, 280, 48, { n: 3, icons: ["◆", "⚑", "▭"], labels: ["reward", "reward", "reward"], role: "info", link: "trophyroad", fid: "trophy-road-tiers", g: "beat4", name: "Next tier's 3 rewards",
+        does: "The next Trophy Road tier and its 3 rewards. Tap: Trophy Road. With nothing payable, the order points at the nearest goal." }),
+      ...pmButtons(),
+      pmNote("A win by surrender pays in full and says how it ended. With nothing payable, beat 4 points at the nearest goal."),
+    ] },
+
+  /* ------------------------------------------------------------ DEFEAT (the screen compared with Today) */
+  { id: "results", name: "Post-match · Defeat", tag: "results", pair: "results", ending: "Defeat", rev: 2,
+    purpose: "You lose. Defeat explains before it sells: what you kept, why it went this way, one fix — and Play again.",
+    changes: [
+      { text: "One skeleton for every ending — 1 result · 2 progress · 3 loot or why · 4 one action — with Play again always in the same spot. All eight endings are drawn below.", tags: ["M4", "P6"] },
+      { text: "Defeat explains: the results comparison the team planned picks one tip — the biggest gap — and the fix sits right under it (Upgrade · 500 ⬤).", tags: ["M4", "Planned", "New"] },
+      { text: "What you earn by playing still counts on a loss or a surrender (mission steps), as in Marvel Snap's retreat.", tags: ["New"] },
+      { text: "Trophies count down on a loss (down = loss). A shield or a floor softens losing streaks — open decision.", tags: ["P2", "New"] },
+      { text: "Play again becomes the primary button (Brawl Stars); today's Continue becomes Home, right under it.", tags: ["P1", "New"] },
+      { text: "No offer after a single defeat. From the 3rd in a row: one targeted offer from the real Shop, once a day.", tags: ["P5", "New"] },
+    ],
+    spec: { result: "Defeat · time's up, 38% – 62%", trophies: "−18", daily: "Wins only · stays 3 / 6", pass: "Mission step +1 (new)", loot: "—",
+      tip: "Biggest gap: Barracks-Sniper 7 vs 9", next: "Upgrade Barracks-Sniper · 500 gold", offer: "None after one defeat", buttons: "Play again · Home" },
+    blocks: [
+      pmHead("Ranked match · 4:00 · numbers illustrative"),
+      ...pmResult({ role: "alert", stamp: "Defeat", delta: "▼ −18 🏆", detail: "5,310 → 5,292 · counts down", chip: "Time's up · territory 38% – 62%", link: false }),
+      ...pmBeat(250, 124, "neutral", "2 · You still earned", "beat2"),
+      ...pmDaily(3, -1, "3 / 6 · next win", { label: "Daily win rewards · wins only", fs: 12 }),
+      ...pmMission("Mission step 2 / 3"),
+      ...pmBeat(382, 116, "info", "3 · Why it went this way", "beat3"),
+      pmTip("Their Barracks-Sniper was level 9. Yours is level 7.", { fs: 17 }),
+      b_("pill", 22, 458, 92, 26, { text: "You · Lv 7", role: "alert", v: "soft", fs: 12, g: "beat3", name: "Your level" }),
+      b_("pill", 120, 458, 92, 26, { text: "Them · Lv 9", role: "neutral", v: "dark", fs: 12, g: "beat3", name: "Their level" }),
+      pmFullCompare(),
+      ...pmBeat(506, 124, "gain", "4 · The fix", "beat4", { v: "outline", glow: true }),
+      b_("card", 22, 530, 86, 92, { text: "Barracks-Sniper", lvl: 7, kind: "building", n: 6, filled: 6, ready: true, sub: "6/6", g: "beat4", name: "Unit behind the gap" }),
+      b_("text", 118, 530, 256, 22, { text: "Barracks-Sniper is ready for level 8", fs: 15, g: "beat4", name: "Order" }),
+      b_("button", 118, 562, 256, 58, { text: "Upgrade", sub: "500 ⬤", role: "gain", v: "solid", r: 10, fid: "unit-upgrade", g: "beat4",
+        does: "The fix for the gap above, payable now: 1 tap from the result (the journey “Upgrade right after a match”)." }),
+      ...pmButtons(),
+      pmNote("Defeat explains before it sells: result → what you kept → why → one fix. No offer after a single defeat. Mission names were not captured — steps are illustrative."),
+    ] },
+
+  /* ------------------------------------------------------------ YOU SURRENDERED */
+  { id: "res-surrender", name: "Post-match · You surrendered", stateOf: "results", ending: "You surrendered", since: 2,
+    purpose: "You give up. Honest and quick: it costs a full defeat but keeps what you earned by playing.",
+    spec: { result: "Surrendered at 1:12", trophies: "−18 — same as a defeat", daily: "Wins only", pass: "Mission step still counts (new)", loot: "—",
+      tip: "What the match looked like at 1:00", next: "Custom Battle: practise, no trophies", offer: "—", buttons: "Play again · Home" },
+    blocks: [
+      pmHead("Ranked match · 1:12 · numbers illustrative"),
+      ...pmResult({ role: "alert", stamp: "Defeat", sub: "you surrendered", delta: "▼ −18 🏆", detail: "Same as a defeat — never cheaper", chip: "⚑ You surrendered at 1:12", link: false,
+        chipProps: { fid: "surrender", does: "Says how it ended. Surrender costs what a defeat costs, so nobody drops trophies on purpose." } }),
+      ...pmBeat(250, 124, "neutral", "2 · You keep", "beat2"),
+      ...pmDaily(3, -1, "3 / 6 · next win", { label: "Daily win rewards · wins only", fs: 12 }),
+      ...pmMission("Mission step 2 / 3 · still counts", { does: "New: a surrender still counts for missions — Marvel Snap keeps mission credit on a retreat." }),
+      ...pmBeat(382, 116, "info", "3 · Before you left", "beat3"),
+      pmTip("At 1:00 they held 3 zones to your 1. A building on the centre holds it early.", { fs: 15, does: "New: the tip still shows after a surrender — what the match looked like when you left." }),
+      pmFullCompare(),
+      ...pmBeat(506, 124, "neutral", "4 · Practise without trophies", "beat4", { v: "outline" }),
+      b_("panel", 22, 530, 352, 90, { text: "Custom Battle ▸", sub: "A private match: try that opening with no trophies at stake.", role: "neutral", v: "soft", r: 10, fs: 15, link: "custom", fid: "custom-battle", g: "beat4",
+        does: "Opens Custom Battle (Events › Always here)." }),
+      ...pmButtons(),
+      pmNote("A cheaper surrender invites trophy dumping (Clash Royale has none for that reason); Marvel Snap's retreat keeps mission credit. Whether the build has surrender: open decision."),
+    ] },
+
+  /* ------------------------------------------------------------ 3RD DEFEAT IN A ROW */
+  { id: "res-streak", name: "Post-match · 3rd defeat in a row", stateOf: "results", ending: "3rd defeat in a row", since: 2,
+    purpose: "A losing streak. Soften first, explain the pattern, then one targeted offer from the real Shop — once a day.",
+    spec: { result: "Defeat · 3rd in a row", trophies: "−9 — streak shield (new)", daily: "Wins only", pass: "Mission done · +30 XP", loot: "—",
+      tip: "The pattern: Barricade 7 vs 9", next: "Complete Barricade · or Campaign", offer: "Today's Shop blueprints, once a day (new trigger)", buttons: "Play again · Home" },
+    blocks: [
+      pmHead("Ranked match · 3:55 · 3rd defeat in a row · illustrative"),
+      ...pmResult({ role: "alert", stamp: "Defeat", sub: "3rd in a row", delta: "▼ −9 🏆", detail: "5,274 → 5,265 · half the usual loss", chip: "🛡 Streak shield: −9 instead of −18", chipRole: "info", chipName: "Trophy protection", link: false,
+        chipProps: { fid: "loss-protection", does: "New: from the 3rd defeat in a row the loss is halved. Alternatives: Brawl Stars' Underdog (no loss when your side was weaker), Clash Royale's Trophy Gates, Hearthstone's rank floors." } }),
+      ...pmBeat(250, 124, "neutral", "2 · You still earned", "beat2"),
+      ...pmDaily(3, -1, "3 / 6 · next win", { label: "Daily win rewards · wins only", fs: 12 }),
+      b_("bar", 22, 322, 226, 22, { value: 160, max: 180, text: "Mission done · Pass +30 XP", role: "premium", fid: "pass,pass-missions", g: "beat2", name: "Pass XP", tags: ["New"],
+        does: "The 3rd match completed a pass mission: its XP lands now, win or lose." }),
+      b_("text", 256, 324, 118, 18, { text: "Tier 20 · 160 / 180", fs: 11, role: "premium", g: "beat2", name: "Pass status" }),
+      ...pmBeat(382, 116, "info", "3 · Why it keeps happening", "beat3"),
+      pmTip("All 3 opponents out-levelled your Barricade: level 9 against your 7.", { does: "New: after a streak, the tip reads the pattern across the losses, not only the last match." }),
+      pmFullCompare(),
+      ...pmBeat(506, 124, "gain", "4 · Reinforcements · once a day", "beat4", { v: "outline", glow: true }),
+      b_("card", 22, 530, 86, 92, { text: "Barricade", lvl: 7, kind: "building", n: 6, filled: 5, sub: "5/6", g: "beat4", name: "Unit behind the streak" }),
+      b_("text", 118, 528, 256, 20, { text: "Barricade · 1 blueprint from level 8", fs: 14, g: "beat4", name: "Order" }),
+      b_("button", 118, 552, 150, 50, { text: "Complete it", sub: "300 ⬤ · today's Shop", role: "gain", v: "solid", r: 10, fs: 16, fid: "shop-daily,rescue-offer", g: "beat4", tags: ["New"],
+        does: "New trigger for a real offer: today's Shop blueprints for the unit behind the losses — the missing piece to 6/6. Once a day, from the 3rd defeat in a row." }),
+      b_("panel", 274, 552, 100, 50, { text: "Campaign ▸", sub: "no trophies", al: "c", role: "battle", v: "outline", r: 10, link: "campaign", fid: "campaign", g: "beat4",
+        does: "A break from the ladder: PvE that pays this faction's blueprints." }),
+      b_("text", 118, 608, 256, 14, { text: "Short on gold? Top up the rest with ◆", fs: 10.5, b: false, dimText: true, fid: "gem-topup", g: "beat4", name: "Gem top-up",
+        does: "New: when gold is short, the button offers to pay the missing part in gems (Clash of Clans sells missing resources for gems)." }),
+      ...pmButtons(),
+      pmNote("The rescue: shield first, the pattern second, then one targeted offer from the real Shop, capped once a day (GameRefinery: offers convert right after the moment they solve)."),
+    ] },
+
+  /* ------------------------------------------------------------ CONNECTION LOST */
+  { id: "res-dc", name: "Post-match · Connection lost", stateOf: "results", ending: "Connection lost", since: 2,
+    purpose: "You drop and don't come back in time. The one ending where the game apologises and asks for the log.",
+    spec: { result: "Connection lost at 2:05", trophies: "−18 (crash protection: open)", daily: "Wins only", pass: "Mission step still counts", loot: "—",
+      tip: "What happened, in plain words", next: "Report a problem (new)", offer: "Never", buttons: "Play again · Home" },
+    blocks: [
+      pmHead("Ranked match · 2:05 · numbers illustrative"),
+      ...pmResult({ role: "alert", stamp: "Defeat", sub: "connection lost", delta: "▼ −18 🏆", detail: "Not back within the reconnect window", chip: "📡 Connection lost at 2:05", link: false }),
+      ...pmBeat(250, 124, "neutral", "2 · You keep", "beat2"),
+      ...pmDaily(3, -1, "3 / 6 · next win", { label: "Daily win rewards · wins only", fs: 12 }),
+      ...pmMission("Mission step 2 / 3 · still counts"),
+      ...pmBeat(382, 116, "info", "3 · What happened", "beat3"),
+      b_("text", 22, 404, 352, 44, { text: "The match waits for you to reconnect; after that it counts as a defeat.", fs: 15, g: "beat3", name: "Explanation",
+        does: "Plain words on what happened. The reconnect window lives in-game (out of scope)." }),
+      b_("text", 22, 456, 352, 30, { text: "Sorry about that — the match log helps us fix it.", fs: 12, b: false, dimText: true, g: "beat3", name: "Apology" }),
+      ...pmBeat(506, 124, "neutral", "4 · Help us fix it", "beat4", { v: "outline" }),
+      b_("panel", 22, 530, 352, 90, { text: "Report a problem", sub: "Sends this match's log with one tap. Shows only after a disconnect.", role: "info", v: "soft", r: 10, fs: 15, fid: "report-problem", g: "beat4",
+        does: "New: sends the match log to support." }),
+      ...pmButtons({ sub: "check your connection first" }),
+      pmNote("Fairness vs. abuse: protecting trophies on a crash also protects rage-quits. Decide with data (open decision)."),
+    ] },
+
+  /* ------------------------------------------------------------ DRAW */
+  { id: "res-draw", name: "Post-match · Draw", stateOf: "results", ending: "Draw", since: 2,
+    purpose: "Level on time — only if the rules allow a draw. ±0, and one more to break the tie.",
+    spec: { result: "Draw · 50% – 50%", trophies: "±0", daily: "A draw isn't a win", pass: "Mission step +1", loot: "—",
+      tip: "Where the lead slipped", next: "Nearest goal: the Shop's daily blueprints", offer: "—", buttons: "Play again · Home" },
+    blocks: [
+      pmHead("Ranked match · 4:00 · only if the rules allow a draw"),
+      ...pmResult({ role: "info", stamp: "Draw", delta: "± 0 🏆", detail: "5,310 → 5,310", chip: "Time's up · territory 50% – 50%", link: false }),
+      ...pmBeat(250, 124, "neutral", "2 · You still earned", "beat2"),
+      ...pmDaily(3, -1, "a draw isn't a win", { label: "Daily win rewards · wins only", fs: 11.5 }),
+      ...pmMission("Mission step 2 / 3"),
+      ...pmBeat(382, 116, "info", "3 · So close", "beat3"),
+      pmTip("You led until 3:30. Their last push levelled it.", { does: "New: on a draw, the tip shows where the lead slipped." }),
+      pmFullCompare(),
+      ...pmBeat(506, 124, "gain", "4 · Next order", "beat4", { v: "outline" }),
+      b_("card", 22, 530, 86, 92, { text: "Barricade", lvl: 7, kind: "building", n: 6, filled: 5, sub: "5/6", g: "beat4", name: "Unit in progress" }),
+      b_("text", 118, 530, 256, 22, { text: "Barricade · 1 blueprint from level 8", fs: 15, g: "beat4", name: "Order" }),
+      b_("panel", 118, 562, 256, 58, { text: "Shop · daily blueprints ▸", sub: "Next rotation in 12h 45m", al: "c", role: "info", v: "soft", r: 10, link: "shop", fid: "shop-daily", g: "beat4",
+        does: "With nothing payable, the order points at the nearest goal: the Shop's daily blueprints." }),
+      ...pmButtons({ sub: "one more to break the tie" }),
+      pmNote("Only if AoW's rules allow a draw (open decision): ±0, no daily reward, mission steps still count."),
+    ] },
+
+  /* ------------------------------------------------------------ EVENT MATCH */
+  { id: "res-event", name: "Post-match · Event match", stateOf: "results", ending: "Event match", since: 2,
+    purpose: "A Sentinel Siege run. Same skeleton: points and high score, milestones as the track, the ticket as the next order.",
+    spec: { result: "74 points · new high score", trophies: "None — event points", daily: "Open decision", pass: "Mission step +1", loot: "Milestone 60 reward · Open",
+      tip: "—", next: "2 🎟 left", offer: "Tickets? (open decision)", buttons: "Play again · 1 🎟 · Events" },
+    blocks: [
+      pmHead("Sentinel Siege · event match · illustrative"),
+      ...pmResult({ role: "value", stamp: "74", sub: "points", delta: "74 points", deltaDoes: "The Siege's own result: points scored in this battle.", detail: "Best run: 52 → 74",
+        chip: "🏅 New high score", chipRole: "value", chipName: "High score", chipProps: { fid: "event-highscore" },
+        linkProps: { text: "Leaderboard · #42 ▲8 ▸", link: "eventlb", fid: "event-leaderboard", does: "Opens the event leaderboard, at your row." } }),
+      ...pmBeat(250, 124, "value", "2 · Milestones", "beat2"),
+      b_("text", 22, 276, 352, 12, { text: "Points in a single battle unlock rewards", fs: 10, role: "value", g: "beat2", name: "Rule" }),
+      b_("track", 22, 292, 352, 50, { n: 5, cell: "chest", done: 3, cur: 3, labels: ["10", "30", "60", "100", "150"], role: "value", fid: "event-milestones", g: "beat2", name: "Milestones",
+        does: "Milestones 10 · 30 · 60 reached in this run; 100 is next." }),
+      b_("text", 22, 348, 352, 18, { text: "60 reached · 26 points to 100", fs: 12, role: "value", g: "beat2", name: "Milestone status" }),
+      ...pmLoot("Milestone 60 reward"),
+      ...pmBeat(506, 124, "neutral", "4 · Tickets", "beat4", { v: "outline" }),
+      b_("pill", 22, 532, 100, 30, { text: "2 left", icon: "🎟", role: "value", v: "dark", fs: 14, fid: "event-tickets", g: "beat4", name: "Tickets left" }),
+      b_("text", 132, 530, 242, 40, { text: "Each run costs 1 🎟. With none left, Events shows when the next one arrives.", fs: 12.5, g: "beat4", name: "Ticket rule" }),
+      b_("text", 22, 578, 352, 36, { text: "How tickets refill — and whether they can be bought — is an open decision.", fs: 10.5, b: false, dimText: true, g: "beat4", name: "Open decision" }),
+      ...pmButtons({ sub: "1 🎟", fid: "event-play", does: "Starts the next Siege run: costs 1 ticket." }, { text: "Events", link: "events", does: "Back to Events (today's Continue)." }),
+      pmNote("Event matches keep the skeleton: points and high score in beat 1, milestones as the track, the ticket as the next order."),
+    ] },
+
+  /* ------------------------------------------------------------ RESULTS COMPARISON (planned) */
+  { id: "compare", name: "Results comparison", over: "results", pair: "results", rev: 2,
+    purpose: "Planned by the team (board note: your stats left, the opponent's right). It also feeds the tip on every defeat.",
+    changes: [{ text: "Your stats on the left, the opponent's on the right — as the board note plans. The biggest gap becomes the tip on the result screen.", tags: ["Planned", "New"] }],
+    blocks: [
+      b_("panel", 12, 72, 369, 700, { text: "", role: "info", v: "dark", r: 16, name: "Sheet" }),
+      pClose(337, 84),
+      b_("text", 28, 86, 290, 26, { text: "YOU VS OPPONENT", fs: 21, fid: "result-compare" }),
+      b_("avatar", 28, 124, 44, 44, { icon: "🤖", shape: "square", role: "gain", r: 8, name: "You" }),
+      b_("text", 80, 126, 120, 18, { text: "SURTADO", fs: 15, name: "Your name" }),
+      b_("text", 80, 146, 120, 14, { text: "Justice Division", fs: 11, dimText: true, b: false, name: "Your faction" }),
+      b_("avatar", 321, 124, 44, 44, { shape: "square", role: "alert", r: 8, name: "Opponent" }),
+      b_("text", 193, 126, 120, 18, { text: "OPPONENT", fs: 15, al: "r", name: "Opponent name" }),
+      b_("text", 193, 146, 120, 14, { text: "Sand Raiders", fs: 11, al: "r", dimText: true, b: false, name: "Opponent faction" }),
+      ...PM_STATS.flatMap(([k, a, o, hi], i) => {
+        const y = 184 + i * 52;
+        return [
+          hi ? b_("panel", 20, y - 4, 353, 50, { text: "", role: "info", v: "soft", r: 8, name: "Biggest gap" }) : null,
+          b_("text", 106, y, 181, 14, { text: k, fs: 10, al: "c", up: true, dimText: true, name: "Stat" }),
+          b_("text", 30, y + 14, 130, 26, { text: a, fs: 22, role: "gain", name: "You · " + k }),
+          b_("text", 233, y + 14, 130, 26, { text: o, fs: 22, al: "r", role: "alert", name: "Them · " + k }),
+        ].filter(Boolean);
+      }),
+      b_("panel", 28, 504, 337, 62, { text: "Biggest gap · building level", sub: "Their Barracks-Sniper was level 9 — yours is 7. It becomes the tip on the result screen.", role: "info", v: "soft", r: 10, fid: "result-tip",
+        does: "New: the tip is the biggest gap in this comparison." }),
+      b_("button", 28, 578, 337, 56, { text: "Upgrade Barracks-Sniper", sub: "500 ⬤", role: "gain", v: "solid", r: 10, fid: "unit-upgrade", does: "The same fix as on the result screen." }),
+      b_("note", 28, 648, 337, 50, { text: "Stats are illustrative — the list is the team's call (board note: your stats on the left, the opponent's on the right)." }),
+    ] },
+];
+PROPOSAL.screens.push(...PM_SCREENS);
+
+/* ---------- what Compare shows under the post-match pair ---------- */
+const POSTMATCH = {
+  modules: [
+    { k: "result", name: "1 · Result — how it ended" }, { k: "trophies", name: "Trophies" }, { k: "daily", name: "Daily Win Rewards" },
+    { k: "pass", name: "Pass & missions" }, { k: "loot", name: "3 · Loot" }, { k: "tip", name: "3 · Why — the tip" },
+    { k: "next", name: "4 · One action" }, { k: "offer", name: "Offer (one at most)" }, { k: "buttons", name: "Buttons" },
+  ],
+  bench: [
+    { name: "Clash Royale", rows: [
+        ["Win", "The first wins of each day pay a reveal — Lucky Drops, replaced in Oct 2025 by Lucky Chests (4 Magic Lucky Chests a day for everyone)."],
+        ["Loss", "Trophy Gates: once an arena is unlocked, your trophies can't fall below it."],
+        ["Quit", "No surrender button — the long-standing argument is that it would let players dump trophies on purpose."]],
+      take: "Daily wins that pay a reveal (AoW's Daily Win Rewards already are this) · a floor under the ladder.",
+      src: [["First 3 wins", "https://supercell.com/en/games/clashroyale/blog/release-notes/april-update/"], ["Oct 2025 update", "https://supercell.com/en/games/clashroyale/blog/release-notes/october-update-2025/"],
+        ["Trophy Gates", "https://clashroyale.fandom.com/wiki/Trophies"], ["Surrender debate", "https://x.com/SirTagCR/status/1609098194826440704"]] },
+    { name: "Brawl Stars", rows: [
+        ["Win", "Win Streak: from the 2nd win in a row with the same brawler, up to +5 bonus trophies a game."],
+        ["Loss", "Underdog: when your side was the weaker one, a loss costs no trophies and keeps your streak; an underdog win pays +5."],
+        ["Next", "Play again re-queues you with the same team in one tap."]],
+      take: "A streak bonus on the trophy change · protection when the match was unfair · Play again as the primary button.",
+      src: [["Win Streak", "https://support.supercell.com/brawl-stars/en/articles/win-streak-3.html"], ["Underdog", "https://www.sportskeeda.com/esports/what-underdog-status-brawl-stars"],
+        ["Trophies", "https://brawlstars.fandom.com/wiki/Trophies"], ["Play again", "https://www.playbite.com/why-not-hit-play-again-in-brawl-stars/"]] },
+    { name: "Marvel Snap", rows: [
+        ["Quit", "Retreat is a controlled defeat: you lose only the cubes at stake (1 if you leave early) and still get mission credit and a booster for every turn played."],
+        ["Every match", "Boosters land on the cards of your deck — win or lose, every match feeds the collection."]],
+      take: "A surrender that stays honest but keeps what you earned by playing · every match feeds the army.",
+      src: [["Retreating (help center)", "https://marvelsnap.helpshift.com/hc/en/3-marvel-snap/faq/29-what-does-retreating-do/"], ["Retreating guide", "https://marvelsnapzone.com/retreating/"]] },
+    { name: "Hearthstone", rows: [
+        ["Win", "Three wins in a row and every further win pays double stars, up to Diamond 5."],
+        ["Loss", "Rank floors at ranks 10 and 5 of each league: past one, you can't be demoted below it that season."]],
+      take: "A win streak that pays · floors at Trophy Road tiers (open decision).",
+      src: [["Ranked system", "https://www.pcgamer.com/new-hearthstone-ranking-system/"], ["Ranked", "https://hearthstone.fandom.com/wiki/Ranked"]] },
+    { name: "Warcraft Rumble", rows: [
+        ["Quit", "No surrender button in PvP: leaving mid-match counts as a loss, and players keep asking for a button."]],
+      take: "If AoW keeps surrender, make it quick and honest.",
+      src: [["Forum thread", "https://us.forums.blizzard.com/en/warcraftrumble/t/surrender-button/2546"]] },
+    { name: "Chess.com", rows: [
+        ["After every game", "Game Review: a coach explains the key moments in plain words, with an accuracy score. Free players get one review a day; premium is unlimited."]],
+      take: "The tip is the product: one free tip after every defeat — a deeper review could be a premium perk (open decision).",
+      src: [["Game Review", "https://www.chess.com/terms/game-review"], ["Free limit", "https://www.chess.com/forum/view/game-analysis/how-many-free-game-reviews-if-no-premium"]] },
+    { name: "Royal Match · GameRefinery", rows: [
+        ["Loss", "After a failed level, a second-chance bundle with 60 seconds to decide."],
+        ["Rule", "Targeted offers convert best right after a specific player event, not at random."]],
+      take: "One targeted offer when it's relevant (the 3rd defeat in a row), capped once a day.",
+      src: [["Targeted IAP offers", "https://www.gamerefinery.com/best-practice-and-strategies-for-targeted-iap-offers-in-mobile-games/"]] },
+    { name: "Clash of Clans", rows: [
+        ["Upgrade", "Short on resources for an upgrade? Gems buy the missing part."]],
+      take: "Top up with gems on the Upgrade button when gold is short — a real sink for gems.",
+      src: [["Gems", "https://clashofclans.fandom.com/wiki/Gems"]] },
+  ],
+  rules: [
+    "Result first, reason second, offer last — never a sale before the player knows why.",
+    "One offer at most per post-match, and it must fix what just happened: the gap, the streak or the tier.",
+    "No offer after a single defeat. The rescue starts at the 3rd defeat in a row and shows once a day.",
+    "Play again never moves and is never covered: every ending is one tap from the next match.",
+    "No fake urgency: a timer only when the offer really expires.",
+    "Every beat skips with one tap; a veteran crosses the screen in three.",
+  ],
+  tipRule: "One tip per match: the first rule that fires, in this order — the ones with a fix you can take right now come first.",
+  tips: [
+    ["Level gap", "“Their Barracks-Sniper was level 9. Yours is 7.”", "Upgrade it — or today's blueprints when it isn't payable"],
+    ["Pattern across a streak", "“All 3 opponents out-levelled your Barricade.”", "The rescue offer (once a day) · Campaign"],
+    ["Abilities left unused", "“You cast 1 ability; they cast 4.”", "Swap abilities — Army › Abilities"],
+    ["Centre lost early", "“They held the centre from 0:40.”", "Practise the opening in Custom Battle"],
+    ["Lead slipped late", "“You led until 3:30.”", "Play again — it was close"],
+  ],
+  decisions: [
+    "Surrender: does the build have it, from which minute, and does it cost a full defeat (our proposal) or less (Marvel Snap)?",
+    "Draws: can a match end level on time?",
+    "Disconnects: how long is the reconnect window, and does a crash cost trophies?",
+    "Protection: a floor at Trophy Road tiers (Clash Royale, Hearthstone), Underdog (Brawl Stars), a shield after 3 defeats — or none?",
+    "Win streak: bonus trophies, and how many?",
+    "Do defeats pay anything — mission steps, pass XP?",
+    "Do event matches count for Daily Win Rewards?",
+    "The rescue offer: today's blueprints (exists) or a new comeback pack — and the cap.",
+    "Gems for missing gold: a new sink for gems?",
+    "A deeper match review as a premium perk (Chess.com) — or always free?",
+  ],
+};
+
+/* Studio: extra rules sent to Claude when the screen is a post-match ending */
+function postmatchContext(screen) {
+  if (!screen || !(screen.ending || screen.stateOf || screen.tag === "results")) return "";
+  return `POST-MATCH GUARDRAILS (this screen is the “${screen.ending || screen.name}” ending; keep the skeleton: 1 result · 2 progress · 3 loot or why · 4 one action · Play again at the bottom)\n` +
+    POSTMATCH.rules.map((r, i) => `${i + 1}. ${r}`).join("\n") + "\n";
+}
 
 /* ---- 30-render.js ---- */
 /* =====================================================================
@@ -2203,6 +2628,12 @@ function screenSVG(screen, opts = {}) {
       const cx = clamp(b.x + 2, 9, PW - 9), cy = clamp(b.y + 2, 9, PH - 9);
       body += `<g class="anno"><circle cx="${cx}" cy="${cy}" r="8.5" fill="#FFB547" stroke="#1B1203" stroke-width="1.4"/>` +
         `<text x="${cx}" y="${cy + 0.5}" font-size="9.5" font-weight="700" text-anchor="middle" dominant-baseline="central" fill="#1B1203" font-family="${env.font.replace(/"/g, "'")}">${i + 1}</text></g>`;
+      /* not in the build: a small NEW flag beside the number */
+      if (isNewBlock(b)) {
+        const fx = cx > PW - 44 ? cx - 36 : cx + 10;
+        body += `<g class="anno"><rect x="${fx}" y="${cy - 6}" width="26" height="12" rx="3" fill="#5CC6DF" stroke="#06232B" stroke-width="1"/>` +
+          `<text x="${fx + 13}" y="${cy + 0.5}" font-size="7.5" font-weight="700" letter-spacing=".4" text-anchor="middle" dominant-baseline="central" fill="#06232B" font-family="${env.font.replace(/"/g, "'")}">NEW</text></g>`;
+      }
     });
   }
   const bg = screen.bg || "#0B1519";
@@ -2367,6 +2798,31 @@ function storeInitDefaults() {
 function B(id) { return Store.boards[id]; }
 function S(bid, sid) { return screenById(Store.boards[bid], sid); }
 
+/* A saved copy of Today / Proposal (cloud or browser) predates screens added
+   to the built-in data later: add those, next to their built-in neighbours.
+   Screens the person already has are never touched; `staleFrom` lets the
+   inspector offer “Reset to built-in” on screens updated since. */
+function upgradeBuiltin(b, storedRev) {
+  const d = Store.defaults[b.id];
+  if (!d || b.kind === "variant") return;
+  const rev = storedRev || 1;
+  if (rev < DATA_REV) {
+    d.screens.forEach((ds, i) => {
+      if ((ds.since || 1) <= rev || b.screens.some(s => s.id === ds.id)) return;
+      let at = -1;
+      for (let j = i - 1; j >= 0 && at < 0; j--) at = b.screens.findIndex(s => s.id === d.screens[j].id);
+      b.screens.splice(at < 0 ? b.screens.length : at + 1, 0, clone(ds));
+    });
+    b.staleFrom = rev;
+  }
+  b.dataRev = DATA_REV;
+}
+/* is there a newer built-in version of this screen than the saved copy? */
+function builtinNewer(bid, sid) {
+  const b = B(bid), d = Store.defaults[bid] && screenById(Store.defaults[bid], sid);
+  return !!(b && d && b.staleFrom && (d.rev || 1) > b.staleFrom);
+}
+
 /* ---------------- editing API ---------------- */
 function snapshotScreen(bid, sid) { const s = S(bid, sid); return s ? JSON.stringify(s) : null; }
 function snapshotBoard(bid) { const b = B(bid); return b ? JSON.stringify(b) : null; }
@@ -2525,7 +2981,7 @@ async function flushSave() {
     try {
       if (!rest) {
         if (!b) continue;
-        await Store.db.doc(col + "/" + bid).set({ id: bid, name: b.name, kind: b.kind, start: b.start, order: b.screens.map(s => s.id), from: b.from || null, note: b.note || "", createdAt: b.createdAt || null, createdBy: b.createdBy || null, updatedAt: Date.now() });
+        await Store.db.doc(col + "/" + bid).set({ id: bid, name: b.name, kind: b.kind, start: b.start, order: b.screens.map(s => s.id), from: b.from || null, note: b.note || "", createdAt: b.createdAt || null, createdBy: b.createdBy || null, dataRev: DATA_REV, updatedAt: Date.now() });
         if (!Store.boardMetaSaved[bid]) { Store.boardMetaSaved[bid] = true; if (Store.watchScreens) Store.watchScreens(b); }
       } else if (rest.startsWith("-")) {
         await Store.db.doc(col + "/" + bid + "/screens/" + rest.slice(1)).delete();
@@ -2555,8 +3011,28 @@ async function flushSave() {
 }
 Store.boardMetaSaved = {};
 
+/* In this browser, Today / Proposal keep only the screens someone edited;
+   the others are stored as {id, builtin} and always follow the built-in data. */
+function packBoards() {
+  const out = {};
+  Object.values(Store.boards).forEach(b => {
+    const d = Store.defaults[b.id];
+    if (!d || b.kind === "variant") { out[b.id] = b; return; }
+    out[b.id] = Object.assign({}, b, { screens: b.screens.map(s => {
+      const ds = screenById(d, s.id);
+      return ds && JSON.stringify(ds) === JSON.stringify(s) ? { id: s.id, builtin: true } : s;
+    }) });
+  });
+  return out;
+}
+function unpackBoard(b) {
+  const d = Store.defaults[b.id];
+  if (!d || b.kind === "variant") return b;
+  b.screens = (b.screens || []).map(s => (s && s.builtin ? (screenById(d, s.id) ? clone(screenById(d, s.id)) : null) : s)).filter(Boolean);
+  return b;
+}
 function persistLocal() {
-  LS.set(LS_KEY, { v: 5, at: Date.now(), order: Store.order, boards: Store.boards, story: Store.story, features: CUSTOM_FEATURES });
+  LS.set(LS_KEY, { v: 5, dataRev: DATA_REV, at: Date.now(), order: Store.order, boards: packBoards(), story: Store.story, features: CUSTOM_FEATURES });
 }
 function loadLocal() {
   const st = LS.get(LS_KEY);
@@ -2565,7 +3041,7 @@ function loadLocal() {
   return true;
 }
 function applyState(st) {
-  Object.values(st.boards || {}).forEach(b => { Store.boards[b.id] = normBoard(clone(b)); });
+  Object.values(st.boards || {}).forEach(b => { Store.boards[b.id] = normBoard(unpackBoard(clone(b))); upgradeBuiltin(Store.boards[b.id], st.dataRev || b.dataRev); });
   Store.order = (st.order || Object.keys(Store.boards)).filter(id => Store.boards[id]);
   ["today", "proposal"].forEach(id => { if (!Store.order.includes(id)) Store.order.unshift(id); });
   if (st.story) Store.story = clone(st.story);
@@ -2620,8 +3096,10 @@ function mergeBoardFromCloud(meta, screens) {
   const byId = {};
   b.screens.forEach(s => (byId[s.id] = s));
   screens.forEach(s => { if (s && s.id) { const c = clone(s); delete c.rev; delete c.updatedAt; delete c.by; byId[s.id] = c; } });
-  const order = Array.isArray(meta.order) && meta.order.length ? meta.order : Object.keys(byId);
+  const order = Array.isArray(meta.order) && meta.order.length ? meta.order.slice() : Object.keys(byId);
+  screens.forEach(s => { if (s && s.id && !order.includes(s.id)) order.push(s.id); });   /* saved, but not in the order yet */
   b.screens = order.map(sid => byId[sid]).filter(Boolean);
+  upgradeBuiltin(b, meta.dataRev);
   normBoard(b);
 }
 function subscribeCloud() {
@@ -2637,7 +3115,7 @@ function subscribeCloud() {
       if (Array.isArray(m.order)) {
         const known = new Map(b.screens.map(s => [s.id, s]));
         const same = m.order.join() === b.screens.map(s => s.id).join();
-        if (!same) { b.screens = m.order.map(id => known.get(id)).filter(Boolean); }
+        if (!same) { b.screens = m.order.map(id => known.get(id)).filter(Boolean); upgradeBuiltin(b, m.dataRev); }
       }
       if (m.name && m.name !== b.name) b.name = m.name;
       if (m.start) b.start = m.start;
@@ -2679,7 +3157,7 @@ async function saveLabMeta() {
 const saveLabMetaSoon = debounce(saveLabMeta, 800);
 
 /* ---------------- import / export ---------------- */
-function exportState() { return { app: "aow-metagame-lab", v: 5, at: Date.now(), order: Store.order, boards: Store.boards, story: Store.story, features: CUSTOM_FEATURES }; }
+function exportState() { return { app: "aow-metagame-lab", v: 5, dataRev: DATA_REV, at: Date.now(), order: Store.order, boards: Store.boards, story: Store.story, features: CUSTOM_FEATURES }; }
 function importState(obj, mode) {
   if (!obj || obj.v !== 5 || !obj.boards) throw new Error("This file is not a Metagame Lab v5 export");
   if (mode === "variants") {
@@ -3342,7 +3820,7 @@ function screensPane() {
       h("div.thumb", { html: thumbSVG(b, s) }),
       h("div.screen-meta", null,
         h("div.screen-name", { text: s.name }),
-        h("div.screen-sub", { text: [s.over ? "popup" : "", s.id === b.start ? "start" : "", s.tag === "results" ? "after match" : "", reach.has(s.id) ? "" : "not linked"].filter(Boolean).join(" · ") || (s.blocks.length + " blocks") })));
+        h("div.screen-sub", { text: [s.over ? "popup" : "", s.id === b.start ? "start" : "", s.tag === "results" ? "after match" : "", s.stateOf ? "ending · " + (s.ending || "state") : "", reach.has(s.id) ? "" : "not linked"].filter(Boolean).join(" · ") || (s.blocks.length + " blocks") })));
     card.addEventListener("dragstart", e => { e.dataTransfer.setData("text/x-screen", s.id); card.classList.add("dragging"); });
     card.addEventListener("dragend", () => card.classList.remove("dragging"));
     card.addEventListener("dragover", e => { if (e.dataTransfer.types.includes("text/x-screen")) { e.preventDefault(); card.classList.add("drop"); } });
@@ -3744,7 +4222,10 @@ function screenInspector(s) {
     row("Shown as", sel("over", [["", "Full screen"]].concat(b.screens.filter(x => x.id !== s.id && !x.over).map(x => [x.id, "Popup over " + x.name])))),
     row("Role in the flow", sel("tag", [["", "—"], ["home", "Home"], ["results", "Post-match (journeys start here)"], ["match", "Match"]])),
     b.kind !== "today" ? row("Compare with Today", sel("pair", [["", "—"]].concat(B("today").screens.map(x => [x.id, x.name])))) : null,
+    b.kind !== "today" ? row("Is an ending of", sel("stateOf", [["", "—"]].concat(b.screens.filter(x => x.id !== s.id && !x.stateOf && !x.over).map(x => [x.id, x.name]))), "Endings show side by side in Compare, with the table of what each one shows.") : null,
+    s.stateOf || s.ending ? row("Ending name", txt("ending", "e.g. Victory")) : null,
     row("Purpose (one line)", txt("purpose", "What is this screen for?", true))));
+  if (builtinNewer(App.bid, s.id)) wrap.append(h("p.warn", { text: "The built-in version of this screen was updated after this board was saved. “Reset to built-in” (below) brings it in — your edits to this screen would be replaced." }));
   if (b.kind !== "today") wrap.append(changesEditor(s));
   const ul = h("select", { disabled: ro() }, h("option", { value: "", text: "None" }), ...Object.keys(IMAGES).map(k => h("option", { value: k, text: IMAGE_NAMES[k] || k })), ...(App.assets || []).map(a => h("option", { value: a.src, text: a.name })));
   ul.value = s.underlay || "";
@@ -3795,11 +4276,14 @@ function explainPanel() {
       h("div", null, h("b", { text: labelOf(bl) }),
         h("div.does", { text: doesOf(bl) || "No explanation yet — add “What it does” in Edit." }),
         to || segTo ? h("div.goes", { text: "→ " + (segTo || to) }) : null,
-        fidsOf(bl).length ? h("div.feat", { text: fidsOf(bl).map(featureName).join(" · ") }) : null));
+        fidsOf(bl).length ? h("div.feat", { text: fidsOf(bl).map(featureName).join(" · ") }) : null,
+        isNewBlock(bl) ? h("span.new-chip", { text: "NEW · not in the build" }) : null));
     ol.append(li);
   });
   wrap.append(ol);
-  if (s.pair && b.kind !== "today") {
+  const fam = s.stateOf || (b.screens.some(x => x.stateOf === s.id) ? s.id : null);
+  if (fam && b.kind !== "today") wrap.append(h("button.btn.small", { text: "See every ending in Compare", onclick: () => { App.cmpEnding = Object.assign({}, App.cmpEnding, { [fam]: s.id }); App.cmpBoard = App.bid; App.go("compare"); Bus.emit("compareFocus", fam); } }));
+  else if (s.pair && b.kind !== "today") {
     const t = screenById(B("today"), s.pair);
     if (t) wrap.append(h("button.btn.small", { text: "Compare with Today · " + t.name, onclick: () => { App.go("compare"); Bus.emit("compareFocus", s.id); } }));
   }
@@ -3951,8 +4435,8 @@ function coverageBlock(cov, prop) {
     if (!rows.length) return;
     tbl.append(h("tr.cat", null, h("td", { colspan: 3, text: c })));
     rows.forEach(([k, v]) => {
-      const t = [...new Set(cov.need.get(k).map(x => x.s.name))].join(", ");
-      const p = cov.have.has(k) ? [...new Set(cov.have.get(k).map(x => x.s.name))].join(", ") : "—";
+      const t = [...new Set(cov.need.get(k).map(x => placeName(B("today"), x.s)))].join(", ");
+      const p = cov.have.has(k) ? [...new Set(cov.have.get(k).map(x => placeName(prop, x.s)))].join(", ") : "—";
       tbl.append(h("tr" + (cov.have.has(k) ? "" : ".bad"), null, h("td", null, h("b", { text: v.name }), h("div.muted", { text: v.does })), h("td", { text: t }), h("td", { text: p })));
     });
   });
@@ -3969,8 +4453,9 @@ function compareRender(focus) {
   COMPARE_ORDER.concat(prop.screens.map(s => s.id)).forEach(id => {
     if (seen.has(id)) return; seen.add(id);
     const ps = screenById(prop, id); if (!ps || !ps.pair || (ps.over && !COMPARE_ORDER.includes(id))) return;
-    const ts = screenById(today, ps.pair);
-    pairs.push({ ps, ts });
+    const ts = screenById(today, ps.pair), ends = endingsOf(prop, ps);
+    /* a screen with endings is titled by its family: “Post-match · 8 endings” */
+    pairs.push({ ps, ts, ends, title: ends.length ? ps.name.split(" · ")[0] + " · " + ends.length + " endings" : ps.name });
   });
   const annot = App.cmpNumbers !== false;
   const doc = h("div.doc.wide");
@@ -3980,16 +4465,20 @@ function compareRender(focus) {
   doc.append(h("div.doc-tools", null,
     h("label", null, "Proposal side: ", boardSel),
     h("label", null, h("input", { type: "checkbox", checked: annot, onchange: e => { App.cmpNumbers = e.target.checked; compareRender(); } }), " Numbers"),
-    h("div.jump", null, ...pairs.map((p, i) => h("a", { href: "#cmp-" + p.ps.id, text: String(i + 1).padStart(2, "0") + " " + p.ps.name, onclick: e => { e.preventDefault(); $("#cmp-" + CSS.escape(p.ps.id)).scrollIntoView({ behavior: "smooth", block: "start" }); } })))));
+    Store.canBoards ? h("button.btn.small" + (App.storyEdit ? ".on" : ""), { text: App.storyEdit ? "Done editing text" : "✎ Edit text", onclick: () => { App.storyEdit = !App.storyEdit; compareRender(); } }) : null,
+    h("div.jump", null, ...pairs.map((p, i) => h("a", { href: "#cmp-" + p.ps.id, text: String(i + 1).padStart(2, "0") + " " + p.title, onclick: e => { e.preventDefault(); $("#cmp-" + CSS.escape(p.ps.id)).scrollIntoView({ behavior: "smooth", block: "start" }); } })))));
   doc.append(h("header.hero.compact", null, h("div.kicker", { text: "Today × Proposal" }), editable("h1", "cmp.title", "Screen by screen: what exists, what moves, where it goes."),
     editable("p.lede", "cmp.lede", "Left is the current build, redrawn from the board. Right is the same screen reorganised by the pillars — to be defined. Each number is a button; open Explain in the Lab to read all of them.")));
   pairs.forEach((p, i) => {
     const sec = h("section.pair#cmp-" + p.ps.id);
     sec.append(h("div.pair-head", null, h("span.pair-n", { text: String(i + 1).padStart(2, "0") }),
-      h("div", null, h("h2", { text: (p.ts ? p.ts.name + " → " : "") + p.ps.name }), h("p.muted", { text: p.ps.purpose || "" }))));
+      h("div", null, h("h2", { text: (p.ts ? p.ts.name + " → " : "") + p.title }), h("p.muted", { text: p.ends.length ? "The build's capture is a defeat. On the right, any of the " + p.ends.length + " endings — pick one below (" + (p.ps.ending || p.ps.name) + " by default). Same skeleton on all of them; only what the moment calls for changes." : p.ps.purpose || "" }))));
     const phones = h("div.pair-phones");
     phones.append(phoneCard(today, p.ts, "Today · " + BUILD_LABEL.toLowerCase(), annot, false));
-    phones.append(phoneCard(prop, p.ps, "Proposal · " + prop.name, annot, true));
+    const shown = (p.ends.length && App.cmpEnding && p.ends.find(s => s.id === App.cmpEnding[p.ps.id])) || p.ps;
+    const propCard = phoneCard(prop, shown, "Proposal · " + prop.name + (p.ends.length ? " · " + (shown.ending || shown.name) : ""), annot, true);
+    phones.append(propCard);
+    p.propCard = propCard; p.shown = shown;
     const side = h("div.pair-side");
     if (p.ps.changes && p.ps.changes.length) side.append(h("h3", { text: "What changed" }), h("ol.changes-list", null, ...p.ps.changes.map(c => h("li", null, h("span", { text: c.text }), (c.tags || []).length ? h("span.tags", null, ...c.tags.map(t => h("span.tag", { text: t }))) : null))));
     if (p.ts) {
@@ -4002,6 +4491,7 @@ function compareRender(focus) {
       h("button.btn.small", { text: "✦ Generate from this", onclick: () => { App.openBoard(prop.id, p.ps.id); App.go("studio"); } })));
     phones.append(side);
     sec.append(phones);
+    if (p.ends.length) sec.append(endingsBlock(prop, p, annot));
     doc.append(sec);
   });
   root.append(doc);
@@ -4016,10 +4506,68 @@ function phoneCard(board, s, label, annot, tbd) {
   if (annot) {
     const items = annotatedBlocks(s);
     const det = h("details.legend", null, h("summary", { text: "What each of the " + items.length + " numbers does" }),
-      h("ol", null, ...items.map(bl => h("li", null, h("b", { text: labelOf(bl) }), " — ", doesOf(bl) || "—", bl.link && bl.link !== "back" ? h("span.goes", { text: "  → " + ((screenById(board, bl.link) || {}).name || bl.link) }) : null))));
+      h("ol", null, ...items.map(bl => h("li", null, h("b", { text: labelOf(bl) }), isNewBlock(bl) ? h("span.new-chip", { text: "NEW" }) : null, " — ", doesOf(bl) || "—", bl.link && bl.link !== "back" ? h("span.goes", { text: "  → " + ((screenById(board, bl.link) || {}).name || bl.link) }) : null))));
     card.append(det);
   }
   return card;
+}
+
+/* A screen can have endings: other screens drawn as its states (stateOf).
+   The post-match uses it for every way a match can end. */
+function endingsOf(board, parent) {
+  if (!board.screens.some(s => s.stateOf === parent.id)) return [];
+  return board.screens.filter(s => s.id === parent.id || s.stateOf === parent.id);
+}
+function endingsBlock(prop, p, annot) {
+  const parent = p.ps, ends = p.ends;
+  const box = h("div.endings");
+  const editing = App.storyEdit && canWrite(prop.id);
+  box.append(h("div.endings-head", null,
+    h("h3", { text: "Every ending · " + ends.length }),
+    editable("p.muted", "pm.lede", "One skeleton on every ending — 1 result · 2 progress · 3 loot or why · 4 one action — and Play again never moves. Click an ending to see it large next to Today; in the Lab's Play mode, the Match screen lets you pick how it ends.")));
+  /* picking an ending swaps the proposal phone above, in place */
+  const show = s => {
+    App.cmpEnding = Object.assign({}, App.cmpEnding, { [parent.id]: s.id });
+    const card = phoneCard(prop, s, "Proposal · " + prop.name + " · " + (s.ending || s.name), annot, true);
+    p.propCard.replaceWith(card); p.propCard = card;
+    $$(".ending", box).forEach(f => f.classList.toggle("main", f.dataset.sid === s.id));
+    card.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  };
+  box.append(h("div.endings-strip", null, ...ends.map(s => h("figure.ending" + (s.id === p.shown.id ? ".main" : ""), {
+    dataset: { sid: s.id }, title: "Show “" + (s.ending || s.name) + "” next to Today", onclick: () => show(s) },
+    h("div.phone", { html: screenSVG(s, { board: prop, play: true, width: 150, height: 325 }) }),
+    h("figcaption", null, h("b", { text: s.ending || s.name }), h("span", { text: s.purpose || "" }),
+      h("button.btn.tiny.ending-edit", { text: "Edit in Lab", onclick: e => { e.stopPropagation(); App.openBoard(prop.id, s.id); App.go("lab"); } }))))));
+  /* what shows on each ending: modules × endings, editable in place */
+  const tbl = h("table.pm-matrix", null,
+    h("thead", null, h("tr", null, h("th", { text: "" }), ...ends.map(s => h("th", { text: s.ending || s.name })))),
+    h("tbody", null, ...POSTMATCH.modules.map(m => h("tr", null, h("th", { text: m.name }), ...ends.map(s => {
+      const v = (s.spec && s.spec[m.k]) || "—";
+      const td = h("td" + (/\bnew\b/i.test(v) ? ".new" : v === "—" ? ".none" : ""), { text: v });
+      if (editing) {
+        td.contentEditable = "true"; td.classList.add("editable");
+        td.onblur = () => { const t = td.textContent.trim(); if (t !== v) edit(prop.id, s.id, "Ending: " + m.name, sc => { sc.spec = Object.assign({}, sc.spec || {}, { [m.k]: t || "—" }); }); };
+      }
+      return td;
+    })))));
+  box.append(h("h3", { text: "What shows on each ending" }), h("div.table-scroll", null, tbl),
+    h("p.muted.small", { text: editing ? "Click a cell to edit it — it saves with that screen." : "“new” marks a mechanic the build doesn't have. Turn on ✎ Edit text to change any cell." }));
+  /* benchmarks */
+  box.append(h("h3", { text: "What the benchmarks do after a match" }),
+    h("div.pm-bench", null, ...POSTMATCH.bench.map((bm, i) => h("article.pm-card", null,
+      h("h4", { text: bm.name }),
+      h("dl", null, ...bm.rows.flatMap(([k, v]) => [h("dt", { text: k }), h("dd", { text: v })])),
+      h("p.take", null, h("b", { text: "We take · " }), editable("span", "pm.take." + i, bm.take)),
+      h("p.src", null, "Sources: ", ...bm.src.flatMap(([t, u], j) => [j ? " · " : "", h("a", { href: u, target: "_blank", rel: "noopener", text: t })]))))));
+  /* guardrails · tip rules · open decisions */
+  box.append(h("div.pm-cols", null,
+    h("div", null, h("h3", { text: "Offer guardrails" }), h("ol.pm-rules", null, ...POSTMATCH.rules.map((r, i) => h("li", null, editable("span", "pm.rule." + i, r))))),
+    h("div", null, h("h3", { text: "How the tip is picked" }), editable("p.muted", "pm.tipRule", POSTMATCH.tipRule),
+      h("div.table-scroll", null, h("table.pm-tips", null,
+        h("thead", null, h("tr", null, h("th", { text: "Gap" }), h("th", { text: "Tip on screen" }), h("th", { text: "The fix under it" }))),
+        h("tbody", null, ...POSTMATCH.tips.map(([g, t, f]) => h("tr", null, h("td", { text: g }), h("td", { text: t }), h("td", { text: f }))))))),
+    h("div", null, h("h3", { text: "Open decisions" }), h("ul.pm-decisions", null, ...POSTMATCH.decisions.map((d, i) => h("li", null, editable("span", "pm.dec." + i, d)))))));
+  return box;
 }
 
 /* ------------------------------------------------------------ FLOW */
@@ -4218,7 +4766,7 @@ HARD RULES
 3. Artboard 393×852 pt; keep 12 pt side margins; content starts at y ≥ 50. If the current screen has a bottom tab bar (tab blocks at y ≈ 746–852), keep it identical.
 4. Upgrades change only invisible stats: show character portraits and stat deltas, never in-game scenes.
 5. Pillars: P1 one play button per surface; P2 up = progress, right = time; P3 colour roles above; P4 short paths via contextual shortcuts, primary actions near the bottom; P5 a red badge only for a gain available now; P6 one component grammar across systems.
-${bench ? "BENCHMARKS TO LEARN FROM\n" + bench + "\n" : ""}
+${postmatchContext(screen)}${bench ? "BENCHMARKS TO LEARN FROM\n" + bench + "\n" : ""}
 FEATURES THAT MUST STAY (id: name)
 ${[...need.entries()].map(([k, v]) => `${k}: ${v}`).join("\n") || "—"}
 
@@ -4260,7 +4808,7 @@ Elements and what they do:
 ${annotatedBlocks(screen).map((b, i) => `${i + 1}. ${labelOf(b)} — ${doesOf(b) || "(no description)"}`).join("\n")}
 Pillars: P1 one play button per surface; P2 up = progress, right = time; P3 one owner per colour (yellow play, green gain, gold value never a button, purple premium, red alert, blue info); P4 short paths via contextual shortcuts; P5 a badge is a promise; P6 one grammar across systems.
 Benchmarks: ${BENCHMARKS.map(b => b.name + " (" + b.take + ")").join("; ")}.
-${brief ? "Designer's question: " + brief + "\n" : ""}Write a short critique in plain English: 3 strengths, 3 problems (each with the pillar or benchmark it relates to and one concrete fix), and 1 bold idea. Use "- " bullets under the headings Strengths, Problems, Bold idea. Never invent game features that are not listed.`;
+${postmatchContext(screen)}${brief ? "Designer's question: " + brief + "\n" : ""}Write a short critique in plain English: 3 strengths, 3 problems (each with the pillar or benchmark it relates to and one concrete fix), and 1 bold idea. Use "- " bullets under the headings Strengths, Problems, Bold idea. Never invent game features that are not listed.`;
 }
 
 /* dig URLs / file ids out of whatever shape a Layer result has */
@@ -4292,7 +4840,7 @@ const ST = {
   caps: { sample: null, sampleImages: false, mcp: null, assets: null },
   ws: null, session: LS.get("aowlab5.layerSession", null), estimate: null,
 };
-const IDEAS = ["Make Start Battle the clear hero of the screen", "Fewer things above the fold", "Borrow Clash Royale's Battle screen hierarchy", "Put what the player can do right now first", "Make the event impossible to miss while it's live", "Group currencies and profile tighter"];
+const IDEAS = ["Make Start Battle the clear hero of the screen", "Fewer things above the fold", "Borrow Clash Royale's Battle screen hierarchy", "Put what the player can do right now first", "Make the event impossible to miss while it's live", "Group currencies and profile tighter", "Post-match: amplify the win, explain the loss"];
 
 async function studioCaps() {
   const [sample, mcp, assets] = await Promise.all(["sample", "mcp", "assets"].map(n => claude.use(n).catch(() => null)));
@@ -4812,13 +5360,15 @@ async function boot() {
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { _mcache.clear(); _thumbCache.clear(); (VIEWS.find(x => x.id === App.view) || VIEWS[0]).render(); });
 }
 window.__lab = { App, Store, L, ST };   /* handle for debugging from the console */
-/* QA contact sheet: ?sheet=today|proposal[&annot=1]  (not linked from the UI) */
+/* QA contact sheet: ?sheet=today|proposal[&annot=1][&only=match,res-*]  (not linked from the UI) */
 const _q = new URLSearchParams(location.search);
 if (_q.get("sheet")) (async () => {
   storeInitDefaults(); await loadPublishedState();
   const b = B(_q.get("sheet")) || B("proposal"), w = +(_q.get("w") || 393);
+  const only = (_q.get("only") || "").split(",").filter(Boolean);
+  const list = only.length ? b.screens.filter(s => only.some(o => o.endsWith("*") ? s.id.startsWith(o.slice(0, -1)) : s.id === o)) : b.screens;
   document.body.innerHTML = `<div style="display:flex;flex-wrap:wrap;gap:24px;padding:24px;background:#1a2428">` +
-    b.screens.map(s => `<figure style="margin:0;font:600 14px/1.3 sans-serif;color:#dfe9ea"><div style="width:${w}px;border-radius:24px;overflow:hidden">${screenSVG(s, { board: b, width: w, height: w * PH / PW, annot: _q.get("annot") === "1", play: _q.get("play") === "1" })}</div><figcaption style="margin-top:6px">${esc(s.name)}</figcaption></figure>`).join("") + `</div>`;
+    list.map(s => `<figure style="margin:0;font:600 14px/1.3 sans-serif;color:#dfe9ea"><div style="width:${w}px;border-radius:24px;overflow:hidden">${screenSVG(s, { board: b, width: w, height: w * PH / PW, annot: _q.get("annot") === "1", play: _q.get("play") === "1" })}</div><figcaption style="margin-top:6px">${esc(s.name)}</figcaption></figure>`).join("") + `</div>`;
 })(); else boot();
 
 })();
