@@ -414,11 +414,40 @@ table { border-collapse: collapse; width: 100%; }
 #toast.on { opacity: 1; transform: translateX(-50%); }
 
 /* ---------------- STUDIO ---------------- */
-.studio { display: grid; grid-template-columns: 270px minmax(0, 1fr) 300px; gap: 0; min-height: calc(100vh - var(--bar-h)); }
+.studio { display: grid; grid-template-columns: 260px minmax(0, 1fr) 340px; gap: 0; min-height: calc(100vh - var(--bar-h)); }
 .st-src, .st-gallery { background: var(--panel); padding: 16px; box-sizing: border-box; }
 .st-src { border-right: 1px solid var(--line); display: grid; gap: 8px; align-content: start; }
 .st-src .phone { width: 100%; max-width: 250px; margin: 6px auto; border-radius: 22px; }
-.st-gallery { border-left: 1px solid var(--line); display: grid; gap: 10px; align-content: start; overflow-y: auto; }
+.st-gallery { border-left: 1px solid var(--line); display: grid; gap: 12px; align-content: start; overflow-y: auto;
+  position: sticky; top: var(--bar-h); align-self: start; height: calc(100vh - var(--bar-h)); }
+.gal-head { display: flex; justify-content: space-between; align-items: end; gap: 8px; }
+.gal-help { margin: 0; line-height: 1.45; }
+.gal-run { display: grid; gap: 7px; padding-top: 12px; border-top: 1px solid var(--line); }
+.gal-run.bad .gal-meta b { color: var(--warn); }
+.gal-meta { display: grid; gap: 2px; font-size: 12.5px; }
+.gal-meta span { font: 500 11px/1.3 var(--f-mono); color: var(--muted); }
+.gal-grid { display: grid; gap: 8px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.gal-grid.n1 { grid-template-columns: minmax(0, 1fr); max-width: 62%; }
+.gal-grid.n3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.gal-tile { position: relative; margin: 0; border-radius: 10px; overflow: hidden; background: var(--phone-bg); box-shadow: 0 0 0 1px var(--line-2); cursor: pointer; max-width: 100%; }
+.gal-tile img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.gal-tile.has:hover { box-shadow: 0 0 0 2px var(--accent); }
+.gal-tile:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.gal-wire { position: absolute; inset: 0; opacity: .32; line-height: 0; }
+.gal-wire svg { width: 100%; height: 100%; }
+.gal-empty { position: absolute; inset: 0; display: grid; place-content: center; justify-items: center; gap: 8px; padding: 10px; text-align: center; font: 600 11.5px/1.3 var(--f-body); color: #DCE8E9; }
+.gal-empty .btn.tiny { margin: 0; }
+.gal-tile.armed { box-shadow: 0 0 0 2px var(--accent); }
+.gal-tile.armed .gal-empty span { color: #FFD27A; }
+.gal-tile.drop-on { box-shadow: 0 0 0 2px var(--cool); }
+.gal-ref { position: absolute; left: 6px; bottom: 6px; border: 0; border-radius: 6px; padding: 3px 6px; font: 600 10.5px/1 var(--f-body); background: rgba(6, 12, 14, .72); color: #EAF2F2; opacity: 0; transition: opacity .15s; }
+.gal-tile:hover .gal-ref, .gal-tile:focus-within .gal-ref { opacity: 1; }
+.lightbox { background: rgba(4, 8, 10, .82); }
+.lightbox-card { margin: 0; display: grid; gap: 10px; justify-items: center; max-width: min(92vw, 720px); }
+.lightbox-card img { max-width: 100%; max-height: calc(86vh - 70px); border-radius: 14px; display: block; box-shadow: var(--shadow); }
+.lightbox-card figcaption { display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center; justify-content: space-between; width: 100%; color: #EAF2F2; font-size: 13px; }
+.lightbox-card .muted { color: #A9BDBF; }
+.lightbox-card .btn-row { margin: 0; }
 .st-gallery h3, .st-refs h3, .st-variants h3 { font: 700 18px/1 var(--f-display); text-transform: uppercase; letter-spacing: .04em; margin: 0; }
 .st-main { padding: 20px 26px 60px; display: grid; gap: 14px; align-content: start; min-width: 0; }
 .st-main h2 { font: 700 30px/1 var(--f-display); text-transform: uppercase; margin: 0; text-wrap: balance; }
@@ -466,10 +495,16 @@ table { border-collapse: collapse; width: 100%; }
 @media (max-width: 1180px) {
   .pair-phones { grid-template-columns: repeat(2, minmax(0, 300px)); }
   .pair-side { grid-column: 1 / -1; }
-  .studio { grid-template-columns: 240px minmax(0, 1fr); }
-  .st-gallery { grid-column: 1 / -1; border-left: 0; border-top: 1px solid var(--line); }
+  .studio { grid-template-columns: 220px minmax(0, 1fr) 300px; }
+  .st-src .phone { max-width: 200px; }
 }
 @media (max-width: 980px) {
+  .studio { grid-template-columns: minmax(0, 1fr) 280px; }
+  .st-src { grid-column: 1; grid-row: 1; border-right: 0; border-bottom: 1px solid var(--line); grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; }
+  .st-src .kicker, .st-src .phone, .st-src > .btn { grid-column: 1 / -1; }
+  .st-src .phone { max-width: 180px; }
+  .st-main { grid-column: 1; grid-row: 2; }
+  .st-gallery { grid-column: 2; grid-row: 1 / span 2; }
   .lab-body { grid-template-columns: 210px minmax(0, 1fr); }
   .lab-right { position: absolute; right: 0; top: 0; bottom: 0; width: min(330px, 92vw); z-index: 12; box-shadow: var(--shadow); transform: translateX(100%); transition: transform .2s; }
   body.insp-open .lab-right { transform: none; }
@@ -496,6 +531,8 @@ table { border-collapse: collapse; width: 100%; }
   .endings-strip { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .studio { grid-template-columns: minmax(0, 1fr); }
   .st-src { border-right: 0; border-bottom: 1px solid var(--line); }
+  .st-src, .st-main, .st-gallery { grid-column: 1; grid-row: auto; }
+  .st-gallery { position: static; height: auto; border-left: 0; border-top: 1px solid var(--line); }
   .st-main { padding: 16px; }
   .st-variant { grid-template-columns: minmax(0, 1fr); }
   .st-variant .phone { max-width: 240px; }
@@ -503,6 +540,11 @@ table { border-collapse: collapse; width: 100%; }
 }
 .lab-toggles { display: none; }
 @media (max-width: 980px) { .lab-toggles { display: flex; gap: 4px; } }
+@media (max-width: 640px) {
+  .studio { grid-template-columns: minmax(0, 1fr); }
+  .st-src, .st-main, .st-gallery { grid-column: 1; grid-row: auto; }
+  .st-gallery { position: static; height: auto; border-left: 0; border-top: 1px solid var(--line); }
+}
 
 </style>
 <header id="bar">
@@ -2590,7 +2632,8 @@ function blockSVG(b, env) {
   const fn = R[b.t] || R.panel;
   let inner = "";
   try { inner = fn(b, env); } catch (e) { console.warn("render", b.t, e); inner = frameRect(b.w, b.h, frameAttrs(b, "soft")); }
-  return `<g transform="translate(${(+b.x).toFixed(1)},${(+b.y).toFixed(1)})" data-id="${esc(b.id)}">${decorate(b, inner, env)}</g>`;
+  const named = env.named ? ` id="${esc(env.named(b))}"` : "";
+  return `<g${named} transform="translate(${(+b.x).toFixed(1)},${(+b.y).toFixed(1)})" data-id="${esc(b.id)}">${decorate(b, inner, env)}</g>`;
 }
 
 /* numbering for the "what each button does" layer: reading order, only blocks that do something */
@@ -2600,13 +2643,21 @@ function annotatedBlocks(screen) {
     .sort((a, b) => (Math.round(a.y / 18) - Math.round(b.y / 18)) || (a.x - b.x));
 }
 
-/* A full screen. opts: {board, annot, export, play, bgless, showHidden} */
+/* A full screen. opts: {board, annot, export, play, bgless, showHidden, named} */
 function screenSVG(screen, opts = {}) {
   const env = {
     font: opts.export ? FONT_EXPORT : FONT_UI,
     export: !!opts.export, play: !!opts.play, showHidden: !!opts.showHidden,
     k: "s" + (++screenSVG.seq) + "_",      /* unique id prefix: many SVGs share one document */
   };
+  if (opts.named) {                         /* Figma: each block's group is named after what it is */
+    const seen = {};
+    env.named = b => {
+      const n = String(labelOf(b) || b.t).replace(/\s+/g, " ").trim().slice(0, 60), k = n.toLowerCase();
+      seen[k] = (seen[k] || 0) + 1;
+      return seen[k] > 1 ? n + " " + seen[k] : n;
+    };
+  }
   const blocks = (screen.blocks || []).slice().sort((a, b) => (a.z || 0) - (b.z || 0));
   let body = "";
   /* popup: its parent screen is drawn first, dimmed */
@@ -2643,6 +2694,34 @@ function screenSVG(screen, opts = {}) {
 }
 
 screenSVG.seq = 0;
+
+/* ---------- Figma: an SVG that Figma turns into named, editable layers ----------
+   Paste it on the canvas (⌘V) or drop the file: each screen arrives as a group
+   named after the screen, each block as a layer named after what it is. Figma
+   ignores dominant-baseline, so text moves to an explicit baseline, and it gets
+   the one family Figma has built in (Barlow Condensed, from Google Fonts). */
+function forFigma(svg) {
+  return svg
+    .replace(/<text\b([^>]*)>/g, (m, a) => {
+      if (!/dominant-baseline="central"/.test(a)) return m;
+      const fs = +((a.match(/font-size="([\d.]+)"/) || [])[1] || 12);
+      return "<text" + a.replace(/ dominant-baseline="central"/, "").replace(/ y="(-?[\d.]+)"/, (mm, y) => ` y="${(+y + fs * 0.33).toFixed(1)}"`) + ">";
+    })
+    .replace(/font-family="[^"]*"/g, 'font-family="Barlow Condensed"')
+    .replace(/ role="img" aria-label="[^"]*"/, "");
+}
+function figmaSVG(board, screens) {
+  if (screens.length === 1) return forFigma(screenSVG(screens[0], { board, export: true, named: true }));
+  const cols = Math.min(screens.length, 6), gx = 80, gy = 120;
+  let body = "";
+  screens.forEach((s, i) => {
+    const x = (i % cols) * (PW + gx), y = Math.floor(i / cols) * (PH + gy);
+    const inner = screenSVG(s, { board, export: true, named: true }).replace(/^<svg[^>]*>/, "").replace(/<\/svg>\s*$/, "");
+    body += `<g id="${esc(s.name)}" transform="translate(${x},${y})"><clipPath id="fg${i}"><rect width="${PW}" height="${PH}"/></clipPath><g clip-path="url(#fg${i})">${inner}</g></g>`;
+  });
+  const W = cols * (PW + gx) - gx, H = Math.ceil(screens.length / cols) * (PH + gy) - gy;
+  return forFigma(`<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">${body}</svg>`);
+}
 
 /* SVG string → PNG/JPEG Blob (for downloads and for the images sent to AI) */
 function svgToBlob(svgStr, scale = 2, type = "image/png", quality = 0.9) {
@@ -2996,8 +3075,8 @@ async function flushSave() {
     } catch (e) {
       console.warn("save", k, e);
       if (e && e.code === "invalid_argument") {        /* refused by the access rules: stop retrying */
-        if (b && b.kind === "variant") Store.canShare = false; else Store.canBoards = false;
-        toast("You can look but not save here — ask the owner for edit access, or make a variant.");
+        if (b && b.kind === "variant") { Store.canShare = false; toast("Your access is view-only, so this variant can't be saved — ask the owner for “Can interact”."); }
+        else { Store.canBoards = false; toast("Only editors change Today and Proposal — make a variant (Board ▾) to try your own."); }
         Bus.emit("status", Store.status);
         continue;
       }
@@ -3688,6 +3767,7 @@ function onKey(e) {
     if (k === "-" || k === "_") return setZoom((L.z || 1) / 1.2);
   }
   if (mod && k === "0") { e.preventDefault(); return setZoom(null); }
+  if (mod && e.shiftKey && k.toLowerCase() === "f") { e.preventDefault(); return copyForFigma(curBoard(), cur()); }
   if (!canWrite(App.bid)) return;
   if (mod && k.toLowerCase() === "a") { e.preventDefault(); select(cur().blocks.filter(b => !b.hidden && !b.locked).map(b => b.id)); return; }
   if (mod && k.toLowerCase() === "c") { opCopy(); return; }
@@ -3709,7 +3789,7 @@ function onKey(e) {
 function shortcutHelp() {
   const rows = [["Click · Shift-click · drag on empty", "Select · add to selection · marquee"], ["Drag · Shift-drag · Alt-drag", "Move · lock axis · leave a copy"], ["⌘-drag", "Move without snapping"], ["Handles · Shift · Alt", "Resize · keep ratio · from centre"],
     ["Double-click", "Enter a group · edit text"], ["Arrows · Shift+arrows", "Nudge 1 pt · 8 pt"], ["⌘D · ⌘C / ⌘V · ⌫", "Duplicate · copy / paste (any screen or board) · delete"],
-    ["⌘G · ⇧⌘G", "Group · ungroup"], ["] · [ · ⇧] · ⇧[", "Forward · backward · front · back"], ["⌘Z · ⇧⌘Z", "Undo · redo"], ["V · P · E", "Edit · Play · Explain"], ["G · T", "Snapping · trace the build capture"], ["⌘-scroll · + / − · ⌘0", "Zoom · fit"]];
+    ["⌘G · ⇧⌘G", "Group · ungroup"], ["] · [ · ⇧] · ⇧[", "Forward · backward · front · back"], ["⌘Z · ⇧⌘Z", "Undo · redo"], ["V · P · E", "Edit · Play · Explain"], ["G · T", "Snapping · trace the build capture"], ["⌘-scroll · + / − · ⌘0", "Zoom · fit"], ["⇧⌘F", "Copy this screen for Figma (paste there with ⌘V)"]];
   confirmBox("Shortcuts", `<table class="keys">${rows.map(r => `<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td></tr>`).join("")}</table>`, "Close");
 }
 
@@ -3777,7 +3857,9 @@ function renderPlayPath() {
 function renderBanner() {
   const el = $("#labBanner"), b = curBoard();
   let msg = "";
-  if (Store.cloud && !canWrite(App.bid)) msg = `You can view <b>${esc(b.name)}</b> but not change it. <button class="btn small primary" id="bnVariant">Make my variant</button> to edit freely.`;
+  if (Store.cloud && !canWrite(App.bid)) msg = Store.canShare
+    ? `You can view <b>${esc(b.name)}</b> but not change it. <button class="btn small primary" id="bnVariant">Make my variant</button> to edit freely.`
+    : `You can view <b>${esc(b.name)}</b>. Your access is view-only — ask the owner for <b>Can interact</b> to save your own variants.`;
   else if (b.kind === "today" && L.mode === "edit") msg = `<b>Today</b> mirrors the current build. Edit it only to fix a fact — press <b>T</b> to trace over the capture.`;
   else if (b.kind !== "today" && L.mode === "edit") msg = "";
   el.hidden = !msg; el.innerHTML = msg;
@@ -3963,6 +4045,8 @@ function boardMenu(anchor) {
     ["Save a version…", "", async () => { const n = await promptBox("Name this version", b.name + " · " + new Date().toLocaleDateString(), "Save"); if (n) saveVersion(App.bid, n); }],
     ["Versions…", "", versionsDialog],
     null,
+    ["Copy this screen for Figma", "⇧⌘F", () => copyForFigma(b, cur())],
+    ["Download every screen for Figma (.svg)", "", () => downloadForFigma(b, b.screens)],
     ["Export PNG of this screen", "", () => exportPNG(b, cur())],
     ["Export everything (JSON)", "", exportJSONFile],
     ["Import JSON…", "", importJSONFile],
@@ -4002,6 +4086,26 @@ async function saveFile(filename, data, type) {
 async function exportPNG(board, screen) {
   try { const blob = await svgToBlob(screenSVG(screen, { board, export: true, play: true }), 3); await saveFile(`${board.name}-${screen.name}.png`.replace(/[^\w.-]+/g, "_"), blob, "image/png"); }
   catch (e) { toast("Export failed: " + e.message); }
+}
+/* Figma: paste (⌘V) or drop the SVG — blocks arrive as named, editable layers */
+async function copyForFigma(board, screen) {
+  if (!screen) return;
+  const svg = figmaSVG(board, [screen]);
+  try { await navigator.clipboard.writeText(svg); toast("Copied “" + screen.name + "” — paste it in Figma with ⌘V"); }
+  catch (e) {           /* some views refuse the clipboard: hand the text over to copy by hand */
+    const ta = h("textarea", { rows: 8, readonly: true }); ta.value = svg;
+    const m = h("div.modal", { onclick: ev => { if (ev.target === m) m.remove(); } },
+      h("div.modal-card", null, h("h3", { text: "Copy for Figma" }),
+        h("p", { text: "This view blocks the clipboard. The SVG below is selected — press ⌘C, then ⌘V in Figma. Or download it and drop the file on the canvas." }), ta,
+        h("div.modal-actions", null,
+          h("button.btn", { text: "Download .svg", onclick: () => { downloadForFigma(board, [screen]); m.remove(); } }),
+          h("button.btn.primary", { text: "Done", onclick: () => m.remove() }))));
+    document.body.append(m); ta.focus(); ta.select();
+  }
+}
+function downloadForFigma(board, screens) {
+  const name = (board.name + (screens.length === 1 ? "-" + screens[0].name : "") + "-figma.svg").replace(/[^\w.-]+/g, "_");
+  saveFile(name, new Blob([figmaSVG(board, screens)], { type: "image/svg+xml" }), "image/svg+xml");
 }
 function exportJSONFile() { saveFile("metagame-lab-" + new Date().toISOString().slice(0, 10) + ".json", new Blob([JSON.stringify(exportState(), null, 1)], { type: "application/json" }), "application/json"); }
 function importJSONFile() {
@@ -4240,6 +4344,7 @@ function screenInspector(s) {
     h("p.insp-hint", { text: out.length ? out.join(" · ") : "No outgoing links yet — select a block and set “Goes to”." }),
     broken.length ? h("p.warn", { text: "⚠ " + broken.length + " broken link(s): " + broken.map(x => labelOf(x.block) + " → " + x.to).join(", ") }) : null));
   wrap.append(h("div.btn-row.end", null,
+    h("button.btn", { text: "Copy for Figma", title: "Paste in Figma (⌘V): every block arrives as a named layer", onclick: () => copyForFigma(b, s) }),
     h("button.btn", { text: "Export PNG", onclick: () => exportPNG(b, s) }),
     !ro() ? h("button.btn", { text: "Reset to built-in", onclick: async () => { if (await confirmBox("Reset “" + s.name + "”?", "Puts back the built-in version of this screen. Undo with ⌘Z.", "Reset")) { resetScreen(App.bid, s.id); labRenderAll(); } } }) : null,
     !ro() ? h("button.btn.danger", { text: "Delete screen", onclick: () => deleteScreen(s.id) }) : null));
@@ -4486,9 +4591,10 @@ function compareRender(focus) {
       if (rows.length) side.append(h("h3", { text: "Where today's features went" }), h("table.went", null, ...rows.map(r => h("tr" + (r.places.length ? "" : ".bad"), null, h("td", { text: r.name }), h("td", { text: r.places.length ? r.places.join(", ") : "missing" })))));
     }
     side.append(h("div.btn-row", null,
-      h("button.btn.small", { text: "Edit proposal in Lab", onclick: () => { App.openBoard(prop.id, p.ps.id); App.go("lab"); } }),
+      h("button.btn.small", { text: "Edit proposal in Lab", onclick: () => { App.openBoard(prop.id, (p.shown || p.ps).id); App.go("lab"); } }),
       p.ts ? h("button.btn.small", { text: "Open Today in Lab", onclick: () => { App.openBoard("today", p.ts.id); App.go("lab"); } }) : null,
-      h("button.btn.small", { text: "✦ Generate from this", onclick: () => { App.openBoard(prop.id, p.ps.id); App.go("studio"); } })));
+      h("button.btn.small", { text: "✦ Generate from this", onclick: () => { App.openBoard(prop.id, (p.shown || p.ps).id); App.go("studio"); } }),
+      h("button.btn.small", { text: "Copy for Figma", title: "Paste in Figma (⌘V): every block arrives as a named layer", onclick: () => copyForFigma(prop, p.shown || p.ps) })));
     phones.append(side);
     sec.append(phones);
     if (p.ends.length) sec.append(endingsBlock(prop, p, annot));
@@ -4529,7 +4635,7 @@ function endingsBlock(prop, p, annot) {
   const show = s => {
     App.cmpEnding = Object.assign({}, App.cmpEnding, { [parent.id]: s.id });
     const card = phoneCard(prop, s, "Proposal · " + prop.name + " · " + (s.ending || s.name), annot, true);
-    p.propCard.replaceWith(card); p.propCard = card;
+    p.propCard.replaceWith(card); p.propCard = card; p.shown = s;
     $$(".ending", box).forEach(f => f.classList.toggle("main", f.dataset.sid === s.id));
     card.scrollIntoView({ behavior: "smooth", block: "nearest" });
   };
@@ -5129,7 +5235,7 @@ async function runRender() {
     const run = await layerCall("execute_forge", input);
     if (run && run.session_id) { ST.session = run.session_id; LS.set("aowlab5.layerSession", ST.session); }
     rec = { id: uid("rnd"), boardId: board.id, boardName: board.name, screenId: screen.id, screenName: screen.name, model: model.name, brief: ST.brief, prompt,
-      map: mapId, refs, status: "running", inference: run && run.inference_id, session: ST.session, cu, at: Date.now(), by: Store.me || null, outputs: [] };
+      map: mapId, refs, status: "running", inference: run && run.inference_id, session: ST.session, cu, at: Date.now(), by: Store.me || null, outputs: [], count: ST.images };
     ST.renders.unshift(rec); saveRender(rec); studioRender();
     const wait = Math.max(5, (run && run.poll_interval_seconds) || 10) * 1000, t0 = Date.now();
     while (Date.now() - t0 < 6 * 60 * 1000) {
@@ -5145,7 +5251,7 @@ async function runRender() {
     }
     if (rec.status === "running") { rec.status = "slow"; rec.error = "Still running after 6 minutes — check the Layer session."; }
     saveRender(rec);
-    setStudioStatus(rec.status === "done" ? `Done — ${rec.outputs.length} image${rec.outputs.length === 1 ? "" : "s"}. Open them from the gallery.` : rec.error);
+    setStudioStatus(rec.status === "done" ? `Done — ${rec.outputs.length} image${rec.outputs.length === 1 ? "" : "s"} in the gallery. Open one, copy it and paste it on its tile to keep it here.` : rec.error);
   } catch (e) { if (rec) { rec.status = "failed"; rec.error = mcpError(e); saveRender(rec); } setStudioStatus(mcpError(e)); }
   ST.busy = null; studioRender();
 }
@@ -5164,35 +5270,127 @@ async function loadRenders() {
   PRESET_RENDERS.concat(local, cloud).forEach(r => { if (r && r.id) map.set(r.id, Object.assign(map.get(r.id) || {}, r)); });
   ST.renders = [...map.values()].sort((a, b) => (b.at || 0) - (a.at || 0));
 }
+/* ---------- gallery: one tile per image, beside the work ----------
+   Layer's images live on Layer's site, which this page is not allowed to load,
+   so a tile shows the source wireframe until the image itself is brought in:
+   copy it in Layer's tab and paste (⌘V) here, or drop the saved file. It is
+   kept as a small thumbnail in the render's record (everyone sees it) and, for
+   editors, full size in the artifact's asset store. */
+function galSrc(r, o, i) {
+  if (o.asset) return "/_blob/" + o.asset;
+  if (o.local) return o.local;
+  if (i === 0 && r.local) return r.local;
+  if (i === 0 && r.pinned) return "/_blob/" + r.pinned;
+  return o.thumb || null;
+}
 function galleryPanel() {
   const box = h("aside.st-gallery");
-  box.append(h("div.kicker", { text: "Gallery" }), h("h3", { text: "Renders" }),
-    h("p.muted.small", { text: "Layer images open in a new tab (the page can't show outside images). Drop a saved image on a card to pin it here." }));
+  const imgs = ST.renders.reduce((n, r) => n + ((r.outputs || []).length || 0), 0);
+  box.append(h("div.gal-head", null, h("div", null, h("div.kicker", { text: "Gallery" }), h("h3", { text: "Renders" })), h("span.muted.small", { text: imgs + " image" + (imgs === 1 ? "" : "s") })),
+    h("p.muted.small.gal-help", { text: "Layer keeps the images on its own site, which this page can't load. To see one here: Open ↗, copy the image in that tab (right-click → Copy image), come back, click its tile and press ⌘V — or drop the saved file on it." }));
   if (!ST.renders.length) box.append(h("p.muted", { text: "No renders yet. Adjust a screen, pick references and press Render concept." }));
   ST.renders.forEach(r => {
-    const card = h("div.render" + (r.status === "failed" ? ".bad" : ""));
-    const pinned = r.pinned || r.local;
-    if (pinned) card.append(h("img.render-img", { src: r.local ? r.local : "/_blob/" + r.pinned, alt: r.screenName }));
-    card.append(h("div.render-meta", null, h("b", { text: r.screenName + " · " + (r.boardName || "") }), h("span.muted", { text: [r.model, r.cu != null ? r.cu + " CU" : "", fmtAgo(r.at)].filter(Boolean).join(" · ") })));
-    if (r.brief) card.append(h("p.render-brief", { text: "“" + r.brief + "”" }));
-    if (r.status === "running") card.append(h("p.muted", { text: "Rendering…" }));
-    if (r.error) card.append(h("p.warn", { text: r.error }));
-    const links = h("div.render-links");
-    (r.outputs || []).forEach((o, i) => links.append(
-      h("a.btn.small", { href: o.url, target: "_blank", rel: "noopener", text: "Open image " + (i + 1) + " ↗" }),
-      o.file_id ? h("button.btn.small", { text: "Use as ref", onclick: () => { if (!ST.refs.some(x => x.file_id === o.file_id)) ST.refs.push({ id: uid("ref"), kind: "layer", file_id: o.file_id, name: "Render · " + r.screenName + " " + (i + 1), on: true }); saveRefs(); studioRender(); toast("Added to references"); } }) : null));
-    if (r.session) links.append(h("a.btn.small.ghost", { href: "https://app.layer.ai/", target: "_blank", rel: "noopener", text: "Layer ↗" }));
-    card.append(links);
-    if (ST.caps.assets && !pinned) {
-      card.addEventListener("dragover", e => { e.preventDefault(); card.classList.add("drop-on"); });
-      card.addEventListener("dragleave", () => card.classList.remove("drop-on"));
-      card.addEventListener("drop", async e => { e.preventDefault(); card.classList.remove("drop-on"); const f = [...e.dataTransfer.files].find(x => /^image\//.test(x.type)); if (!f) return;
-        try { const up = await ST.caps.assets.upload(await downscale(f, 1600)); r.pinned = up.id; saveRender(r); studioRender(); toast("Pinned"); } catch (err) { toast("Could not pin: " + (err.code || err.message)); } });
-    }
-    box.append(card);
+    const outs = (r.outputs && r.outputs.length) ? r.outputs : r.status === "running" ? Array.from({ length: r.count || 1 }, () => ({ pending: true })) : [];
+    const run = h("section.gal-run" + (r.status === "failed" ? ".bad" : ""));
+    run.append(h("div.gal-meta", null, h("b", { text: r.screenName || "Screen" }), h("span", { text: [r.boardName, r.model, r.cu != null ? r.cu + " CU" : "", fmtAgo(r.at)].filter(Boolean).join(" · ") })));
+    if (r.brief) run.append(h("p.render-brief", { text: "“" + r.brief + "”" }));
+    if (r.error) run.append(h("p.warn", { text: r.error }));
+    if (outs.length) run.append(h("div.gal-grid.n" + Math.min(outs.length, 4), null, ...outs.map((o, i) => galTile(r, o, i))));
+    box.append(run);
   });
   return box;
 }
+function galTile(r, o, i) {
+  const src = galSrc(r, o, i), armed = ST.armed && ST.armed.rid === r.id && ST.armed.i === i;
+  const W = o.width || o.w, H = o.height || o.h;
+  const tile = h("figure.gal-tile" + (src ? ".has" : "") + (armed ? ".armed" : ""), { tabindex: "0", style: { aspectRatio: W && H ? W + " / " + H : "9 / 16" } });
+  if (src) {
+    tile.append(h("img", { src, alt: (r.screenName || "Render") + " · image " + (i + 1), loading: "lazy" }));
+    tile.onclick = () => galLightbox(r, o, i, src);
+  } else {
+    const bd = B(r.boardId), sc = bd && screenById(bd, r.screenId);
+    if (sc) tile.append(h("div.gal-wire", { html: screenSVG(sc, { board: bd, play: true, width: 140, height: 303 }) }));
+    tile.append(h("div.gal-empty", null,
+      h("span", { text: o.pending ? "Rendering…" : armed ? "Paste the image now (⌘V)" : "Image " + (i + 1) + " is in Layer" }),
+      o.url ? h("a.btn.tiny", { href: o.url, target: "_blank", rel: "noopener", text: "Open ↗", onclick: e => { e.stopPropagation(); ST.armed = { rid: r.id, i }; setTimeout(refreshGallery, 80); } }) : null));   /* refresh after the link has opened */
+    if (!o.pending) {
+      tile.onclick = () => { ST.armed = { rid: r.id, i }; refreshGallery(); const t = $(`.gal-tile.armed`); if (t) t.focus(); };
+      tile.addEventListener("dragover", e => { e.preventDefault(); tile.classList.add("drop-on"); });
+      tile.addEventListener("dragleave", () => tile.classList.remove("drop-on"));
+      tile.addEventListener("drop", e => { e.preventDefault(); tile.classList.remove("drop-on"); const f = [...e.dataTransfer.files].find(x => /^image\//.test(x.type)); if (f) attachRenderImage(r, i, f); else toast("Drop an image file (PNG, JPG or WebP)"); });
+    }
+  }
+  if (o.file_id && !o.pending) tile.append(h("button.gal-ref", { text: "Use as ref", title: "Add this image to the references Layer uses", onclick: e => { e.stopPropagation(); galUseRef(r, o, i); } }));
+  return tile;
+}
+function galUseRef(r, o, i) {
+  if (!ST.refs.some(x => x.file_id === o.file_id)) ST.refs.push({ id: uid("ref"), kind: "layer", file_id: o.file_id, name: "Render · " + r.screenName + " " + (i + 1), on: true, src: galSrc(r, o, i) });
+  saveRefs(); studioRender(); toast("Added to references");
+}
+function galLightbox(r, o, i, src) {
+  const close = () => { m.remove(); document.removeEventListener("keydown", onKey); };
+  const onKey = e => { if (e.key === "Escape") close(); };
+  const m = h("div.modal.lightbox", { onclick: e => { if (e.target === m) close(); } },
+    h("figure.lightbox-card", null,
+      h("img", { src, alt: (r.screenName || "Render") + " · image " + (i + 1) }),
+      h("figcaption", null,
+        h("div", null, h("b", { text: (r.screenName || "Render") + " · image " + (i + 1) }), h("div.muted.small", { text: [r.boardName, r.model, fmtAgo(r.at)].filter(Boolean).join(" · ") + (o.asset || o.local || r.local ? "" : " · thumbnail — the original is in Layer") })),
+        h("div.btn-row", null,
+          o.url ? h("a.btn.small", { href: o.url, target: "_blank", rel: "noopener", text: "Original in Layer ↗" }) : null,
+          o.file_id ? h("button.btn.small", { text: "Use as ref", onclick: () => { galUseRef(r, o, i); close(); } }) : null,
+          h("button.btn.small.primary", { text: "Close", onclick: close })))));
+  document.addEventListener("keydown", onKey);
+  document.body.append(m);
+}
+function refreshGallery() {
+  const old = $(".st-gallery"); if (!old) return;
+  const top = old.scrollTop, g = galleryPanel();
+  old.replaceWith(g); g.scrollTop = top;
+}
+/* small JPEG data URL that fits the record: shrink until it's under budget */
+function thumbDataURL(file, budget) {
+  return new Promise((res, rej) => {
+    const img = new Image(), url = URL.createObjectURL(file);
+    img.onload = () => {
+      let w = 440, q = 0.76, out = "";
+      for (let k = 0; k < 6; k++) {
+        const sc = Math.min(1, w / img.width), c = document.createElement("canvas");
+        c.width = Math.round(img.width * sc); c.height = Math.round(img.height * sc);
+        c.getContext("2d").drawImage(img, 0, 0, c.width, c.height);
+        out = c.toDataURL("image/jpeg", q);
+        if (out.length <= budget) break;
+        w = Math.round(w * 0.82); q = Math.max(0.5, q - 0.07);
+      }
+      URL.revokeObjectURL(url); res({ data: out, w: img.naturalWidth, h: img.naturalHeight });
+    };
+    img.onerror = () => { URL.revokeObjectURL(url); rej(new Error("That file isn't an image this browser can read")); };
+    img.src = url;
+  });
+}
+async function attachRenderImage(r, i, file) {
+  r.outputs = r.outputs || [];
+  const o = r.outputs[i] || (r.outputs[i] = {});
+  try {
+    const t = await thumbDataURL(file, Math.floor(170000 / Math.max(1, r.outputs.length)));
+    o.thumb = t.data; o.width = o.width || t.w; o.height = o.height || t.h;
+    if (ST.caps.assets) { try { const up = await ST.caps.assets.upload(await downscale(file, 1600)); o.asset = up.id; } catch (e) { console.warn("asset upload", e); } }
+    ST.armed = null;
+    await saveRender(r);
+    refreshGallery();
+    toast(Store.cloud ? "In the gallery — everyone with the link sees it" : "In the gallery (this browser)");
+  } catch (e) { toast(e.message || "Couldn't read that image"); }
+}
+/* ⌘V in the Studio: an image goes to the tile waiting for it, else to the references */
+document.addEventListener("paste", e => {
+  if (App.view !== "studio") return;
+  const item = [...((e.clipboardData && e.clipboardData.items) || [])].find(x => x.kind === "file" && /^image\//.test(x.type));
+  if (!item) return;
+  const f = item.getAsFile(); if (!f) return;
+  e.preventDefault();
+  const r = ST.armed && ST.renders.find(x => x.id === ST.armed.rid);
+  if (r) return attachRenderImage(r, ST.armed.i, f);
+  addLocalRef(f).then(() => { studioRender(); toast("Pasted image added to the references"); });
+});
 async function uploadAssetImage() {
   if (!ST.caps.assets) return null;
   return new Promise(res => {
@@ -5271,7 +5469,7 @@ function renderStatus(st) {
     local: ["Saved in this browser", "local"], syncing: ["Connecting to the cloud…", "busy"], saving: ["Saving…", "busy"],
     saved: ["Saved to the cloud", "ok"], error: ["Not saved — retrying", "bad"],
   };
-  const [t, c] = view ? ["View only · make a variant to edit", "warn"] : (map[st] || map.local);
+  const [t, c] = view ? [Store.canShare ? "View only · make a variant to edit" : "View only · ask for “Can interact” to save", "warn"] : (map[st] || map.local);
   el.textContent = t; el.className = "save-chip " + c;
   el.title = Store.cloud ? "Every change saves to this artifact's cloud store. Last save: " + fmtAgo(Store.lastSaved) : "No cloud here — changes stay in this browser. Export JSON to share them.";
 }
@@ -5359,7 +5557,7 @@ async function boot() {
   window.addEventListener("beforeunload", () => { if (Store.dirty.size) persistLocal(); });
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { _mcache.clear(); _thumbCache.clear(); (VIEWS.find(x => x.id === App.view) || VIEWS[0]).render(); });
 }
-window.__lab = { App, Store, L, ST };   /* handle for debugging from the console */
+window.__lab = { App, Store, L, ST, figmaSVG };   /* handle for debugging from the console */
 /* QA contact sheet: ?sheet=today|proposal[&annot=1][&only=match,res-*]  (not linked from the UI) */
 const _q = new URLSearchParams(location.search);
 if (_q.get("sheet")) (async () => {
