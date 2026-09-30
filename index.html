@@ -3082,7 +3082,7 @@ async function flushSave() {
     } catch (e) {
       console.warn("save", k, e);
       if (e && e.code === "invalid_argument") {        /* refused by the access rules: stop retrying */
-        if (b && b.kind === "variant") { Store.canShare = false; toast("Your access is view-only, so this variant can't be saved — ask the owner for “Can interact”."); }
+        if (b && b.kind === "variant") { Store.canShare = false; toast("Your access is view-only, so this variant can't be saved — ask the owner for Collaborator access."); }
         else { Store.canBoards = false; toast("Only editors change Today and Proposal — make a variant (Board ▾) to try your own."); }
         Bus.emit("status", Store.status);
         continue;
@@ -3866,7 +3866,7 @@ function renderBanner() {
   let msg = "";
   if (Store.cloud && !canWrite(App.bid)) msg = Store.canShare
     ? `You can view <b>${esc(b.name)}</b> but not change it. <button class="btn small primary" id="bnVariant">Make my variant</button> to edit freely.`
-    : `You can view <b>${esc(b.name)}</b>. Your access is view-only — ask the owner for <b>Can interact</b> to save your own variants.`;
+    : `You can view <b>${esc(b.name)}</b>. Your access is view-only — ask the owner for <b>Collaborator</b> access to save your own variants.`;
   else if (b.kind === "today" && L.mode === "edit") msg = `<b>Today</b> mirrors the current build. Edit it only to fix a fact — press <b>T</b> to trace over the capture.`;
   else if (b.kind !== "today" && L.mode === "edit") msg = "";
   el.hidden = !msg; el.innerHTML = msg;
@@ -5476,7 +5476,7 @@ function renderStatus(st) {
     local: ["Saved in this browser", "local"], syncing: ["Connecting to the cloud…", "busy"], saving: ["Saving…", "busy"],
     saved: ["Saved to the cloud", "ok"], error: ["Not saved — retrying", "bad"],
   };
-  const [t, c] = view ? [Store.canShare ? "View only · make a variant to edit" : "View only · ask for “Can interact” to save", "warn"] : (map[st] || map.local);
+  const [t, c] = view ? [Store.canShare ? "View only · make a variant to edit" : "View only · ask for Collaborator access to save", "warn"] : (map[st] || map.local);
   el.textContent = t; el.className = "save-chip " + c;
   el.title = Store.cloud ? "Every change saves to this artifact's cloud store. Last save: " + fmtAgo(Store.lastSaved) : "No cloud here — changes stay in this browser. Export JSON to share them.";
 }
