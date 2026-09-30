@@ -2986,8 +2986,15 @@ function createVariant(fromBid, name, screensOverride) {
   Bus.emit("change", { bid: id, structural: true, label: "New variant" });
   return id;
 }
+/* a variant is deleted only by who made it, or by an editor / the owner */
+function canDeleteVariant(b) {
+  if (!b || b.kind !== "variant") return false;
+  if (!Store.cloud) return true;
+  return Store.canBoards || (!!b.createdBy && b.createdBy === Store.me);
+}
 async function deleteVariant(bid) {
   const b = B(bid); if (!b || b.kind !== "variant") return;
+  if (!canDeleteVariant(b)) return toast("Only the person who made this variant, or an editor, can delete it");
   delete Store.boards[bid]; Store.order = Store.order.filter(x => x !== bid);
   if (Store.cloud) {
     try {
@@ -4040,7 +4047,7 @@ function boardMenu(anchor) {
   items.push(null,
     ["New variant from “" + b.name + "”", "", async () => { const n = await promptBox("Name the variant", b.name + " · variant", "Create"); if (n) App.openBoard(createVariant(App.bid, n)); }],
     ["Rename this board", "", async () => { const n = await promptBox("Rename board", b.name, "Rename"); if (n) { editBoard(App.bid, "Rename board", bd => (bd.name = n)); App.renderBar(); } }, !canWrite(App.bid)],
-    ["Delete this variant", "", async () => { if (await confirmBox("Delete “" + b.name + "”?", "The variant and its screens are removed for everyone.", "Delete", true)) { await deleteVariant(App.bid); App.openBoard("proposal"); } }, b.kind !== "variant" || !canWrite(App.bid)],
+    ["Delete this variant", "", async () => { if (await confirmBox("Delete “" + b.name + "”?", "The variant and its screens are removed for everyone.", "Delete", true)) { await deleteVariant(App.bid); App.openBoard("proposal"); } }, !canDeleteVariant(b)],
     null,
     ["Save a version…", "", async () => { const n = await promptBox("Name this version", b.name + " · " + new Date().toLocaleDateString(), "Save"); if (n) saveVersion(App.bid, n); }],
     ["Versions…", "", versionsDialog],
