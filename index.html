@@ -546,6 +546,94 @@ table { border-collapse: collapse; width: 100%; }
   .st-gallery { position: static; height: auto; border-left: 0; border-top: 1px solid var(--line); }
 }
 
+/* ---------------- plan (rollout in waves) ---------------- */
+.wave-strip { list-style: none; margin: 10px 0 0; padding: 0; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px; counter-reset: none; }
+.wave-step { position: relative; background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 12px 12px 10px; cursor: pointer; min-width: 0; }
+.wave-step:hover { border-color: var(--ink-2); }
+.wave-step:not(:last-child)::after { content: "→"; position: absolute; right: -8px; top: 50%; transform: translate(50%, -50%); font: 700 16px/1 var(--f-display); color: var(--muted); z-index: 1; }
+.wave-step.hot { border: 2px solid var(--accent); background: color-mix(in srgb, var(--accent) 7%, var(--panel)); }
+.wave-n { font: 600 11px/1 var(--f-mono); text-transform: uppercase; letter-spacing: .12em; color: var(--accent); }
+.wave-name { font: 700 19px/1.05 var(--f-display); text-transform: uppercase; margin: 6px 0 4px; }
+.wave-when { font-size: 12px; color: var(--muted); }
+.wave-moves { display: flex; gap: 4px; flex-wrap: wrap; margin-top: 8px; }
+.wave-feature { background: var(--panel); border: 2px solid var(--accent); border-radius: 18px; padding: 22px 24px; scroll-margin-top: calc(var(--bar-h) + 10px); }
+.wave-feature > h2 { font-size: 32px; }
+.wave-feature > .lede { margin-top: 6px; }
+.first-two { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; margin-top: 16px; }
+.plan-item { background: var(--panel-2); border: 1px solid var(--line); border-radius: 14px; padding: 14px 16px; min-width: 0; }
+.plan-item.big { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 16px; align-items: start; }
+.plan-item.big .move-phones { flex-direction: column; gap: 4px; }
+.plan-item.big .move-arrow { transform: rotate(90deg); }
+.plan-top { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+.plan-item h3 { font: 700 21px/1.05 var(--f-display); text-transform: uppercase; margin: 8px 0 10px; letter-spacing: .02em; }
+.plan-field { display: grid; grid-template-columns: 96px minmax(0, 1fr); gap: 10px; padding: 6px 0; border-top: 1px solid var(--line); font-size: 13.5px; color: var(--ink-2); }
+.pf-label { font: 600 10.5px/1.7 var(--f-mono); text-transform: uppercase; letter-spacing: .08em; color: var(--muted); }
+.plan-item .btn { margin-top: 10px; }
+.chip.risk.good { border-color: color-mix(in srgb, var(--good) 50%, var(--line)); color: var(--good); }
+.chip.risk.warn { border-color: color-mix(in srgb, var(--warn) 50%, var(--line)); color: var(--warn); font-size: 12px; }
+.chip.risk.bad { border-color: color-mix(in srgb, var(--bad) 50%, var(--line)); color: var(--bad); }
+.split-design { display: grid; grid-template-columns: minmax(0, 1fr) 280px; gap: 22px; align-items: center; margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--line); }
+.split-design h3 { font: 700 18px/1 var(--f-display); text-transform: uppercase; letter-spacing: .04em; margin: 0 0 8px; }
+.split-design p { margin: 0; color: var(--ink-2); font-size: 14px; max-width: 62ch; }
+.split-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.split-grid .cell { border-radius: 10px; padding: 10px 12px; display: grid; gap: 2px; font-size: 12px; color: var(--ink-2); border: 1px solid var(--line); background: var(--panel-2); }
+.split-grid .cell b { font: 700 15px/1 var(--f-display); text-transform: uppercase; letter-spacing: .03em; color: var(--ink); }
+.split-grid .cell.a { border-color: var(--accent); }
+.split-grid .cell.b { border-color: var(--good); }
+.split-grid .cell.ab { border-color: var(--ink-2); background: color-mix(in srgb, var(--accent) 6%, var(--panel-2)); }
+.verdict { margin: 14px 0 0; font-size: 13px; color: var(--muted); }
+.verdict b { font: 600 11px/1 var(--f-mono); text-transform: uppercase; letter-spacing: .1em; color: var(--ink-2); }
+.rules { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 10px; }
+.rule { display: grid; grid-template-columns: 34px minmax(0, 1fr); gap: 0 10px; background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px 12px 12px; }
+.rule-n { grid-row: span 2; font: 700 30px/1 var(--f-display); color: var(--accent); text-align: center; }
+.rule h3 { font: 700 18px/1.1 var(--f-display); text-transform: uppercase; margin: 0 0 6px; letter-spacing: .02em; }
+.rule p { margin: 0; font-size: 13.5px; color: var(--ink-2); }
+.wave-row { padding: 18px 0; border-top: 1px solid var(--line); scroll-margin-top: calc(var(--bar-h) + 10px); }
+.wave-head { display: flex; gap: 14px; align-items: flex-start; margin-bottom: 12px; }
+.wave-big { font: 700 44px/.8 var(--f-display); color: var(--accent); min-width: 28px; }
+.wave-head h3 { font: 700 24px/1 var(--f-display); text-transform: uppercase; margin: 0 0 4px; }
+.wave-items { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 10px; }
+.scores td { vertical-align: middle; }
+.dots { display: inline-flex; gap: 3px; }
+.dots i { width: 9px; height: 9px; border-radius: 50%; background: var(--line); }
+.dots i.on { background: var(--accent); }
+.dots.bad i.on { background: var(--ink-2); }
+@media (max-width: 980px) {
+  .wave-strip { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .wave-step::after { display: none; }
+  .first-two { grid-template-columns: minmax(0, 1fr); }
+  .split-design { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 560px) {
+  .wave-feature { padding: 16px 14px; }
+  .plan-item.big { grid-template-columns: minmax(0, 1fr); }
+  .plan-item.big .move-phones { flex-direction: row; }
+  .plan-item.big .move-arrow { transform: none; }
+  .plan-field { grid-template-columns: minmax(0, 1fr); gap: 2px; }
+}
+
+/* ---------------- compare · real benchmark captures ---------------- */
+.bench-proof { margin-top: 22px; padding: 16px 18px 18px; background: var(--panel); border: 1px solid var(--line); border-radius: 14px; }
+.bench-proof > h3 { font: 700 18px/1 var(--f-display); text-transform: uppercase; letter-spacing: .05em; margin: 0 0 4px; }
+.bench-proof > p { margin: 0 0 12px; }
+.bp-rows { display: grid; gap: 14px; }
+.bp-row { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 16px; align-items: start; padding-top: 12px; border-top: 1px solid var(--line); }
+.bp-row:first-child { border-top: 0; padding-top: 0; }
+.bp-claim { font-size: 13.5px; color: var(--ink-2); }
+.bp-claim .bp-n { display: inline-grid; place-items: center; width: 20px; height: 20px; border-radius: 50%; background: var(--accent); color: var(--accent-ink); font: 700 12px/1 var(--f-display); margin-right: 6px; vertical-align: 1px; }
+.bp-claim .why { display: block; margin-top: 6px; font-size: 12.5px; color: var(--muted); }
+.bp-shots { display: flex; gap: 12px; overflow-x: auto; padding-bottom: 6px; scrollbar-width: thin; }
+.bp-shot { margin: 0; flex: none; width: 168px; display: grid; gap: 6px; align-content: start; }
+.bp-shot.land { width: 340px; }
+.bp-shot button { border: 0; padding: 0; background: var(--phone-bg); border-radius: 12px; overflow: hidden; line-height: 0; box-shadow: 0 0 0 1px var(--line-2); cursor: zoom-in; }
+.bp-shot img { width: 100%; height: auto; max-height: 300px; object-fit: cover; object-position: top; display: block; }
+.bp-shot figcaption { font-size: 12px; color: var(--ink-2); line-height: 1.35; }
+.bp-shot figcaption b { display: block; font: 700 13px/1.1 var(--f-display); text-transform: uppercase; letter-spacing: .04em; color: var(--ink); }
+.bp-shot .src { font: 500 10.5px/1.4 var(--f-mono); color: var(--muted); }
+.bp-shot .src a { color: var(--cool); }
+@media (max-width: 760px) { .bp-row { grid-template-columns: minmax(0, 1fr); gap: 8px; } }
+.bp-link { font: 600 11px/1 var(--f-mono); color: var(--cool); text-decoration: none; white-space: nowrap; margin-left: 4px; }
+
 </style>
 <header id="bar">
   <div class="brand"><b>Metagame Lab</b><small>Ashes of War · UX</small></div>
@@ -562,6 +650,7 @@ table { border-collapse: collapse; width: 100%; }
   <section id="v-flow" class="view" aria-label="Flow" hidden></section>
   <section id="v-lab" class="view" aria-label="Lab" hidden></section>
   <section id="v-studio" class="view" aria-label="Studio" hidden></section>
+  <section id="v-plan" class="view" aria-label="Plan" hidden></section>
 </main>
 <div id="toast" role="status" aria-live="polite"></div>
 <script>
@@ -920,7 +1009,7 @@ const JOURNEYS = [
 
 const PILLARS = [
   { id: "P1", name: "Battle is the centre of gravity", text: "One play button per surface, and every screen returns to combat in two taps or fewer. Each element gets a priority: 1st is the screen's goal, 2nd is relevant, 3rd lives behind a tap.", bench: "Clash Royale · Brawl Stars: one big play button under the thumb.", ua: "Priority levels per screen." },
-  { id: "P2", name: "Direction carries meaning", text: "Up means progress (Trophy Road, leaderboards, positive deltas). Right means time (pass, daily, events). Down means loss or exit.", bench: "Trophy Roads climb in Clash Royale and Brawl Stars; sheets slide up from the bottom on iOS and Android.", ua: "Today Trophy Road and the pass scroll in opposite directions." },
+  { id: "P2", name: "Direction carries meaning", text: "Up means progress (Trophy Road, leaderboards, positive deltas). Right means time (pass, daily, events). Down means loss or exit.", bench: "Clash Royale's Trophy Road climbs and the Brawl Pass runs right; sheets slide up from the bottom on iOS and Android.", ua: "Today Trophy Road and the pass scroll in opposite directions." },
   { id: "P3", name: "Every colour has one owner", text: "Yellow is play. Green is gain and claim. Gold is value and never a button. Purple is premium, red is alert, blue is information. The hierarchy has to survive in greyscale.", bench: "Supercell's colour discipline and the mid-core rarity scale.", ua: "Red destructive, green positive, a value palette." },
   { id: "P4", name: "Short paths, clean home", text: "Fewer taps come from contextual shortcuts, never from more fixed buttons: play in 1 tap, collect in 1, upgrade in 2. Primary actions dock at the bottom; rare or risky ones live far away, at the top.", bench: "Clash Royale as the genre ceiling; one-handed thumb-zone ergonomics.", ua: "" },
   { id: "P5", name: "A badge is a promise", text: "A red dot only when a real gain can be taken right now. Urgency lives in the countdown, not in the badge.", bench: "Supercell's badge discipline, not the 4X noise.", ua: "" },
@@ -953,7 +1042,7 @@ const OPEN_DECISIONS = [
 
 const BENCHMARKS = [
   { name: "Clash Royale", take: "5-tab bar with Battle in the centre · Trophy Road opens from the trophy counter · green upgrade arrows on cards · pass progress on the Battle screen." },
-  { name: "Brawl Stars", take: "Play button in the thumb zone · account trophies separate from per-character mastery · Starr Drop reveal with hidden rarity (2023) · pass as a horizontal track." },
+  { name: "Brawl Stars", take: "Play button in the thumb zone · account trophies separate from each brawler's own trophies · Starr Drop reveal with hidden rarity (2023) · pass as a horizontal track." },
   { name: "Warcraft Rumble", take: "An Army collection and a PvE campaign map as a place, not a popup." },
   { name: "Marvel Snap", take: "A collection that points at the next upgrade instead of a flat catalogue." },
 ];
@@ -2132,6 +2221,181 @@ function postmatchContext(screen) {
   return `POST-MATCH GUARDRAILS (this screen is the “${screen.ending || screen.name}” ending; keep the skeleton: 1 result · 2 progress · 3 loot or why · 4 one action · Play again at the bottom)\n` +
     POSTMATCH.rules.map((r, i) => `${i + 1}. ${r}`).join("\n") + "\n";
 }
+
+/* ---- 24-data-plan.js ---- */
+/* =====================================================================
+   24 · DATA — the rollout plan: the proposal ships in waves, each one
+   small enough to read on its own. Text is editable in the Plan view.
+   ===================================================================== */
+const PLAN_RULES = [
+  { id: "two", name: "Two changes per wave, at most", text: "Enough to move a number, few enough to tell apart. A third change waits for the next wave." },
+  { id: "owner", name: "Every change owns one number", text: "Picked before it ships, with the guardrails it must not hurt. If the number doesn't move, the change didn't work." },
+  { id: "control", name: "Always against a control group", text: "Part of the players keeps today's screen. Every result is a comparison, never a before-and-after guess." },
+  { id: "switch", name: "Every change has an off switch", text: "Shipped behind remote config, so it can be rolled back in minutes, without a client update." },
+  { id: "baseline", name: "Measure before you move", text: "Two weeks of today's numbers before wave 1, so every later result has a floor to stand on." },
+  { id: "verdict", name: "Read the wave, then start the next", text: "Each wave closes with a written verdict — keep, adjust or roll back. Only then does the next one start." },
+];
+
+/* Each wave: what ships, why now, how we read it. `screens` link to Compare. */
+const PLAN_WAVES = [
+  { id: "w0", n: "0", name: "Quick wins", when: "With the next build",
+    goal: "Fix the inconsistencies the UX assessment found, before anything is measured.",
+    items: [
+      { name: "Hygiene fixes", move: "Quick wins", screens: ["shop", "profile"],
+        what: "One close pattern per surface, a pass task log that looks tappable, one look per behaviour in Settings, store timers in a fixed corner.",
+        why: "They are fixes, not bets: no test needed. Shipping them before the baseline keeps them from blurring wave 1.",
+        metric: "None — checked in QA.", effort: "S", risk: "Low" },
+    ] },
+  { id: "w1", n: "1", name: "Close the core loop", when: "After two weeks of baseline", featured: true,
+    goal: "The two most-seen moments — the end of a match and the next upgrade — start leading somewhere.",
+    why: "With ~4-minute matches, the post-match is the screen a player sees most, and every coin earned waits on an upgrade. Neither change moves the navigation, so nothing else can break — and both move a number within days.",
+    items: [
+      { name: "A post-match that leads somewhere", move: "M4", screens: ["results"],
+        today: "Every match ends on a DEFEAT seal and one orange button: no progress, no loot, no next step.",
+        what: "The shared skeleton — result, progress, loot or why, one action — for Victory and Defeat. Play again never moves. The other six endings reuse it once this reads positive.",
+        hypothesis: "If the result shows progress and offers one next step, more players queue again — and more upgrade right after a match.",
+        metric: "Play-again rate: matches started from the post-match ÷ matches finished.",
+        guardrails: "Session length · D1 retention · crash rate.",
+        test: "50/50 split, at least two weeks (two full weekly cycles).",
+        effort: "M", risk: "Low" },
+      { name: "Upgrades you can see", move: "M5", screens: ["army", "unit"],
+        today: "Units are a flat catalogue leafed through with ‹ ›; nothing says what is payable now, and badges count everything.",
+        what: "The Army grid becomes a queue — payable upgrades first, in green, then in progress, then max level. The Army badge counts only payable upgrades. The Upgrade button is green; the cost stays gold.",
+        hypothesis: "If payable upgrades come first and in green, players spend gold and blueprints sooner — and come back to play for the next one.",
+        metric: "Share of daily players who upgrade at least one unit.",
+        guardrails: "Matches per player per day · gold and blueprint balances (the sink must not run dry) · badge-tap rate.",
+        test: "A separate split from the post-match, so each result keeps its owner.",
+        effort: "S–M", risk: "Low" },
+    ],
+    design: "Players are split in four — neither, post-match only, upgrades only, both. Each change is read on its own, and “both” shows whether they reinforce each other. If traffic is too thin for four groups, ship the post-match first and the upgrades one week later." },
+  { id: "w2", n: "2", name: "Clear the way to play", when: "After wave 1's verdict",
+    goal: "Home makes one decision obvious: play. Each ladder moves to the surface it belongs to.",
+    items: [
+      { name: "One play button, loadout on the hero", move: "M2", screens: ["home"],
+        what: "Start Battle alone in the thumb zone; faction and abilities become one loadout strip above it. Trophy Road moves to the trophy counter. Custom Battle stays where it is until Events exists (wave 3).",
+        metric: "Time from opening the app to the first match.",
+        guardrails: "Trophy Road opens per player — its button moves.",
+        effort: "M", risk: "Medium" },
+      { name: "One ladder per surface", move: "M3", screens: ["home", "army"],
+        what: "Home keeps account trophies; faction level, rank and trophies move to the Army header; season XP to Progress.",
+        metric: "Faction-switch and Army visits per player.",
+        guardrails: "Trophy Road and pass opens.",
+        effort: "S", risk: "Low" },
+    ] },
+  { id: "w3", n: "3", name: "Five territories", when: "Once waves 1–2 hold",
+    goal: "Tabs regroup by intent: Shop · Army · Battle · Progress · Events.",
+    items: [
+      { name: "Regroup the tab bar", move: "M1", screens: ["home", "pass", "events"],
+        what: "Factions and Abilities merge into Army; Season becomes Progress (pass, Trophy Road, ranks, achievements); Events gets its own tab, with Custom Battle in it.",
+        why: "The biggest change: it moves every player's muscle memory. It goes last among the structural ones, when the contents of Army and Home are already proven.",
+        metric: "Weekly reach of Trophy Road, events and campaign (% of players who open each).",
+        guardrails: "D7 retention · “where is…” support tickets.",
+        test: "New installs first — no habit to break — then existing players.",
+        effort: "L", risk: "High" },
+    ] },
+  { id: "w4", n: "4", name: "One track for every system", when: "Next season",
+    goal: "Pass, events, daily rewards, Trophy Road and campaign run on one track component, dressed as operations.",
+    items: [
+      { name: "Shared track component", move: "M6", screens: ["events", "pass"],
+        what: "One track, card and claim component reused by every progression system; one popup standard.",
+        why: "A production investment as much as a UX one: each new event stops needing its own layout.",
+        metric: "Event participation rate · days to ship a new event.",
+        guardrails: "Pass purchase rate.",
+        effort: "L", risk: "Medium" },
+    ] },
+];
+
+/* Why this order: dots are 1–3, read across. */
+const PLAN_SCORES = [
+  { move: "M4", name: "Post-match that acts", seen: 3, pain: 3, risk: 1, effort: 2, read: "days", wave: "1" },
+  { move: "M5", name: "Upgrades you can see", seen: 2, pain: 3, risk: 1, effort: 2, read: "days", wave: "1" },
+  { move: "M2", name: "One play button", seen: 3, pain: 2, risk: 2, effort: 2, read: "1–2 weeks", wave: "2" },
+  { move: "M3", name: "One ladder per surface", seen: 2, pain: 2, risk: 1, effort: 1, read: "weeks", wave: "2" },
+  { move: "M1", name: "Five territories", seen: 3, pain: 3, risk: 3, effort: 3, read: "weeks", wave: "3" },
+  { move: "M6", name: "One track component", seen: 1, pain: 2, risk: 2, effort: 3, read: "a season", wave: "4" },
+  { move: "QW", name: "Quick wins", seen: 2, pain: 1, risk: 1, effort: 1, read: "QA", wave: "0" },
+];
+
+const PLAN_BASELINE = [
+  "Matches per session and play-again rate",
+  "Share of daily players who upgrade a unit",
+  "Gold and blueprint balances per player",
+  "Taps from Home to an upgrade",
+  "Time from app open to first match",
+  "Trophy Road, pass and event opens per player",
+  "D1 and D7 retention",
+];
+
+/* ---- 25-data-bench.js ---- */
+/* =====================================================================
+   25 · DATA — real captures of the benchmarks (files in bench/, next to
+   the page) and the Compare change each one backs. Filled from sourced
+   captures only: every shot names its publisher and links its page.
+   ===================================================================== */
+const BENCH_SHOTS = {
+  "cr-home": {"file": "cr-home.jpg", "game": "Clash Royale", "shows": "Home: one big Battle button low in the thumb zone; beside it only what configures the match (deck, mode). Battle sits in the centre of the tab bar.", "publisher": "RoyaleAPI update preview", "date": "2026-02", "url": "https://royaleapi.com/blog/2026-q1-update-march-2026", "land": false},
+  "cr-decks": {"file": "cr-decks.jpg", "game": "Clash Royale", "shows": "Decks | Collection are sub-tabs of one tab, and the battle deck stays pinned on top. Five tabs below: Shop · Collection · Battle · Clan · Events.", "publisher": "Supercell · Google Play", "date": "listing seen Oct 2026", "url": "https://play.google.com/store/apps/details?id=com.supercell.clashroyale", "land": false},
+  "cr-upgradable": {"file": "cr-upgradable.jpg", "game": "Clash Royale", "shows": "Collection: every card you can upgrade now has a full green bar and arrow; the rest stay blue. Green means payable.", "publisher": "Supercell · Google Play", "date": "listing seen Oct 2026", "url": "https://play.google.com/store/apps/details?id=com.supercell.clashroyale", "land": false},
+  "cr-upgrade-btn": {"file": "cr-upgrade-btn.jpg", "game": "Clash Royale", "shows": "Card detail: the Upgrade button is green and the gold amount sits inside it as the price, confirmed in a second step.", "publisher": "RoyaleAPI update preview", "date": "2025-11", "url": "https://royaleapi.com/blog/2025-q4-update-november-2025", "land": false},
+  "cr-trophyroad": {"file": "cr-trophyroad.jpg", "game": "Clash Royale", "shows": "Trophy Road climbs: rewards stacked upward along a trophy scale (12,900 → 13,000). Up means progress.", "publisher": "RoyaleAPI update preview", "date": "2026-02", "url": "https://royaleapi.com/blog/2026-q1-update-march-2026", "land": false},
+  "cr-collection-level": {"file": "cr-collection-level.jpg", "game": "Clash Royale", "shows": "Collection Level (May 2026): a ladder that belongs to the collection — every card upgrade adds 1 — separate from trophies.", "publisher": "RoyaleAPI update preview", "date": "2026-05", "url": "https://royaleapi.com/blog/2026-q2-update-may-2026-preview-1", "land": false},
+  "bs-home": {"file": "bs-home.jpg", "game": "Brawl Stars", "shows": "Lobby: PLAY in the bottom-right thumb zone with the mode next to it; account trophies top-left, currencies top-right, the brawler in the centre.", "publisher": "Brawl Stars Wiki", "date": "2025-03", "url": "https://brawlstars.fandom.com/wiki/File:M%27die_Rank_30_%28after%29.png", "land": true},
+  "bs-brawlers": {"file": "bs-brawlers.jpg", "game": "Brawl Stars", "shows": "Brawlers grid: affordable upgrades turn the card green with an arrow; the one you can't afford stays dark with its price in red.", "publisher": "Reddit r/Brawlstars", "date": "2024-04", "url": "https://www.reddit.com/r/Brawlstars/comments/1cc0ocr/in_the_recent_update_a_new_filter_for_sorting/", "land": true},
+  "bs-brawler": {"file": "bs-brawler.jpg", "game": "Brawl Stars", "shows": "Brawler detail: its own trophies (1005/1055) in its header, stat gains in green (+500, +120), a green Upgrade button with the cost inside. Mastery badge retired in 2025.", "publisher": "Brawl Stars Wiki", "date": "2024-12", "url": "https://brawlstars.fandom.com/wiki/File:Screenshot_20241223-195220_84eb1af3a729e5d540b6b78073938574.jpg", "land": true},
+  "bs-brawler-trophies": {"file": "bs-brawler-trophies.jpg", "game": "Brawl Stars", "shows": "Per-brawler trophy track (Bibi): this character's own ladder and rewards, apart from the account trophies.", "publisher": "Brawl Stars Wiki", "date": "2026-06", "url": "https://brawlstars.fandom.com/wiki/File:Bibi_1000.png", "land": true},
+  "bs-mode-rewards": {"file": "bs-mode-rewards.jpg", "game": "Brawl Stars", "shows": "Mode picker: the card says what it pays — “Get Double Trophies for 20m!” — and every mode shows its timer.", "publisher": "Brawl Stars Wiki", "date": "2026-03", "url": "https://brawlstars.fandom.com/wiki/File:Trophy_Rush_Pic_2.png", "land": true},
+  "bs-mode-power": {"file": "bs-mode-power.jpg", "game": "Brawl Stars", "shows": "Power Rush: “Win Power Points for 10m!” on the card, and “Event ends in 18h 39m” on the next one.", "publisher": "Brawl Stars Wiki", "date": "2026-03", "url": "https://brawlstars.fandom.com/wiki/File:Power_Rush_Pic_2.png", "land": true},
+  "bs-pass": {"file": "bs-pass.jpg", "game": "Brawl Stars", "shows": "Brawl Pass (2026): the track runs right; the header says the season ends in 27d 19h and how far the next tier is; the premium row stays visible, locked.", "publisher": "SportsDunia", "date": "2026-02", "url": "https://www.sportsdunia.com/gaming/brawl-stars-brawlentines-brawl-pass-february-2026", "land": true},
+  "bs-trophyroad": {"file": "bs-trophyroad.jpg", "game": "Brawl Stars", "shows": "Brawl Stars' 2025 Trophy Road runs sideways, as a path — the one benchmark where the road doesn't climb.", "publisher": "Supercell blog", "date": "2025-06", "url": "https://supercell.com/en/games/brawlstars/blog/news/rip-masteries/", "land": true},
+  "bs-results": {"file": "bs-results.jpg", "game": "Brawl Stars", "shows": "After the match: result, season trophies, quests progressed and Brawl Pass XP on one screen — what you earned, in one look.", "publisher": "Supercell blog", "date": "2024-10", "url": "https://supercell.com/en/games/brawlstars/blog/news/trophy-season-rework-is-coming/", "land": true},
+  "bs-victory": {"file": "bs-victory.jpg", "game": "Brawl Stars", "shows": "Victory scoreboard: both teams side by side with per-player stats — the results comparison.", "publisher": "Brawl Stars Wiki", "date": "2026-10", "url": "https://brawlstars.fandom.com/wiki/File:BrawlS1.png", "land": true},
+  "bs-starr-rare": {"file": "bs-starr-rare.jpg", "game": "Brawl Stars", "shows": "Starr Drop: “Tap, tap, tap” — each tap can raise the rarity (here at Rare).", "publisher": "Brawl Stars Wiki", "date": "2026-01", "url": "https://brawlstars.fandom.com/wiki/File:Starr_Drop_Screen.png", "land": true},
+  "bs-starr-legendary": {"file": "bs-starr-legendary.jpg", "game": "Brawl Stars", "shows": "Same drop after the taps: it climbed to Legendary. The reveal is the reward.", "publisher": "Brawl Stars Wiki", "date": "2026-01", "url": "https://brawlstars.fandom.com/wiki/File:Legendary_Starr_Drop_Screen.png", "land": true},
+  "wr-army": {"file": "wr-army.jpg", "game": "Warcraft Rumble", "shows": "Army tab: leader and six troops framed on top, upgrade-ready troops flagged with an arrow, an Army Upgrades button, the collection count below (54/57).", "publisher": "Blizzard · App Store", "date": "2026-09", "url": "https://apps.apple.com/us/app/warcraft-rumble/id1600575058", "land": false},
+  "snap-deck": {"file": "snap-deck.jpg", "game": "Marvel Snap", "shows": "Deck editor: the 12-card deck stays pinned on top while the collection scrolls underneath.", "publisher": "Second Dinner · App Store", "date": "2026-03", "url": "https://apps.apple.com/us/app/marvel-snap-hero-card-game/id1592081003", "land": false},
+  "wr-campaign": {"file": "wr-campaign.jpg", "game": "Warcraft Rumble", "shows": "Campaign map as a place: zones as dioramas, cleared and open mission nodes, a timed zone — not a popup.", "publisher": "Out of Games (guide)", "date": "2024-01", "url": "https://outof.games/realms/warcraft-rumble/guides/346-warcraft-rumble-beginners-guide-menu-navigation-tips-and-tricks/", "land": false},
+};
+/* screen id → the changes (by index in its “What changed” list) each set of captures backs */
+const BENCH_PROOF = {
+  home: [
+    { change: 0, shots: ["cr-home", "bs-home"], why: "Both keep one play button low, under the thumb. What sits beside it configures the next match — nothing that leaves the battle loop." },
+    { change: 1, shots: ["cr-home", "bs-home"], why: "What you fight with is in the same glance as the button that starts the fight: the deck beside Battle, the brawler above Play." },
+    { change: 2, shots: ["bs-home", "cr-home"], why: "Account identity, trophies and currencies live in one top strip; per-character ladders stay off Home." },
+    { change: 5, shots: ["cr-decks"], why: "Five tabs by intent with Battle in the centre — Shop · Collection · Battle · Clan · Events." },
+  ],
+  army: [
+    { change: 0, shots: ["cr-decks", "wr-army", "snap-deck"], why: "Building the army and browsing the collection are one place, and what you take into battle stays pinned while you browse — Clash Royale, Warcraft Rumble and Marvel Snap all do it." },
+    { change: 1, shots: ["cr-upgradable", "bs-brawlers", "wr-army"], why: "The collection points at the next upgrade: payable turns green (Clash Royale, Brawl Stars) or gets an arrow (Warcraft Rumble); everything else steps back. Ours goes one step further and sorts by it." },
+    { change: 2, shots: ["bs-brawler-trophies", "bs-brawler", "cr-collection-level"], why: "Each character's ladder lives with that character, not on Home; Clash Royale's 2026 Collection Level is a ladder that belongs to the collection." },
+    { change: 3, shots: ["bs-mode-rewards", "bs-mode-power"], why: "A mode card says what it pays and for how long — the reason to tap is written on the card." },
+  ],
+  unit: [
+    { change: 1, shots: ["cr-upgrade-btn", "bs-brawler"], why: "Upgrade is a green button; the gold amount is the price written inside it, never the colour of the action." },
+    { change: 3, shots: ["bs-brawler"], why: "The character fills the screen and the upgrade shows as green stat gains (+500, +120) — no in-game scene needed." },
+  ],
+  pass: [
+    { change: 1, shots: ["bs-pass"], why: "The pass header answers three questions at once: which season, how long it has left, how far the next tier is." },
+    { change: 2, shots: ["bs-pass", "cr-trophyroad"], why: "Time runs right (the pass track), progress climbs (Clash Royale's Trophy Road)." },
+    { change: 4, shots: ["bs-pass"], why: "The premium row is always on screen, locked — the tease sits next to what you already earn." },
+  ],
+  trophyroad: [
+    { change: 1, shots: ["cr-trophyroad", "bs-trophyroad"], why: "Clash Royale's road climbs (up = progress). Brawl Stars moved to a sideways path in 2025 — we follow the climbing one, which matches our other ladders." },
+  ],
+  results: [
+    { change: 0, shots: ["bs-results", "bs-starr-rare", "bs-starr-legendary"], why: "One screen answers result, progress and what you earned before you leave. The loot beat reuses a reveal like the Starr Drop, where the rarity climbs tap by tap." },
+    { change: 1, shots: ["bs-victory"], why: "Both sides' stats next to each other — the comparison the team planned for the defeat screen." },
+    { change: 2, shots: ["bs-results"], why: "Quests and pass XP progress on the result screen itself — playing always counts for something." },
+  ],
+  campaign: [
+    { change: 0, shots: ["wr-campaign"], why: "The campaign is a map you travel, with its own address — not a button that opens a popup." },
+  ],
+  chest: [
+    { change: 0, shots: ["bs-starr-rare", "bs-starr-legendary"], why: "Hidden rarity, revealed tap by tap: the reveal itself is the reward." },
+  ],
+  events: [
+    { change: 0, shots: ["cr-decks", "bs-mode-power"], why: "Events is a tab of its own in Clash Royale, and every live mode shows its countdown." },
+  ],
+};
 
 /* ---- 30-render.js ---- */
 /* =====================================================================
@@ -4491,7 +4755,8 @@ function storyRender() {
       h("li", null, h("b", { text: "Compare" }), " — Today on the left, the proposal on the right, screen by screen, with what changed and where each feature went."),
       h("li", null, h("b", { text: "Flow" }), " — both navigation maps, drawn from the links. Pick a journey to see its taps."),
       h("li", null, h("b", { text: "Lab" }), " — edit anything: drag, resize, recolour, relink. Explain mode numbers every button and says what it does; Play mode taps through the prototype."),
-      h("li", null, h("b", { text: "Studio" }), " — ask Claude for layout variants, or render concept art with Layer, from the screen you adjusted and your references."))));
+      h("li", null, h("b", { text: "Studio" }), " — ask Claude for layout variants, or render concept art with Layer, from the screen you adjusted and your references."),
+      h("li", null, h("b", { text: "Plan" }), " — the rollout in waves: the two changes to ship first, how each one is tested, and the order of the rest."))));
   /* pillars */
   const pgrid = h("div.pillars");
   PILLARS.forEach(p => pgrid.append(h("article.pillar", null,
@@ -4592,7 +4857,12 @@ function compareRender(focus) {
     phones.append(propCard);
     p.propCard = propCard; p.shown = shown;
     const side = h("div.pair-side");
-    if (p.ps.changes && p.ps.changes.length) side.append(h("h3", { text: "What changed" }), h("ol.changes-list", null, ...p.ps.changes.map(c => h("li", null, h("span", { text: c.text }), (c.tags || []).length ? h("span.tags", null, ...c.tags.map(t => h("span.tag", { text: t }))) : null))));
+    const proofs = BENCH_PROOF[p.ps.id] || [];
+    if (p.ps.changes && p.ps.changes.length) side.append(h("h3", { text: "What changed" }), h("ol.changes-list", null, ...p.ps.changes.map((c, ci) => {
+      const pr = proofs.find(x => x.change === ci), n = pr ? pr.shots.filter(id => BENCH_SHOTS[id]).length : 0;
+      return h("li", null, h("span", { text: c.text }), (c.tags || []).length ? h("span.tags", null, ...c.tags.map(t => h("span.tag", { text: t }))) : null,
+        n ? h("a.bp-link", { href: "#bp-" + p.ps.id + "-" + ci, text: " ▸ " + n + (n > 1 ? " captures" : " capture"), onclick: e => { e.preventDefault(); const el = $("#bp-" + CSS.escape(p.ps.id) + "-" + ci); if (el) el.scrollIntoView({ behavior: "smooth", block: "center" }); } }) : null);
+    })));
     if (p.ts) {
       const rows = whereDidItGo(p.ts, prop);
       if (rows.length) side.append(h("h3", { text: "Where today's features went" }), h("table.went", null, ...rows.map(r => h("tr" + (r.places.length ? "" : ".bad"), null, h("td", { text: r.name }), h("td", { text: r.places.length ? r.places.join(", ") : "missing" })))));
@@ -4604,6 +4874,8 @@ function compareRender(focus) {
       h("button.btn.small", { text: "Copy for Figma", title: "Paste in Figma (⌘V): every block arrives as a named layer", onclick: () => copyForFigma(prop, p.shown || p.ps) })));
     phones.append(side);
     sec.append(phones);
+    const proof = benchProofBlock(p.ps);
+    if (proof) sec.append(proof);
     if (p.ends.length) sec.append(endingsBlock(prop, p, annot));
     doc.append(sec);
   });
@@ -4754,6 +5026,164 @@ function flowRender() {
   doc.append(wrap);
   if (res) doc.append(h("p.muted.center", { text: "Path: " + [((screenById(board, res.path.length ? res.path[0].from : res.screen) || {}).name)].concat(res.path.map(p => "tap " + labelOf(p.block) + " → " + ((screenById(board, p.to) || {}).name))).join("  ·  ") + "  ·  tap " + labelOf(res.hit) }));
   root.append(doc);
+}
+
+/* Real captures of the benchmarks, filed by the change they back (25-data-bench). */
+function benchProofBlock(ps) {
+  const rows = (BENCH_PROOF[ps.id] || []).map(pr => ({ pr, shots: pr.shots.map(id => BENCH_SHOTS[id]).filter(Boolean) })).filter(r => r.shots.length);
+  if (!rows.length) return null;
+  const box = h("div.bench-proof", null, h("h3", { text: "Benchmarks that already do this" }),
+    h("p.muted.small", { text: "Real captures from the games, not mockups. Tap one to see it full size; the source is under each." }));
+  const list = h("div.bp-rows");
+  rows.forEach(({ pr, shots }) => {
+    const c = (ps.changes || [])[pr.change];
+    list.append(h("div.bp-row#bp-" + ps.id + "-" + pr.change, null,
+      h("div.bp-claim", null, h("span.bp-n", { text: String(pr.change + 1) }), c ? c.text : "", pr.why ? h("span.why", null, editable("span", "bp." + ps.id + "." + pr.change, pr.why)) : null),
+      h("div.bp-shots", null, ...shots.map(benchShotCard))));
+  });
+  box.append(list);
+  return box;
+}
+function benchShotCard(s) {
+  return h("figure.bp-shot" + (s.land ? ".land" : ""), null,
+    h("button", { title: "Open full size", onclick: () => benchLightbox(s) }, h("img", { src: "bench/" + s.file, alt: s.game + " — " + s.shows, loading: "lazy" })),
+    h("figcaption", null, h("b", { text: s.game }), s.shows,
+      h("div.src", null, h("a", { href: s.url, target: "_blank", rel: "noopener", text: s.publisher + " ↗" }), s.date && s.date !== "unknown" ? " · " + s.date : "")));
+}
+function benchLightbox(s) {
+  const close = () => { m.remove(); document.removeEventListener("keydown", onKey); };
+  const onKey = e => { if (e.key === "Escape") close(); };
+  const m = h("div.modal.lightbox", { onclick: e => { if (e.target === m) close(); } },
+    h("figure.lightbox-card", null,
+      h("img", { src: "bench/" + s.file, alt: s.game + " — " + s.shows }),
+      h("figcaption", null,
+        h("div", null, h("b", { text: s.game }), h("div.muted.small", { text: s.shows + " · " + s.publisher + (s.date && s.date !== "unknown" ? " · " + s.date : "") })),
+        h("div.btn-row", null,
+          h("a.btn.small", { href: s.url, target: "_blank", rel: "noopener", text: "Source ↗" }),
+          h("button.btn.small.primary", { text: "Close", onclick: close })))));
+  document.addEventListener("keydown", onKey);
+  document.body.append(m);
+}
+
+/* ---- 61-plan.js ---- */
+/* =====================================================================
+   61 · PLAN — the rollout: which changes ship first, in what order, and
+   how each wave is read before the next one starts. Data: 24-data-plan.
+   ===================================================================== */
+function planRender() {
+  const root = $("#v-plan"); root.innerHTML = "";
+  const today = B("today"), prop = B(propBoardId());
+  const doc = h("div.doc");
+  doc.append(h("div.doc-tools", null,
+    h("span.muted", { text: "Rollout of “" + prop.name + "”" }),
+    Store.canBoards ? h("button.btn.small" + (App.storyEdit ? ".on" : ""), { text: App.storyEdit ? "Done editing text" : "✎ Edit text", onclick: () => { App.storyEdit = !App.storyEdit; planRender(); } }) : null));
+  doc.append(h("header.hero", null,
+    h("div.kicker", { text: "Rollout plan · ship in waves, read every wave" }),
+    editable("h1", "plan.title", "Change the game in waves, not all at once."),
+    editable("p.lede", "plan.lede", "If every screen changes on the same day, nobody can tell which change helped and which one hurt. So the proposal ships in waves: each wave changes at most two things, each change owns one number, a control group and an off switch — and the next wave only starts once the last one has been read."),
+    h("div.tbd-line", null, h("span.tbd-stamp", { text: "TBD" }), editable("span", "plan.tbd", "Order, metrics and thresholds are a proposal for the product and data teams to argue with."))));
+
+  /* at a glance */
+  const strip = h("ol.wave-strip");
+  PLAN_WAVES.forEach(w => strip.append(h("li.wave-step" + (w.featured ? ".hot" : ""), { onclick: () => { const el = $("#plan-" + w.id); if (el) el.scrollIntoView({ behavior: "smooth", block: "start" }); } },
+    h("div.wave-n", { text: "Wave " + w.n }),
+    editable("div.wave-name", "plan." + w.id + ".name", w.name),
+    editable("div.wave-when", "plan." + w.id + ".when", w.when),
+    h("div.wave-moves", null, ...w.items.map(it => h("span.tag", { text: it.move === "Quick wins" ? "QW" : it.move }))))));
+  doc.append(h("section.block", null, h("h2", { text: "The rollout at a glance" }),
+    editable("p.muted", "plan.glance", "Five waves. Fixes first, then the core loop, then Home, then the navigation, then the systems underneath."), strip));
+
+  /* wave 1, in full */
+  const w1 = PLAN_WAVES.find(w => w.featured);
+  const feat = h("section.block.wave-feature#plan-" + w1.id);
+  feat.append(h("div.kicker", { text: "Wave " + w1.n + " · " + w1.when }),
+    h("h2", null, editable("span", "plan.first.title", "Start here: the two changes that matter most")),
+    editable("p.lede", "plan." + w1.id + ".why", w1.why));
+  const pair = h("div.first-two");
+  w1.items.forEach((it, i) => pair.append(planItemCard(w1, it, i, today, prop, true)));
+  feat.append(pair);
+  feat.append(h("div.split-design", null,
+    h("div", null, h("h3", { text: "How we keep them apart" }), editable("p", "plan." + w1.id + ".design", w1.design)),
+    h("div.split-grid", { role: "img", "aria-label": "Players split in four groups" },
+      h("div.cell.ctl", null, h("b", { text: "Control" }), h("span", { text: "today's screens" })),
+      h("div.cell.a", null, h("b", { text: "Post-match" }), h("span", { text: "change A only" })),
+      h("div.cell.b", null, h("b", { text: "Upgrades" }), h("span", { text: "change B only" })),
+      h("div.cell.ab", null, h("b", { text: "Both" }), h("span", { text: "do they reinforce?" })))));
+  feat.append(h("p.verdict", null, h("b", { text: "Verdict · " }), editable("span", "plan." + w1.id + ".verdict", "pending — read after two weeks against the control group.")));
+  doc.append(feat);
+
+  /* the rules */
+  const rules = h("div.rules");
+  PLAN_RULES.forEach((r, i) => rules.append(h("article.rule", null,
+    h("div.rule-n", { text: String(i + 1) }), editable("h3", "plan.rule." + r.id + ".name", r.name), editable("p", "plan.rule." + r.id, r.text))));
+  doc.append(h("section.block", null, h("h2", { text: "Six rules for every wave" }),
+    editable("p.muted", "plan.rules.lede", "So that every result has an owner and every mistake is cheap to undo."), rules));
+
+  /* the other waves */
+  const rest = h("section.block", null, h("h2", { text: "The other waves" }));
+  PLAN_WAVES.filter(w => !w.featured).forEach(w => {
+    const sec = h("div.wave-row#plan-" + w.id, null,
+      h("div.wave-head", null, h("span.wave-big", { text: w.n }),
+        h("div", null, h("h3", null, editable("span", "plan." + w.id + ".name", w.name)),
+          h("div.muted", null, editable("span", "plan." + w.id + ".when", w.when), " · ", editable("span", "plan." + w.id + ".goal", w.goal)))));
+    const items = h("div.wave-items");
+    w.items.forEach((it, i) => items.append(planItemCard(w, it, i, today, prop, false)));
+    sec.append(items, h("p.verdict", null, h("b", { text: "Verdict · " }), editable("span", "plan." + w.id + ".verdict", "pending")));
+    rest.append(sec);
+  });
+  doc.append(rest);
+
+  /* why this order */
+  const dots = (n, bad) => h("span.dots" + (bad ? ".bad" : ""), { "aria-label": n + " of 3" }, ...[1, 2, 3].map(k => h("i" + (k <= n ? ".on" : ""))));
+  const tbl = h("table.jt.scores", null, h("thead", null, h("tr", null,
+    ...["Change", "Seen", "Pain today", "Risk", "Effort", "Read in", "Wave"].map(t => h("th", { text: t })))));
+  const tb = h("tbody");
+  PLAN_SCORES.forEach(s => tb.append(h("tr", null,
+    h("td", null, h("span.tag", { text: s.move }), " ", s.name),
+    h("td", null, dots(s.seen)), h("td", null, dots(s.pain)), h("td", null, dots(s.risk, true)), h("td", null, dots(s.effort, true)),
+    h("td", { text: s.read }), h("td.n", { text: s.wave }))));
+  tbl.append(tb);
+  doc.append(h("section.block", null, h("h2", { text: "Why this order" }),
+    editable("p.muted", "plan.order.lede", "First what players see most and what hurts most — as long as it is cheap, safe and quick to read. The biggest structural change waits until the pieces it moves around are proven."),
+    h("div.table-scroll", null, tbl),
+    h("p.muted.small", { text: "Seen = how often a player meets it · Pain = how far today is from the benchmark · Risk = what it can break · Effort = build cost · Read in = how soon the number answers." })));
+
+  /* baseline */
+  doc.append(h("section.block.cols", null,
+    h("div", null, h("h2", { text: "Measure before wave 1" }), editable("p.muted", "plan.base.lede", "Two weeks of today's numbers — the floor every wave is compared against."),
+      h("ul.bench-list", null, ...PLAN_BASELINE.map((b, i) => h("li", null, editable("span", "plan.base." + i, b))))),
+    h("div", null, h("h2", { text: "What a wave needs to ship" }),
+      h("ul.bench-list", null, ...["A one-line hypothesis", "One owner metric and its guardrails", "A control group and a test length", "A remote switch to roll it back", "A date to read it — and someone who signs the verdict"].map((b, i) => h("li", null, editable("span", "plan.ship." + i, b)))))));
+  doc.append(h("footer.doc-foot", { text: BUILD_NOTE + " · Rollout plan · Metagame Lab v5 · Marco Furtado" }));
+  root.append(doc);
+  bindEditable(root);
+}
+
+function planItemCard(w, it, i, today, prop, big) {
+  const k = "plan." + w.id + "." + i + ".";
+  const ps = screenById(prop, it.screens[0]), ts = ps && ps.pair ? screenById(today, ps.pair) : null;
+  const riskCls = /high/i.test(it.risk) ? ".bad" : /med/i.test(it.risk) ? ".warn" : ".good";
+  const card = h("article.plan-item" + (big ? ".big" : ""));
+  if (big && (ts || ps)) card.append(h("div.move-phones", null,
+    ts ? h("div.mini", { html: screenSVG(ts, { board: today, width: 92, height: 199, play: true }) }) : null,
+    h("span.move-arrow", { text: "→" }),
+    ps ? h("div.mini", { html: screenSVG(ps, { board: prop, width: 92, height: 199, play: true }) }) : null));
+  const body = h("div.plan-body", null,
+    h("div.plan-top", null, h("span.tag", { text: it.move }), h("span.chip", { text: "Effort " + it.effort }), h("span.chip.risk" + riskCls, { text: "Risk " + it.risk })),
+    h("h3", null, editable("span", k + "name", it.name)));
+  const row = (label, key, val) => val ? h("div.plan-field", null, h("span.pf-label", { text: label }), editable("span", k + key, val)) : null;
+  body.append(...[
+    row("Today", "today", it.today),
+    row(big ? "The change" : "What ships", "what", it.what),
+    row("Why now", "why", it.why),
+    row("Hypothesis", "hyp", it.hypothesis),
+    row("Owner metric", "metric", it.metric),
+    row("Guardrails", "guard", it.guardrails),
+    row("Test", "test", it.test)].filter(Boolean));
+  const cmp = it.screens.find(id => screenById(prop, id));
+  if (cmp && it.move !== "Quick wins") body.append(h("button.btn.small", { text: "See it in Compare →", onclick: () => { App.go("compare"); Bus.emit("compareFocus", cmp); } }));
+  card.append(body);
+  return card;
 }
 
 /* ---- 70-ai.js ---- */
@@ -5429,7 +5859,7 @@ const PRESET_RENDERS = [
 /* ---- 90-app.js ---- */
 /* =====================================================================
    90 · APP — navigation, boot, and the glue between modules.
-   Views: story · compare · flow · lab · studio  (deep link: #lab …)
+   Views: story · compare · flow · lab · studio · plan  (deep link: #lab …)
    ===================================================================== */
 const VIEWS = [
   { id: "story", name: "Story", render: () => storyRender() },
@@ -5437,6 +5867,7 @@ const VIEWS = [
   { id: "flow", name: "Flow", render: () => flowRender() },
   { id: "lab", name: "Lab", render: () => labShow() },
   { id: "studio", name: "Studio", render: () => studioRender() },
+  { id: "plan", name: "Plan", render: () => planRender() },
 ];
 const App = {
   view: "story", bid: "proposal", sid: "home", cmpBoard: "proposal", flowBoard: "proposal", flowJourney: "upgrade",
@@ -5494,6 +5925,7 @@ function showHelp() {
      <p><b>Flow</b> — both navigation maps, generated from the links; pick a journey to see its taps.</p>
      <p><b>Lab</b> — edit anything. <b>Explain</b> numbers every button and says what it does, <b>Play</b> taps through the prototype. Press <b>?</b> in the Lab for shortcuts.</p>
      <p><b>Studio</b> — ask Claude for new layouts or render concept art with Layer, from the screen you adjusted and your references.</p>
+     <p><b>Plan</b> — the rollout: which two changes ship first, how each wave is tested, and the order of the rest.</p>
      <p class="muted">Everything saves automatically. Editors change Today and Proposal; anyone can make a variant.</p>`, "Got it");
 }
 
